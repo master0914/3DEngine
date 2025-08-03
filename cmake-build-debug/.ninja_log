@@ -1,0 +1,7 @@
+# ninja log v6
+5	2291	7759422306317476	CMakeFiles/3DEngine.dir/src/main.cpp.obj	e3d18f7aaac3fb50
+11	1895	7759422306367494	CMakeFiles/3DEngine.dir/engine/window/Window.cpp.obj	e5ead7c18606d977
+2291	2520	7759422329171565	3DEngine.exe	238c7c2a272d9ec6
+13	1986	7759430855166064	CMakeFiles/3DEngine.dir/engine/window/Window.cpp.obj	e5ead7c18606d977
+7	2333	7759430855101057	CMakeFiles/3DEngine.dir/src/main.cpp.obj	e3d18f7aaac3fb50
+2333	2458	7759430878365174	3DEngine.exe	238c7c2a272d9ec6
