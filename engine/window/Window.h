@@ -11,7 +11,7 @@
 #include <string>
 #include <minwindef.h>
 #include <windef.h>
-#include "../core/Interfaces.h"
+#include "../core/Header/Interfaces.h"
 
 
 namespace Engine{

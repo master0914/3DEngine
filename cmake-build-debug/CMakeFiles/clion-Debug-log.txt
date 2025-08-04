@@ -1,4 +1,4 @@
-"E:\CLion 2024.3.1.1\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=E:/CLion 2024.3.1.1/bin/ninja/win/x64/ninja.exe" -G Ninja -S C:\Users\Master0914\CLionProjects\3DEngine -B C:\Users\Master0914\CLionProjects\3DEngine\cmake-build-debug
--- Configuring done (0.2s)
--- Generating done (0.1s)
--- Build files have been written to: C:/Users/Master0914/CLionProjects/3DEngine/cmake-build-debug
+"C:\Program Files\JetBrains\CLion 2024.3.1.1\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "MinGW Makefiles" -S C:\Users\User\CLionProjects\3DEngine -B C:\Users\User\CLionProjects\3DEngine\cmake-build-debug
+-- Configuring done (1.1s)
+-- Generating done (2.1s)
+-- Build files have been written to: C:/Users/User/CLionProjects/3DEngine/cmake-build-debug
