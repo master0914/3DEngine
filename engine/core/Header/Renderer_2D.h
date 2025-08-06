@@ -17,8 +17,8 @@ namespace Engine {
     public:
         void drawRectangle(Window& window, vec2& origin, int height, int width, uint32_t color);
         void fillRectangle(Window& window, vec2& origin, int height, int width, uint32_t color);
-        void drawCricle(Window& window, vec2& middle, int radius, uint32_t color);
-        void fillCricle(Window& window, vec2& middle, int radius, uint32_t color);
+        void drawCircle(Window& window, vec2& middle, int radius, uint32_t color);
+        void fillCircle(Window& window, vec2& middle, int radius, uint32_t color);
         void drawTriangle(Window&, vec2& p1, vec2& p2, vec2& p3, uint32_t color);
         void drawLine(Window& window, vec2& p1, vec2& p2, uint32_t color);
     };

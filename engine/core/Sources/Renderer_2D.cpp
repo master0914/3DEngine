@@ -5,11 +5,15 @@
 #include "../Header/Renderer_2D.h"
 
 namespace Engine {
-    void drawRectangle(Window& window, vec2& origin, int height, int width, uint32_t color);
-    void fillRectangle(Window& window, vec2& origin, int height, int width, uint32_t color);
-    void drawCricle(Window& window, vec2& middle, int radius, uint32_t color);
-    void fillCricle(Window& window, vec2& middle, int radius, uint32_t color);
-    void drawTriangle(Window& window, vec2& p1, vec2& p2, vec2& p3, uint32_t color);
+    void Renderer_2D::drawRectangle(Window& window, vec2& origin, int height, int width, uint32_t color){}
+    void Renderer_2D::fillRectangle(Window& window, vec2& origin, int height, int width, uint32_t color){}
+    void Renderer_2D::drawCircle(Window& window, vec2& middle, int radius, uint32_t color){}
+    void Renderer_2D::fillCircle(Window& window, vec2& middle, int radius, uint32_t color){}
+    void Renderer_2D::drawTriangle(Window& window, vec2& p1, vec2& p2, vec2& p3, uint32_t color) {
+        drawLine(window, p1,p2,color);
+        drawLine(window, p2,p3,color);
+        drawLine(window, p1,p3,color);
+    }
     void Renderer_2D::drawLine(Window& window, vec2& p1, vec2& p2, uint32_t color) {
         int x0 = static_cast<int>(p1.getX());
         int y0 = static_cast<int>(p1.getY());

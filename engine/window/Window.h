@@ -29,6 +29,7 @@ namespace Engine{
         void Clear() override;
         void Present() override;
         void DrawPixel(int x, int y, uint32_t color) override;
+        void DrawPixel(vec2& vec, uint32_t color) override;
 
         // Pixelbuffer-Zugriff
         uint32_t* GetPixelBuffer() { return m_PixelBuffer; }

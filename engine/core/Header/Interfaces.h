@@ -4,6 +4,8 @@
 
 #include <cstdint>
 
+#include "VectorUtil.h"
+
 #ifndef INC_3DENGINE_INTERFACES_H
 #define INC_3DENGINE_INTERFACES_H
 
@@ -22,6 +24,7 @@ namespace Engine {
         virtual void Clear() = 0;
         virtual void Present() = 0;
         virtual void DrawPixel(int x, int y, uint32_t color) = 0;
+        virtual void DrawPixel(vec2& vec, uint32_t color) = 0;
     };
 
     // Update-Logik

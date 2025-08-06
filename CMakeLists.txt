@@ -12,4 +12,6 @@ add_executable(3DEngine src/main.cpp
         engine/core/Header/VectorUtil.h
         engine/core/Sources/VectorUtil.cpp
         engine/core/Sources/Colors.cpp
-        engine/core/Sources/Renderer_2D.cpp)
+        engine/core/Sources/Renderer_2D.cpp
+        engine/core/meshUtil/mesh.h
+        engine/core/meshUtil/mesh.cpp)

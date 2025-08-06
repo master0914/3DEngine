@@ -8,24 +8,31 @@
 #include "../engine/core/Sources/Colors.cpp"
 #include <thread>   // Für std::this_thread
 #include <chrono>   // Für std::chrono
+#include "../engine/core/meshUtil/mesh.h"
 
-int main() {
-    Engine::Window window(800, 600, "Software Renderer");
-    Engine::Renderer_2D renderer{};
+// int main() {
+//     Engine::Window window(800, 600, "Software Renderer");
+//     Engine::Renderer_2D renderer{};
+//
+//     while (!window.ShouldClose()) {
+//         window.PollEvents();
+//
+//         window.Clear();
+//
+//         // Zeichenoperationen
+//         Engine::vec2 p1(30,30);
+//         Engine::vec2 p2(200,100);
+//         Engine::vec2 p3(400,20);
+//         renderer.drawTriangle(window, p1, p2,p3,Colors::CYAN);
+//
+//         window.Present();
+//     }
+//
+//     return 0;
+// }
 
-
-    while (!window.ShouldClose()) {
-        window.PollEvents();
-
-        window.Clear();
-
-        // Zeichenoperationen
-        Engine::vec2 p1(30,30);
-        Engine::vec2 p2(200,100);
-        renderer.drawLine(window, p1, p2, Colors::CYAN);
-
-        window.Present();
-    }
+int main(){
+    Engine::Mesh mesh{"../objData/test.obj"};
 
     return 0;
 }

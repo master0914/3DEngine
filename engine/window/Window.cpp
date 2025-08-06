@@ -100,6 +100,13 @@ namespace Engine {
             m_PixelBuffer[y * m_Width + x] = color;
         }
     }
+    void Window::DrawPixel(vec2& vec, uint32_t color) {
+        int x = vec.getX();
+        int y = vec.getY();
+        if (x >= 0 && x < m_Width && y >= 0 && y < m_Height) {
+            m_PixelBuffer[y * m_Width + x] = color;
+        }
+    }
 
     // Message-Handler
     static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
