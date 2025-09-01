@@ -4,11 +4,12 @@
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 #include "../engine/window/Window.h"
 #include "../engine/core/Header/Renderer_2D.h"
+#include "../engine/core/Header/Renderer_3D.h"
 #include "../engine/core/Header/VectorUtil.h"
 #include "../engine/core/Sources/Colors.cpp"
 #include <thread>   // Für std::this_thread
 #include <chrono>   // Für std::chrono
-#include "../engine/core/meshUtil/mesh.h"
+#include "../engine/core/Header/mesh.h"
 
 // int main() {
 //     Engine::Window window(800, 600, "Software Renderer");
@@ -32,7 +33,19 @@
 // }
 
 int main(){
+    // initialisierung der Renderers
+    Engine::Renderer_3D renderer3D{};
+    // beginn eines Frames
+    renderer3D.beginFrame();
+
+    // laden von objecten und transformieren
     Engine::Mesh mesh{"../objData/test.obj"};
+    Engine::mat4 transform{};
+
+    // hinzufügen
+    renderer3D.submit(mesh,transform);
+    // frame ende: rendern
+    renderer3D.endFrame();
 
     return 0;
 }

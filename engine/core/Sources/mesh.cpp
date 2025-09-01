@@ -1,9 +1,9 @@
 //
 // Created by User on 05.08.2025.
 //
-
+#pragma once
 #include <string>
-#include "mesh.h"
+#include "../Header/mesh.h"
 
 #include <fstream>
 #include <iostream>
@@ -80,7 +80,22 @@ namespace Engine {
                 }
             }
         }
+        processData();
         debugPrintData();
+    }
+
+    void Mesh::processData() {
+        triangles.clear();
+
+        for(size_t i = 0; i < indices.size();i += 3){
+            Triangle tri;
+
+            tri.vertices[0] =vertices[indices[i]];
+            tri.vertices[1] =vertices[indices[i+1]];
+            tri.vertices[2] =vertices[indices[i+2]];
+
+            triangles.push_back(tri);
+        }
     }
 
     void Mesh::debugPrintData() const {

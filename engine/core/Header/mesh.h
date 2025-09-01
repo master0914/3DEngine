@@ -7,11 +7,11 @@
 #include <iostream>
 #include <vector>
 
-#include "../Header/Renderer_2D.h"
+#include "Renderer_2D.h"
 
 #endif //MESH_H
 #pragma once
-#include "../Header/VectorUtil.h"
+#include "VectorUtil.h"
 
 namespace Engine {
     struct Vertex {
@@ -26,13 +26,31 @@ namespace Engine {
         }
     };
 
+    struct Triangle {
+        Vertex vertices[3];
+
+        void debugPrint() const{
+            for(int i = 0; i < 3; i++){
+                std::cout << this;
+                std::cout << "vertex: " << i;
+                vertices[i].debugPrint();
+            }
+        }
+    };
+
     class Mesh {
     public:
         Mesh(const std::string& filepath);
         void loadFromOBJ(const std::string& filepath);
         void debugPrintData() const;
+        std::vector<Triangle> getTriangles() const{
+            return triangles;
+        }
     private:
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
+        std::vector<Triangle> triangles;
+
+        void processData();
     };
 }

@@ -1,6 +1,6 @@
 Raytracing video angucken.
 
-Mesh struct.
-laden von obj dateien als mesh.
 Camera class.
-Raytracer class
+3D render Klassisch.
+Scene Graph.
+Raytracer class.

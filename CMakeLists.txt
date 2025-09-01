@@ -4,7 +4,6 @@ project(3DEngine)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(3DEngine src/main.cpp
-        engine/core/Core.h
         engine/window/Window.h
         engine/window/Window.cpp
         engine/core/Header/Interfaces.h
@@ -13,5 +12,10 @@ add_executable(3DEngine src/main.cpp
         engine/core/Sources/VectorUtil.cpp
         engine/core/Sources/Colors.cpp
         engine/core/Sources/Renderer_2D.cpp
-        engine/core/meshUtil/mesh.h
-        engine/core/meshUtil/mesh.cpp)
+        engine/core/Header/mesh.h
+        engine/core/Sources/mesh.cpp
+        engine/core/Header/Renderer_3D.h
+        engine/core/Header/Camera.h
+        engine/core/Sources/Renderer_3D.cpp
+)
+
