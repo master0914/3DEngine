@@ -7,6 +7,8 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#include <iostream>
+#include <cstring>
 
 
 namespace Engine {
@@ -106,6 +108,16 @@ namespace Engine {
         if (x >= 0 && x < m_Width && y >= 0 && y < m_Height) {
             m_PixelBuffer[y * m_Width + x] = color;
         }
+    }
+
+    void Window::DrawPixelArray(std::vector<uint32_t> buffer) {
+        if(buffer.size() != m_Width * m_Height) {
+            std::cerr << "Window: ERROR: Tried to draw buffer with differing dimension to window! "
+                      << "Expected: " << (m_Width * m_Height) << " pixels, "
+                      << "Got: " << buffer.size() << " pixels." << std::endl;
+            return;
+        }
+        std::memcpy(m_PixelBuffer, buffer.data(), buffer.size() * sizeof(uint32_t));
     }
 
     // Message-Handler

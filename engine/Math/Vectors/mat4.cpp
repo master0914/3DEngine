@@ -1,157 +1,38 @@
 //
-// Created by User on 04.08.2025.
+// Created by Master0914 on 01.09.2025.
 //
 
-#include "../Header/VectorUtil.h"
-
+#include "VectorUtil.h"
 #include <ostream>
 #include <valarray>
+#include <iomanip>
+#include <iostream>
 
 namespace Engine {
-    //VECTOR3------------------------------------------------------------------
-
-    // Constructors
-    vec3::vec3() : x(0.0f), y(0.0f), z(0.0f) {}
-    vec3::vec3(float x, float y, float z) : x(x), y(y), z(z) {}
-
-    // Vector addition
-    vec3 vec3::operator+(const vec3& other) const {
-        return vec3(x + other.x, y + other.y, z + other.z);
-    }
-
-    // Vector subtraction
-    vec3 vec3::operator-(const vec3& other) const {
-        return vec3(x - other.x, y - other.y, z - other.z);
-    }
-
-    // Scalar multiplication
-    vec3 vec3::operator*(float scalar) const {
-        return vec3(x * scalar, y * scalar, z * scalar);
-    }
-
-    // Dot product
-    float vec3::dot(const vec3& other) const {
-        return x * other.x + y * other.y + z * other.z;
-    }
-
-    // Cross product
-    vec3 vec3::cross(const vec3& other) const {
-        return vec3(
-            y * other.z - z * other.y,
-            z * other.x - x * other.z,
-            x * other.y - y * other.x
-        );
-    }
-
-    // Vector length
-    float vec3::length() const {
-        return std::sqrt(x*x + y*y + z*z);
-    }
-
-    // Normalized vector
-    vec3 vec3::normalized() const {
-        float len = length();
-        if (len > 0) {
-            return vec3(x/len, y/len, z/len);
-        }
-        return *this;
-    }
-
-    // Output (for debugging)
-    std::ostream& operator<<(std::ostream& os, const vec3& v) {
-        os << "(" << v.x << ", " << v.y << ", " << v.z << ")";
-        return os;
-    }
-
-    // VECTOR2-------------------------------------------------------------------------
-
-    vec2::vec2() : x(0.0f), y(0.0f) {}
-
-    vec2::vec2(float x, float y) : x(x), y(y) {}
-
-    vec2 vec2::operator+(const vec2& other) const {
-        return vec2(x + other.x, y + other.y);
-    }
-
-    vec2 vec2::operator-(const vec2& other) const {
-        return vec2(x - other.x, y - other.y);
-    }
-
-    vec2 vec2::operator*(float scalar) const {
-        return vec2(x * scalar, y * scalar);
-    }
-
-    float vec2::dot(const vec2& other) const {
-        return x * other.x + y * other.y;
-    }
-
-    float vec2::length() const {
-        return std::sqrt(x * x + y * y);
-    }
-
-    vec2 vec2::normalized() const {
-        float len = length();
-        if (len > 0) {
-            return vec2(x / len, y / len);
-        }
-        return vec2();
-    }
-
-    std::ostream& operator<<(std::ostream& os, const vec2& v) {
-        os << "(" << v.x << ", " << v.y << ")";
-        return os;
-    }
-
-
     //Matrix4-----------------------------------------------------------------------
 
-    mat4 mat4::Perspective(float fovRadians, float aspect, float nearZ, float farZ) {
-        float f = 1.0f / std::tan(fovRadians / 2.0f);
-        mat4 P;
-        P.m = { f/aspect, 0, 0, 0,
-                0, f, 0, 0,
-                0, 0, (farZ+nearZ)/(nearZ-farZ), -1,
-                0, 0, (2*farZ*nearZ)/(nearZ-farZ), 0 };
-        return P;
-    }
 
-    mat4 mat4::Orthographic(float left, float right, float bottom, float top, float nearZ, float farZ) {
-        mat4 O;
-        O.m = { 2.0f/(right-left), 0, 0, 0,
-                0, 2.0f/(top-bottom), 0, 0,
-                0, 0, -2.0f/(farZ-nearZ), 0,
-                -(right+left)/(right-left),
-                -(top+bottom)/(top-bottom),
-                -(farZ+nearZ)/(farZ-nearZ),
-                1 };
-        return O;
-    }
 
     mat4 mat4::LookAt(const vec3& eye, const vec3& center, const vec3& up) {
+        std::cout << "Camera eye: (" << eye.x << ", " << eye.y << ", " << eye.z << ")\n";
+        std::cout << "Camera center: (" << center.x << ", " << center.y << ", " << center.z << ")\n";
         vec3 f = (center - eye).normalized();
         vec3 s = f.cross(up).normalized();
-        vec3 u = s.cross(f);
+        vec3 u = s.cross(f).normalized();
 
         mat4 V;
-        V.m = { s.getX(), u.getX(), -f.getX(), 0,
-                s.getY(), u.getY(), -f.getY(), 0,
-                s.getZ(), u.getZ(), -f.getZ(), 0,
-                -s.dot(eye), -u.dot(eye), f.dot(eye), 1 };
+        V.m = {
+                // ERSTE ZEILE
+                s.getX(), u.getX(), -f.getX(), 0.0f,
+                // ZWEITE ZEILE
+                s.getY(), u.getY(), -f.getY(), 0.0f,
+                // DRITTE ZEILE
+                s.getZ(), u.getZ(), -f.getZ(), 0.0f,
+                // VIERTE ZEILE
+                -s.dot(eye), -u.dot(eye), f.dot(eye), 1.0f
+        };
         return V;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // --- Konstruktoren ---
     mat4::mat4() : m{ 1,0,0,0,
@@ -168,6 +49,15 @@ namespace Engine {
 
 // --- Fabrikmethoden ---
     mat4 mat4::Identity() { return mat4(); }
+
+    mat4 mat4::Zero() {
+        mat4 m = mat4();
+        m(0,0) = 0;
+        m(1,1) = 0;
+        m(2,2) = 0;
+        m(3,3) = 0;
+        return m;
+    }
 
     mat4 mat4::Translation(float tx, float ty, float tz) {
         mat4 T = mat4::Identity();
@@ -199,23 +89,40 @@ namespace Engine {
 
 // --- Multiplikation ---
     mat4 mat4::operator*(const mat4& rhs) const {
-        mat4 out;
-        // out(row, col) = sum_k this(row,k) * rhs(k,col)
-        for (int col = 0; col < 4; ++col) {
-            for (int row = 0; row < 4; ++row) {
-                float sum = 0.0f;
-                for (int k = 0; k < 4; ++k) {
-                    sum += at(row, k) * rhs.at(k, col);
+        mat4 result;
+        for (int col = 0; col < 4; col++) {
+            for (int row = 0; row < 4; row++) {
+                float sum = 0;
+                for (int k = 0; k < 4; k++) {
+                    // Spaltenmajor: m[col * 4 + row]
+                    sum += m[k * 4 + row] * rhs.m[col * 4 + k];
                 }
-                out.at(row, col) = sum;
+                result.m[col * 4 + row] = sum;
             }
         }
-        return out;
+        return result;
     }
 
     mat4& mat4::operator*=(const mat4& rhs) {
         *this = *this * rhs;
         return *this;
+    }
+
+//    vec4 mat4::operator*(const vec4& v) const {
+//        vec4 result;
+//        result.x = m[0]*v.x + m[1]*v.y + m[2]*v.z + m[3]*v.w;
+//        result.y = m[4]*v.x + m[5]*v.y + m[6]*v.z + m[7]*v.w;
+//        result.z = m[8]*v.x + m[9]*v.y + m[10]*v.z + m[11]*v.w;
+//        result.w = m[12]*v.x + m[13]*v.y + m[14]*v.z + m[15]*v.w;
+//        return result;
+//    }
+    vec4 mat4::operator*(const vec4& v) const {
+        return vec4(
+                m[0]*v.x + m[4]*v.y + m[8]*v.z + m[12]*v.w,  // Spalte 0
+                m[1]*v.x + m[5]*v.y + m[9]*v.z + m[13]*v.w,  // Spalte 1
+                m[2]*v.x + m[6]*v.y + m[10]*v.z + m[14]*v.w, // Spalte 2
+                m[3]*v.x + m[7]*v.y + m[11]*v.z + m[15]*v.w  // Spalte 3
+        );
     }
 
 // --- 2D-Transform-Helfer ---

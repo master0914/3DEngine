@@ -1,7 +1,6 @@
 //
 // Created by User on 05.08.2025.
 //
-#pragma once
 #include <string>
 #include "../Header/mesh.h"
 
@@ -11,6 +10,25 @@
 #include <sstream>
 
 namespace Engine {
+
+
+
+    std::ostream& operator<<(std::ostream& os, const Vertex& v){
+        os << "position(" << v.position.getX() << ", " << v.position.getY() << ", " << v.position.getZ() << ")\n";
+        os << "texCoord(" << v.texCoord.getX() << ", " << v.texCoord.getY() << ")\n";
+        os << "normal(" << v.normal.getX() << ", " << v.normal.getY() << ", " << v.normal.getZ() << ")\n";
+        return os;
+    }
+    std::ostream& operator<<(std::ostream& os, const Triangle& triangle){
+        os << "Triangle: " << &triangle;
+        for (int i = 0; i < 3; i++) {
+            os << "vertex: " << i << " = " << triangle.vertices[i] << "\n";
+        }
+        return os;
+    }
+
+
+
     Mesh::Mesh(const std::string& filepath) {
         std::cout << "Mesh created" << std::endl;
         loadFromOBJ(filepath);
@@ -36,17 +54,17 @@ namespace Engine {
             else if (type == "v") {
                 float x,y,z;
                 iss >> x >> y >> z;
-                std::cout << "parsing v line:" << "\n";
-                std::cout << line << "\n";
-                std::cout << "found data: "<< x << ", " << y << ", " << z << "\n";
+//                std::cout << "parsing v line:" << "\n";
+//                std::cout << line << "\n";
+//                std::cout << "found data: "<< x << ", " << y << ", " << z << "\n";
                 temp_positions.push_back(Engine::vec3(x,y,z));
             }
             else if (type == "vn"){
                 float x,y,z;
                 iss >> x >> y >> z;
-                std::cout << "parsing vn line:" << "\n";
-                std::cout << line << "\n";
-                std::cout << "found data: "<< x << ", " << y << ", " << z << "\n";
+//                std::cout << "parsing vn line:" << "\n";
+//                std::cout << line << "\n";
+//                std::cout << "found data: "<< x << ", " << y << ", " << z << "\n";
                 temp_normals.push_back(Engine::vec3(x,y,z));}
             else if (type == "f") {
                 std::string faceToken;
@@ -81,7 +99,7 @@ namespace Engine {
             }
         }
         processData();
-        debugPrintData();
+//        debugPrintData();
     }
 
     void Mesh::processData() {
@@ -98,14 +116,16 @@ namespace Engine {
         }
     }
 
-    void Mesh::debugPrintData() const {
+    void Mesh::debugprint() const {
         std::cout << "Mesh Debug Info:\n";
         std::cout << "  Vertex Count: " << vertices.size() << "\n";
         std::cout << "  Index Count:  " << indices.size() << "\n";
 
         for (size_t i = 0; i < vertices.size(); ++i) {
             std::cout << "Vertex " << i << ":\n";
-            vertices[i].debugPrint();  // Ruft Vertex::debugPrint() auf
+            std::cout << vertices[i] << "\n";  // Ruft Vertex::debugPrint() auf
         }
     }
+
+
 }

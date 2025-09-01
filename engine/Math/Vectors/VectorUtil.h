@@ -11,6 +11,22 @@
 #pragma once
 
 namespace Engine {
+    class vec4 {
+    public:
+        float x, y, z, w;
+
+        vec4();
+        vec4(float x, float y, float z, float w);
+
+        vec4 operator+(const vec4& other) const;
+        vec4 operator-(const vec4& other) const;
+        vec4 operator*(float scalar) const;
+        float dot(const vec4& other) const;
+        float length() const;
+        vec4 normalized() const;
+
+        friend std::ostream& operator<<(std::ostream& os, const vec4& v);
+    };
     class vec3 {
     public:
         // Konstruktoren
@@ -44,7 +60,7 @@ namespace Engine {
         float getX() const{return x;}
         float getY() const{return y;}
         float getZ() const{return z;}
-    private:
+
         float x, y, z;
     };
     class vec2 {
@@ -76,7 +92,7 @@ namespace Engine {
 
         float getX() const{return x;}
         float getY() const{return y;}
-    private:
+
         float x, y;
     };
     // danke ChatGPT:
@@ -95,11 +111,6 @@ namespace Engine {
         explicit mat4(const std::array<float,16>& values); // Rohwerte (column-major)
 
 
-
-
-        // --- 3D-spezifische Matrizen ---
-        static mat4 Perspective(float fovRadians, float aspect, float nearZ, float farZ);
-        static mat4 Orthographic(float left, float right, float bottom, float top, float nearZ, float farZ);
         static mat4 LookAt(const vec3& eye, const vec3& center, const vec3& up);
 
 
@@ -108,12 +119,14 @@ namespace Engine {
 
         // --- Fabrikmethoden / Hilfs-Erzeuger ---
         static mat4 Identity();
+        static mat4 Zero();
         static mat4 Translation(float tx, float ty, float tz = 0.0f);
         static mat4 Scale(float sx, float sy, float sz = 1.0f);
         static mat4 RotationZ(float radians);
 
         // --- Basisoperationen ---
         mat4 operator*(const mat4& rhs) const;  // Matrixmultiplikation
+        vec4 operator*(const vec4& v) const;    // Matrix-Vector Multiplikation
         mat4& operator*=(const mat4& rhs);
 
         // Punkt-/Richtungs-Transformationen (2D bequem mit homogener Einbettung)
@@ -128,6 +141,8 @@ namespace Engine {
         mat4 inverted() const;        // wirft bei singulärer Matrix per Fallback eine Identität zurück (siehe Doku)
 
         // Index-Helfer (row, col): 0..3
+        float  operator()(int row, int col) const { return m[col * 4 + row]; }
+        float& operator()(int row, int col)       { return m[col * 4 + row]; }
         float  at(int row, int col) const { return m[col * 4 + row]; }
         float& at(int row, int col)       { return m[col * 4 + row]; }
 

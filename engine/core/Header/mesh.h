@@ -11,38 +11,29 @@
 
 #endif //MESH_H
 #pragma once
-#include "VectorUtil.h"
+#include "../../Math/Vectors/VectorUtil.h"
 
 namespace Engine {
     struct Vertex {
         Engine::vec3 position;
         Engine::vec2 texCoord;
         Engine::vec3 normal;
-
-        void debugPrint() const{
-            std::cout << "position(" << position.getX() << ", " << position.getY() << ", " << position.getZ() << ")\n";
-            std::cout << "texCoord(" << texCoord.getX() << ", " << texCoord.getY() << ")\n";
-            std::cout << "normal(" << normal.getX() << ", " << normal.getY() << ", " << normal.getZ() << ")\n";
-        }
     };
 
     struct Triangle {
         Vertex vertices[3];
-
-        void debugPrint() const{
-            for(int i = 0; i < 3; i++){
-                std::cout << this;
-                std::cout << "vertex: " << i;
-                vertices[i].debugPrint();
-            }
-        }
     };
+
+
+
+    std::ostream& operator<<(std::ostream& os, const Vertex& v);
+    std::ostream& operator<<(std::ostream& os, const Triangle& triangle);
 
     class Mesh {
     public:
         Mesh(const std::string& filepath);
         void loadFromOBJ(const std::string& filepath);
-        void debugPrintData() const;
+        void debugprint() const;
         std::vector<Triangle> getTriangles() const{
             return triangles;
         }

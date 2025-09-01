@@ -11,6 +11,7 @@
 #include <string>
 #include <minwindef.h>
 #include <windef.h>
+#include <vector>
 #include "../core/Header/Interfaces.h"
 
 
@@ -30,11 +31,12 @@ namespace Engine{
         void Present() override;
         void DrawPixel(int x, int y, uint32_t color) override;
         void DrawPixel(vec2& vec, uint32_t color) override;
+        void DrawPixelArray(std::vector<uint32_t> buffer);
 
         // Pixelbuffer-Zugriff
         uint32_t* GetPixelBuffer() { return m_PixelBuffer; }
-        int GetWidth() const { return m_Width; }
-        int GetHeight() const { return m_Height; }
+        int getWidth() const { return m_Width; }
+        int getHeight() const { return m_Height; }
 
         // Für WindowProc-Zugriff
         void SetShouldClose(bool shouldClose) { m_ShouldClose = shouldClose; }

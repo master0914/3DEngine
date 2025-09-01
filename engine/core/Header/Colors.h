@@ -1,6 +1,11 @@
 //
-// Created by User on 04.08.2025.
+// Created by Master0914 on 01.09.2025.
 //
+
+#ifndef INC_3DENGINE_COLORS_H
+#define INC_3DENGINE_COLORS_H
+
+#endif //INC_3DENGINE_COLORS_H
 
 #include <cstdint>
 

@@ -4,7 +4,7 @@
 
 #include <cstdint>
 
-#include "VectorUtil.h"
+#include "../../Math/Vectors/VectorUtil.h"
 
 #ifndef INC_3DENGINE_INTERFACES_H
 #define INC_3DENGINE_INTERFACES_H
