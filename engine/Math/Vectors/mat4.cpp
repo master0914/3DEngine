@@ -10,29 +10,7 @@
 
 namespace Engine {
     //Matrix4-----------------------------------------------------------------------
-
-
-
-    mat4 mat4::LookAt(const vec3& eye, const vec3& center, const vec3& up) {
-        std::cout << "Camera eye: (" << eye.x << ", " << eye.y << ", " << eye.z << ")\n";
-        std::cout << "Camera center: (" << center.x << ", " << center.y << ", " << center.z << ")\n";
-        vec3 f = (center - eye).normalized();
-        vec3 s = f.cross(up).normalized();
-        vec3 u = s.cross(f).normalized();
-
-        mat4 V;
-        V.m = {
-                // ERSTE ZEILE
-                s.getX(), u.getX(), -f.getX(), 0.0f,
-                // ZWEITE ZEILE
-                s.getY(), u.getY(), -f.getY(), 0.0f,
-                // DRITTE ZEILE
-                s.getZ(), u.getZ(), -f.getZ(), 0.0f,
-                // VIERTE ZEILE
-                -s.dot(eye), -u.dot(eye), f.dot(eye), 1.0f
-        };
-        return V;
-    }
+    // SPALTEN-MAJOR
 
     // --- Konstruktoren ---
     mat4::mat4() : m{ 1,0,0,0,

@@ -50,64 +50,81 @@ cmake_ninja_workdir = C$:/Users/Master0914/CLionProjects/3DEngine/cmake-build-de
 build cmake_object_order_depends_target_3DEngine: phony || .
 
 build CMakeFiles/3DEngine.dir/src/main.cpp.obj: CXX_COMPILER__3DEngine_unscanned_Debug C$:/Users/Master0914/CLionProjects/3DEngine/src/main.cpp || cmake_object_order_depends_target_3DEngine
+  DEFINES = -DDEBUG_MODE
   DEP_FILE = CMakeFiles\3DEngine.dir\src\main.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\3DEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\3DEngine.dir\src
 
 build CMakeFiles/3DEngine.dir/engine/window/Window.cpp.obj: CXX_COMPILER__3DEngine_unscanned_Debug C$:/Users/Master0914/CLionProjects/3DEngine/engine/window/Window.cpp || cmake_object_order_depends_target_3DEngine
+  DEFINES = -DDEBUG_MODE
   DEP_FILE = CMakeFiles\3DEngine.dir\engine\window\Window.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\3DEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\3DEngine.dir\engine\window
 
 build CMakeFiles/3DEngine.dir/engine/core/Sources/Renderer_2D.cpp.obj: CXX_COMPILER__3DEngine_unscanned_Debug C$:/Users/Master0914/CLionProjects/3DEngine/engine/core/Sources/Renderer_2D.cpp || cmake_object_order_depends_target_3DEngine
+  DEFINES = -DDEBUG_MODE
   DEP_FILE = CMakeFiles\3DEngine.dir\engine\core\Sources\Renderer_2D.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\3DEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\3DEngine.dir\engine\core\Sources
 
 build CMakeFiles/3DEngine.dir/engine/core/Sources/mesh.cpp.obj: CXX_COMPILER__3DEngine_unscanned_Debug C$:/Users/Master0914/CLionProjects/3DEngine/engine/core/Sources/mesh.cpp || cmake_object_order_depends_target_3DEngine
+  DEFINES = -DDEBUG_MODE
   DEP_FILE = CMakeFiles\3DEngine.dir\engine\core\Sources\mesh.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\3DEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\3DEngine.dir\engine\core\Sources
 
 build CMakeFiles/3DEngine.dir/engine/core/Sources/Renderer_3D.cpp.obj: CXX_COMPILER__3DEngine_unscanned_Debug C$:/Users/Master0914/CLionProjects/3DEngine/engine/core/Sources/Renderer_3D.cpp || cmake_object_order_depends_target_3DEngine
+  DEFINES = -DDEBUG_MODE
   DEP_FILE = CMakeFiles\3DEngine.dir\engine\core\Sources\Renderer_3D.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\3DEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\3DEngine.dir\engine\core\Sources
 
 build CMakeFiles/3DEngine.dir/engine/core/Sources/Camera.cpp.obj: CXX_COMPILER__3DEngine_unscanned_Debug C$:/Users/Master0914/CLionProjects/3DEngine/engine/core/Sources/Camera.cpp || cmake_object_order_depends_target_3DEngine
+  DEFINES = -DDEBUG_MODE
   DEP_FILE = CMakeFiles\3DEngine.dir\engine\core\Sources\Camera.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\3DEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\3DEngine.dir\engine\core\Sources
 
 build CMakeFiles/3DEngine.dir/engine/Math/Vectors/vec2.cpp.obj: CXX_COMPILER__3DEngine_unscanned_Debug C$:/Users/Master0914/CLionProjects/3DEngine/engine/Math/Vectors/vec2.cpp || cmake_object_order_depends_target_3DEngine
+  DEFINES = -DDEBUG_MODE
   DEP_FILE = CMakeFiles\3DEngine.dir\engine\Math\Vectors\vec2.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\3DEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\3DEngine.dir\engine\Math\Vectors
 
 build CMakeFiles/3DEngine.dir/engine/Math/Vectors/vec3.cpp.obj: CXX_COMPILER__3DEngine_unscanned_Debug C$:/Users/Master0914/CLionProjects/3DEngine/engine/Math/Vectors/vec3.cpp || cmake_object_order_depends_target_3DEngine
+  DEFINES = -DDEBUG_MODE
   DEP_FILE = CMakeFiles\3DEngine.dir\engine\Math\Vectors\vec3.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\3DEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\3DEngine.dir\engine\Math\Vectors
 
 build CMakeFiles/3DEngine.dir/engine/Math/Vectors/vec4.cpp.obj: CXX_COMPILER__3DEngine_unscanned_Debug C$:/Users/Master0914/CLionProjects/3DEngine/engine/Math/Vectors/vec4.cpp || cmake_object_order_depends_target_3DEngine
+  DEFINES = -DDEBUG_MODE
   DEP_FILE = CMakeFiles\3DEngine.dir\engine\Math\Vectors\vec4.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\3DEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\3DEngine.dir\engine\Math\Vectors
 
 build CMakeFiles/3DEngine.dir/engine/Math/Vectors/mat4.cpp.obj: CXX_COMPILER__3DEngine_unscanned_Debug C$:/Users/Master0914/CLionProjects/3DEngine/engine/Math/Vectors/mat4.cpp || cmake_object_order_depends_target_3DEngine
+  DEFINES = -DDEBUG_MODE
   DEP_FILE = CMakeFiles\3DEngine.dir\engine\Math\Vectors\mat4.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\3DEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\3DEngine.dir\engine\Math\Vectors
+
+build CMakeFiles/3DEngine.dir/src/Tester/Tester.cpp.obj: CXX_COMPILER__3DEngine_unscanned_Debug C$:/Users/Master0914/CLionProjects/3DEngine/src/Tester/Tester.cpp || cmake_object_order_depends_target_3DEngine
+  DEFINES = -DDEBUG_MODE
+  DEP_FILE = CMakeFiles\3DEngine.dir\src\Tester\Tester.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\3DEngine.dir
+  OBJECT_FILE_DIR = CMakeFiles\3DEngine.dir\src\Tester
 
 
 # =============================================================================
@@ -117,7 +134,7 @@ build CMakeFiles/3DEngine.dir/engine/Math/Vectors/mat4.cpp.obj: CXX_COMPILER__3D
 #############################################
 # Link the executable 3DEngine.exe
 
-build 3DEngine.exe: CXX_EXECUTABLE_LINKER__3DEngine_Debug CMakeFiles/3DEngine.dir/src/main.cpp.obj CMakeFiles/3DEngine.dir/engine/window/Window.cpp.obj CMakeFiles/3DEngine.dir/engine/core/Sources/Renderer_2D.cpp.obj CMakeFiles/3DEngine.dir/engine/core/Sources/mesh.cpp.obj CMakeFiles/3DEngine.dir/engine/core/Sources/Renderer_3D.cpp.obj CMakeFiles/3DEngine.dir/engine/core/Sources/Camera.cpp.obj CMakeFiles/3DEngine.dir/engine/Math/Vectors/vec2.cpp.obj CMakeFiles/3DEngine.dir/engine/Math/Vectors/vec3.cpp.obj CMakeFiles/3DEngine.dir/engine/Math/Vectors/vec4.cpp.obj CMakeFiles/3DEngine.dir/engine/Math/Vectors/mat4.cpp.obj
+build 3DEngine.exe: CXX_EXECUTABLE_LINKER__3DEngine_Debug CMakeFiles/3DEngine.dir/src/main.cpp.obj CMakeFiles/3DEngine.dir/engine/window/Window.cpp.obj CMakeFiles/3DEngine.dir/engine/core/Sources/Renderer_2D.cpp.obj CMakeFiles/3DEngine.dir/engine/core/Sources/mesh.cpp.obj CMakeFiles/3DEngine.dir/engine/core/Sources/Renderer_3D.cpp.obj CMakeFiles/3DEngine.dir/engine/core/Sources/Camera.cpp.obj CMakeFiles/3DEngine.dir/engine/Math/Vectors/vec2.cpp.obj CMakeFiles/3DEngine.dir/engine/Math/Vectors/vec3.cpp.obj CMakeFiles/3DEngine.dir/engine/Math/Vectors/vec4.cpp.obj CMakeFiles/3DEngine.dir/engine/Math/Vectors/mat4.cpp.obj CMakeFiles/3DEngine.dir/src/Tester/Tester.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\3DEngine.dir

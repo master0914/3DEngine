@@ -14,6 +14,13 @@ add_executable(3DEngine src/main.cpp
         engine/Math/Vectors/vec4.cpp
         engine/Math/Vectors/mat4.cpp
         engine/core/Header/Colors.h
+        engine/core/Header/Debug.h
+        src/Tester/Tester.cpp
+        src/Tester/Tester.h
+)
+
+target_compile_definitions(3DEngine PRIVATE
+        $<$<CONFIG:Debug>:DEBUG_MODE>
 )
 
 #add_executable(3DEngine src/main.cpp

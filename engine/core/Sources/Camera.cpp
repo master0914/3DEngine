@@ -25,14 +25,18 @@ namespace Engine {
         m_ViewOld = true; // ViewMatrix muss neu berechnet werden
     }
 
-    void Camera::lookAt(const vec3 &target) {
-        // Berechne die neue Blickrichtung
+    void Camera::lookAt(const vec3& target) {
         m_Dir = (target - m_Pos).normalized();
 
-        // Berechne die neue Rechtsrichtung: Kreuzprodukt aus Welt-"Up" (0,1,0) und Blickrichtung
-        m_Right = vec3(0.0f, 1.0f, 0.0f).cross(m_Dir).normalized();
+        // Temporärer Rechts-Vektor berechnen
+        vec3 tempRight = vec3(0.0f, 1.0f, 0.0f).cross(m_Dir).normalized();
 
-        // Berechne den korrekten Up-Vektor: Kreuzprodukt aus Blick- und Rechtsrichtung
+        // Wenn Blickrichtung parallel zu Welt-Up, verwende alternativen Up
+        if (tempRight.length() < 0.001f) {
+            tempRight = vec3(1.0f, 0.0f, 0.0f).cross(m_Dir).normalized();
+        }
+
+        m_Right = tempRight;
         m_Up = m_Dir.cross(m_Right).normalized();
 
         m_ViewOld = true;
@@ -81,17 +85,17 @@ namespace Engine {
         // ]
         mat4 V;
         V.m = {
-                // ERSTE ZEILE: Rechts-Vektor und Translation
-                m_Right.getX(), m_Up.getX(), -m_Dir.getX(), -m_Right.dot(m_Pos),
+                // Spalte 0 = Right
+                m_Right.getX(), m_Right.getY(), m_Right.getZ(), 0.0f,
 
-                // ZWEITE ZEILE: Up-Vektor und Translation
-                m_Right.getY(), m_Up.getY(), -m_Dir.getY(), -m_Up.dot(m_Pos),
+                // Spalte 1 = Up
+                m_Up.getX(), m_Up.getY(), m_Up.getZ(), 0.0f,
 
-                // DRITTE ZEILE: Back-Vektor und Translation
-                m_Right.getZ(), m_Up.getZ(), -m_Dir.getZ(), m_Dir.dot(m_Pos),
+                // Spalte 2 = -Dir
+                -m_Dir.getX(), -m_Dir.getY(), -m_Dir.getZ(), 0.0f,
 
-                // VIERTE ZEILE: Homogene Koordinaten
-                0.0f, 0.0f, 0.0f, 1.0f
+                // Spalte 3 = Translation
+                -m_Right.dot(m_Pos), -m_Up.dot(m_Pos), m_Dir.dot(m_Pos), 1.0f
         };
         m_ViewMatrix = V;
         m_ViewOld = false;

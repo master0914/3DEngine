@@ -2,6 +2,10 @@
 // Created by Master0914 on 01.09.2025.
 //
 #include "../Header/Renderer_3D.h"
+#include "../Header/Debug.h"
+#include <chrono>
+#include <thread>
+
 
 namespace Engine{
         Renderer_3D::Renderer_3D(Engine::Window &window) {
@@ -32,6 +36,7 @@ namespace Engine{
 
         void Renderer_3D::present() {
             window->DrawPixelArray(m_FrameBuffer);
+            window->Present();
         }
 
         void Renderer_3D::endFrame(){
@@ -47,13 +52,13 @@ namespace Engine{
                 //Projection: camera.getProjectionMatrix
                 //mat4 mvpMatrix = camera->getProjectionMatrix() * (camera->getViewMatrix() * command.transform);
                 mat4 viewModel = camera->getViewMatrix() * command.transform;
-                mat4 mvpMatrix = viewModel * camera->getProjectionMatrix();
-
-                std::cout << "View * Model:\n" << viewModel << std::endl;
-                std::cout << "Final MVP:\n" << mvpMatrix << std::endl;
-
-                std::cout << "projection: \n" << camera->getProjectionMatrix() << "View: \n" << camera->getViewMatrix() << "transform: \n" << command.transform << "\n";
-                std::cout << "MVP: \n" <<mvpMatrix;
+                mat4 mvpMatrix = camera->getProjectionMatrix() * viewModel;
+//                Testing MVP multiplication
+//                 DEBUG_PRINT("View * Model:\n" << viewModel << std::endl);
+//                 DEBUG_PRINT("Final MVP:\n" << mvpMatrix << std::endl);
+//
+//                 DEBUG_PRINT("projection: \n" << camera->getProjectionMatrix() << "View: \n" << camera->getViewMatrix() << "transform: \n" << command.transform << "\n");
+//                 DEBUG_PRINT("MVP: \n" <<mvpMatrix);
 
                 rasterizeMesh(*command.mesh, mvpMatrix);
             }
@@ -66,10 +71,17 @@ namespace Engine{
         void Renderer_3D::rasterizeMesh(const Mesh& mesh, const mat4& mvpMatrix) {
             // rasterizing (Bitte.. geh endlich!!)
             const std::vector<Triangle>& meshTriangles = mesh.getTriangles();
-            std::cout << "rasterizing start \n";
+            DEBUG_PRINT("rasterizing start \n");
+            int i = 0;
             for (const Triangle& triangle : meshTriangles) {
-                std::cout << triangle << "\n";
-                //triangle.debugPrint();
+
+                DEBUG_PRINT(i << ":   "<<triangle << "\n");
+
+//                window->PollEvents();
+//                window->Clear();
+//                m_FrameBuffer.clear();
+//                m_FrameBuffer.resize(m_width * m_height);
+
                 // transformiert alle 3 vertices mit der mvpMatrix
                 vec4 vertices[3];
                 for (int i = 0; i < 3; ++i) {
@@ -77,24 +89,26 @@ namespace Engine{
                     vec3 pos = triangle.vertices[i].position;
                     vertices[i] = mvpMatrix * vec4(pos.getX(), pos.getY(), pos.getZ(), 1.0f);
                 }
-                std::cout << "vertices to vec4 translated \n";
-                std::cout << "vertices after transformation: \n" << vertices[0] << "\n" << vertices[1] << "\n"<< vertices[2] << "\n";
+                DEBUG_PRINT("vertices to vec4 translated \n");
+                DEBUG_PRINT("vertices after transformation: \n" << vertices[0] << "\n" << vertices[1] << "\n"<< vertices[2] << "\n");
+
                 // führ den perspective divide durch (x/w, y/w, z/w)
+                DEBUG_PRINT("Starting pespective divide: \n");
                 for (vec4& vertex : vertices) {
                     // fuck nicht durch null teilen
                     if (std::abs(vertex.w) < 1e-6f) {
                         vertex.w = 1e-6f;
                     }
                     float w_inv = 1.0f / vertex.w;
-                    std::cout << "vertex: " << vertex;
+                    DEBUG_PRINT("vertex: " << vertex);
 
                     vertex.x *= w_inv;
                     vertex.y *= w_inv;
                     vertex.z *= w_inv; // Tiefeninformation für Z-Buffer
                     vertex.w = 1.0f;  // Speichere 1/w für perspektivisch korrekte Interpolation (später)
-                    std::cout << "\n after division by " << (1.0f / w_inv) <<"\n" << vertex << "\n";
+                    DEBUG_PRINT("\n after division by " << (w_inv) <<"\n" << vertex << "\n");
                 }
-                std::cout << "vertices divided with w \n";
+                DEBUG_PRINT("vertices divided with w \n");
 
                 // führt clipping durch
                 //@TODO Clipping
@@ -105,10 +119,18 @@ namespace Engine{
                     screenCoords[i].y = (1.0f - vertices[i].y) * 0.5f * m_height; // Y ist invertiert
                     screenCoords[i].z = vertices[i].z; // Behalte Z für Depth-Testing
                 }
-                std::cout << "Screecoords: " << "\n" << screenCoords[0]  << "\n" << screenCoords[1]  << "\n" << screenCoords[2] << "\n";
+                DEBUG_PRINT("Screecoords: \n" << screenCoords[0]  << "\n" << screenCoords[1]  << "\n" << screenCoords[2] << "\n");
                 // - Rasterisiere das Dreieck (deine draw_triangle Funktion)
+                std::cout << "drawing wireframe from triangle " <<   i << "\n";
                 renderer2D.drawTriangleWireFrame(m_FrameBuffer,m_width,m_height,screenCoords[0], screenCoords[1], screenCoords[2], renderColor);
                 //   Übergib dabei die transformierten Koordinaten und den Z-Wert für den Depth-Test
+
+
+                // für testen eines dreiecks auskommentierer:
+                // return;
+//                present();
+//                std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+                ++i;
             }
         }
 

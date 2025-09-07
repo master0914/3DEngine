@@ -3,6 +3,7 @@
 //
 #include <string>
 #include "../Header/mesh.h"
+#include "../Header/Debug.h"
 
 #include <fstream>
 #include <iostream>
@@ -14,15 +15,16 @@ namespace Engine {
 
 
     std::ostream& operator<<(std::ostream& os, const Vertex& v){
-        os << "position(" << v.position.getX() << ", " << v.position.getY() << ", " << v.position.getZ() << ")\n";
-        os << "texCoord(" << v.texCoord.getX() << ", " << v.texCoord.getY() << ")\n";
-        os << "normal(" << v.normal.getX() << ", " << v.normal.getY() << ", " << v.normal.getZ() << ")\n";
+        os << "Vertex: " << &v << "\n";
+        os << "\tposition(" << v.position.getX() << ", " << v.position.getY() << ", " << v.position.getZ() << ")\n";
+        os << "\ttexCoord(" << v.texCoord.getX() << ", " << v.texCoord.getY() << ")\n";
+        os << "\tnormal(" << v.normal.getX() << ", " << v.normal.getY() << ", " << v.normal.getZ() << ")\n";
         return os;
     }
     std::ostream& operator<<(std::ostream& os, const Triangle& triangle){
-        os << "Triangle: " << &triangle;
+        os << "Triangle: " << &triangle << "\n";
         for (int i = 0; i < 3; i++) {
-            os << "vertex: " << i << " = " << triangle.vertices[i] << "\n";
+            os << "\tvertex " << i << " = " << triangle.vertices[i] << "\n";
         }
         return os;
     }
@@ -30,7 +32,7 @@ namespace Engine {
 
 
     Mesh::Mesh(const std::string& filepath) {
-        std::cout << "Mesh created" << std::endl;
+        DEBUG_PRINT("Mesh created \n");
         loadFromOBJ(filepath);
     }
     void Mesh::loadFromOBJ(const std::string& filepath) {
@@ -68,6 +70,7 @@ namespace Engine {
                 temp_normals.push_back(Engine::vec3(x,y,z));}
             else if (type == "f") {
                 std::string faceToken;
+                std::vector<unsigned int> faceIndices;
                 for (int i = 0; i < 3; ++i) {
                     iss >> faceToken;
 
@@ -94,12 +97,13 @@ namespace Engine {
                     }
 
                     // Index hinzufügen (entweder neu oder aus Cache)
-                    indices.push_back(vertexCache[vertexKey]);
+                    faceIndices.push_back(vertexCache[vertexKey]);
                 }
+                indices.insert(indices.end(), faceIndices.begin(), faceIndices.end());
             }
         }
         processData();
-//        debugPrintData();
+        //debugprint();
     }
 
     void Mesh::processData() {
@@ -112,6 +116,18 @@ namespace Engine {
             tri.vertices[1] =vertices[indices[i+1]];
             tri.vertices[2] =vertices[indices[i+2]];
 
+//            DEBUG_PRINT("Triangle " << i/3 << ":");
+//            DEBUG_PRINT("  v0: " << tri.vertices[0].position.x << ", "
+//                                 << tri.vertices[0].position.y << ", "
+//                                 << tri.vertices[0].position.z);
+//            DEBUG_PRINT("  v1: " << tri.vertices[1].position.x << ", "
+//                                 << tri.vertices[1].position.y << ", "
+//                                 << tri.vertices[1].position.z);
+//            DEBUG_PRINT("  v2: " << tri.vertices[2].position.x << ", "
+//                                 << tri.vertices[2].position.y << ", "
+//                                 << tri.vertices[2].position.z);
+//            DEBUG_PRINT("");
+
             triangles.push_back(tri);
         }
     }
@@ -122,8 +138,14 @@ namespace Engine {
         std::cout << "  Index Count:  " << indices.size() << "\n";
 
         for (size_t i = 0; i < vertices.size(); ++i) {
-            std::cout << "Vertex " << i << ":\n";
-            std::cout << vertices[i] << "\n";  // Ruft Vertex::debugPrint() auf
+            std::cout << "Vertex " << i << "  " << &vertices << ":\n";
+            std::cout << vertices[i] << "\n";
+        }
+
+        std::cout << "Triangles: \n";
+        for (size_t i = 0; i < triangles.size(); ++i) {
+            std::cout << "Triangle " << i << ":\n";
+            std::cout << triangles[i] << "\n";
         }
     }
 
