@@ -6,6 +6,7 @@
 #define INC_3DENGINE_TESTER_H
 
 #endif //INC_3DENGINE_TESTER_H
+#pragma once
 
 void test3D();
 void test2D();

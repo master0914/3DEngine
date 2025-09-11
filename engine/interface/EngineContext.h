@@ -1,7 +1,7 @@
 //
 // Created by Master0914 on 11.09.2025.
 //
-
+#pragma once
 #include <memory>
 #include "../core/header/window.h"
 #include "../core/header/renderer_3D.h"

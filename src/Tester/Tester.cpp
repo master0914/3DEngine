@@ -6,7 +6,7 @@
 #include "../../engine/core/Header/renderer_2D.h"
 #include "../../engine/core/Header/renderer_3D.h"
 #include "../../engine/core/Header/colors.h"
-#include "../../engine/Math/Vectors/VectorUtil.h"
+#include "../../engine/math/Vectors/VectorUtil.h"
 
 #include <thread>   // Für std::this_thread
 #include <chrono>   // Für std::chrono
@@ -14,8 +14,7 @@
 #include "../../engine/core/Header/debug.h"
 #include "Tester.h"
 #include "../../engine/interface/GameContainer.h"
-#include "../../engine/interface/GameContainer.h"
-#include "../../engine/interface/GameContainer.h"
+#include "TestGame.h"
 
 
 void test3D(){
@@ -90,6 +89,8 @@ void testMesh(){
 }
 void testEngine(){
     Engine::GameContainer gc{800,800,"pupsi"};
+    gc.createGame<TestGame>();
+    gc.run();
 }
 
 //drawing wireframe from triangle 5

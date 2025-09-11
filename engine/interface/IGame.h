@@ -7,7 +7,8 @@
 
 #endif //INC_3DENGINE_IGAME_H
 
-#include "GameContainer.h"
+#pragma once
+#include "EngineContext.h"
 
 namespace Engine{
     class IGame{
@@ -22,3 +23,4 @@ namespace Engine{
             EngineContext& m_context;
     };
 }
+

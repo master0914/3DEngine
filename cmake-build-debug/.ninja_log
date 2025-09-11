@@ -6,7 +6,7 @@
 8	2297	7789615420177139	CMakeFiles/3DEngine.dir/src/main.cpp.obj	4ec7edd6f740cc53
 17	4347	7789579430485481	CMakeFiles/3DEngine.dir/engine/window/Window.cpp.obj	bb178e29ac467373
 20	1596	7784355521351464	CMakeFiles/3DEngine.dir/engine/core/Sources/VectorUtil.cpp.obj	ef78a17f46909c60
-3	260	7793184517281881	build.ninja	9f28e2a461c42542
+3	260	7793206182040129	build.ninja	9f28e2a461c42542
 7	998	7789632552840354	CMakeFiles/3DEngine.dir/engine/core/Sources/Camera.cpp.obj	a2520cb00114483e
 2854	3142	7789646315811401	3DEngine.exe	fc125a6cd5bd335d
 17	1411	7784382533377129	CMakeFiles/3DEngine.dir/engine/Math/Vectors/VectorUtil.cpp.obj	f567b77259f4077c

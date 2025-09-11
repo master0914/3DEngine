@@ -133,6 +133,20 @@ build CMakeFiles/3DEngine.dir/engine/interface/GameContainer.cpp.obj: CXX_COMPIL
   OBJECT_DIR = CMakeFiles\3DEngine.dir
   OBJECT_FILE_DIR = CMakeFiles\3DEngine.dir\engine\interface
 
+build CMakeFiles/3DEngine.dir/src/Tester/TestGame.cpp.obj: CXX_COMPILER__3DEngine_unscanned_Debug C$:/Users/Master0914/CLionProjects/3DEngine/src/Tester/TestGame.cpp || cmake_object_order_depends_target_3DEngine
+  DEFINES = -DDEBUG_MODE
+  DEP_FILE = CMakeFiles\3DEngine.dir\src\Tester\TestGame.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\3DEngine.dir
+  OBJECT_FILE_DIR = CMakeFiles\3DEngine.dir\src\Tester
+
+build CMakeFiles/3DEngine.dir/engine/core/sources/inputManager.cpp.obj: CXX_COMPILER__3DEngine_unscanned_Debug C$:/Users/Master0914/CLionProjects/3DEngine/engine/core/sources/inputManager.cpp || cmake_object_order_depends_target_3DEngine
+  DEFINES = -DDEBUG_MODE
+  DEP_FILE = CMakeFiles\3DEngine.dir\engine\core\sources\inputManager.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\3DEngine.dir
+  OBJECT_FILE_DIR = CMakeFiles\3DEngine.dir\engine\core\sources
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target 3DEngine
@@ -141,7 +155,7 @@ build CMakeFiles/3DEngine.dir/engine/interface/GameContainer.cpp.obj: CXX_COMPIL
 #############################################
 # Link the executable 3DEngine.exe
 
-build 3DEngine.exe: CXX_EXECUTABLE_LINKER__3DEngine_Debug CMakeFiles/3DEngine.dir/src/main.cpp.obj CMakeFiles/3DEngine.dir/engine/core/sources/window.cpp.obj CMakeFiles/3DEngine.dir/engine/core/sources/renderer_2D.cpp.obj CMakeFiles/3DEngine.dir/engine/core/sources/mesh.cpp.obj CMakeFiles/3DEngine.dir/engine/core/sources/renderer_3D.cpp.obj CMakeFiles/3DEngine.dir/engine/core/sources/camera.cpp.obj CMakeFiles/3DEngine.dir/engine/math/Vectors/vec2.cpp.obj CMakeFiles/3DEngine.dir/engine/math/Vectors/vec3.cpp.obj CMakeFiles/3DEngine.dir/engine/math/Vectors/vec4.cpp.obj CMakeFiles/3DEngine.dir/engine/math/Vectors/mat4.cpp.obj CMakeFiles/3DEngine.dir/src/Tester/Tester.cpp.obj CMakeFiles/3DEngine.dir/engine/interface/GameContainer.cpp.obj
+build 3DEngine.exe: CXX_EXECUTABLE_LINKER__3DEngine_Debug CMakeFiles/3DEngine.dir/src/main.cpp.obj CMakeFiles/3DEngine.dir/engine/core/sources/window.cpp.obj CMakeFiles/3DEngine.dir/engine/core/sources/renderer_2D.cpp.obj CMakeFiles/3DEngine.dir/engine/core/sources/mesh.cpp.obj CMakeFiles/3DEngine.dir/engine/core/sources/renderer_3D.cpp.obj CMakeFiles/3DEngine.dir/engine/core/sources/camera.cpp.obj CMakeFiles/3DEngine.dir/engine/math/Vectors/vec2.cpp.obj CMakeFiles/3DEngine.dir/engine/math/Vectors/vec3.cpp.obj CMakeFiles/3DEngine.dir/engine/math/Vectors/vec4.cpp.obj CMakeFiles/3DEngine.dir/engine/math/Vectors/mat4.cpp.obj CMakeFiles/3DEngine.dir/src/Tester/Tester.cpp.obj CMakeFiles/3DEngine.dir/engine/interface/GameContainer.cpp.obj CMakeFiles/3DEngine.dir/src/Tester/TestGame.cpp.obj CMakeFiles/3DEngine.dir/engine/core/sources/inputManager.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\3DEngine.dir

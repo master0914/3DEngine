@@ -30,7 +30,7 @@
 // 3D testing
 
 int main(){
-    test3D();
+    testEngine();
     return 0;
 }
 

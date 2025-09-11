@@ -16,11 +16,10 @@ add_executable(3DEngine src/main.cpp
         engine/core/header/colors.h
         engine/core/header/debug.h
         src/Tester/Tester.cpp
-        src/Tester/Tester.h
-        engine/interface/IGame.h
-        engine/interface/GameContainer.h
-        engine/interface/EngineContext.h
         engine/interface/GameContainer.cpp
+        src/Tester/TestGame.cpp
+        engine/core/header/inputManager.h
+        engine/core/sources/inputManager.cpp
 )
 
 target_compile_definitions(3DEngine PRIVATE

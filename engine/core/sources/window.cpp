@@ -125,17 +125,106 @@ namespace Engine {
     // Message-Handler
     static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
         Window* window = reinterpret_cast<Window*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+        if(!window){
+            return DefWindowProc(hwnd, msg, wParam, lParam);
+        }
 
         switch (msg) {
             case WM_CLOSE:
-                if (window) window->SetShouldClose(true);
+                window->SetShouldClose(true);
                 return 0;
             case WM_DESTROY:
                 PostQuitMessage(0);
                 return 0;
+            case WM_KEYDOWN:
+            case WM_KEYUP: {
+                if (window->m_keyCallback()) {
+                    int action = (msg == WM_KEYDOWN) ? 1 : 0;
+                    window->getKeyCallback()(static_cast<int>(wParam), action);
+                }
+                break;
+            }
+
+            case WM_LBUTTONDOWN:
+            case WM_LBUTTONUP:
+            case WM_RBUTTONDOWN:
+            case WM_RBUTTONUP:
+            case WM_MBUTTONDOWN:
+            case WM_MBUTTONUP: {
+                if (window->m_mouseButtonCallback()) {
+                    int button = 0;
+                    int action = 0;
+
+                    if (msg == WM_LBUTTONDOWN || msg == WM_LBUTTONUP) {
+                        button = 0; // Left button
+                        action = (msg == WM_LBUTTONDOWN) ? 1 : 0;
+                    } else if (msg == WM_RBUTTONDOWN || msg == WM_RBUTTONUP) {
+                        button = 1; // Right button
+                        action = (msg == WM_RBUTTONDOWN) ? 1 : 0;
+                    } else if (msg == WM_MBUTTONDOWN || msg == WM_MBUTTONUP) {
+                        button = 2; // Middle button
+                        action = (msg == WM_MBUTTONDOWN) ? 1 : 0;
+                    }
+
+                    window->m_mouseButtonCallback(button, action);
+                }
+                break;
+            }
+
+            case WM_MOUSEMOVE: {
+                if (window->m_mouseMoveCallback) {
+                    double x = static_cast<double>(GET_X_LPARAM(lParam));
+                    double y = static_cast<double>(GET_Y_LPARAM(lParam));
+                    window->m_mouseX = x;
+                    window->m_mouseY = y;
+                    window->m_mouseMoveCallback(x, y);
+                }
+                break;
+            }
+
+            case WM_MOUSEWHEEL: {
+                if (window->m_scrollCallback) {
+                    double delta = static_cast<double>(GET_WHEEL_DELTA_WPARAM(wParam)) / WHEEL_DELTA;
+                    window->m_scrollCallback(0.0, delta);
+                }
+                break;
+            }
             default:
                 return DefWindowProc(hwnd, msg, wParam, lParam);
         }
+    }
+
+    // callback setter
+    void Window::setKeyCallback(KeyCallback callback) {
+        m_keyCallback = std::move(callback);
+    }
+
+    void Window::setMouseButtonCallback(MouseButtonCallback callback) {
+        m_mouseButtonCallback = std::move(callback);
+    }
+
+    void Window::setMouseMoveCallback(MouseMoveCallback callback) {
+        m_mouseMoveCallback = std::move(callback);
+    }
+
+    void Window::setScrollCallback(ScrollCallback callback) {
+        m_scrollCallback = std::move(callback);
+    }
+
+    Window::KeyCallback Window::getKeyCallback() {
+        return m_keyCallback;
+    }
+
+    Window::MouseButtonCallback Window::getMouseButtonCallback() {
+        return m_mouseButtonCallback;
+    }
+
+    Window::MouseMoveCallback Window::getMouseMoveCallback() {
+        return m_mouseMoveCallback;
+    }
+
+    Window::ScrollCallback Window::getScrollCallback() {
+        return m_scrollCallback;
     }
 }
 #else
