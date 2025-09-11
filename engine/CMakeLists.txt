@@ -1,5 +1,5 @@
 add_library(Engine
-        window/Window.cpp
+        core/sources/window.cpp
 )
 
 target_include_directories(Engine PUBLIC

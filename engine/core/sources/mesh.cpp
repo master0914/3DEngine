@@ -3,7 +3,7 @@
 //
 #include <string>
 #include "../Header/mesh.h"
-#include "../Header/Debug.h"
+#include "../Header/debug.h"
 
 #include <fstream>
 #include <iostream>

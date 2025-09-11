@@ -12,25 +12,27 @@
 #include <minwindef.h>
 #include <windef.h>
 #include <vector>
-#include "../core/Header/Interfaces.h"
+#include <cstdint>
+#include "../../math/Vectors/VectorUtil.h"
 
 
 namespace Engine{
-    class Window : public IEventDispatcher, public IRenderer {
+    //public IEventDispatcher, public IRenderer
+    class Window{
 
     public:
         Window(int width, int height, const char* title);
         ~Window();
 
         // IEventDispatcher
-        void PollEvents() override;
-        bool ShouldClose() const override { return m_ShouldClose; }
+        void PollEvents() ;
+        bool ShouldClose() const  { return m_ShouldClose; }
 
         // IRenderer
-        void Clear() override;
-        void Present() override;
-        void DrawPixel(int x, int y, uint32_t color) override;
-        void DrawPixel(vec2& vec, uint32_t color) override;
+        void Clear() ;
+        void Present() ;
+        void DrawPixel(int x, int y, uint32_t color) ;
+        void DrawPixel(vec2& vec, uint32_t color) ;
         void DrawPixelArray(std::vector<uint32_t> buffer);
 
         // Pixelbuffer-Zugriff

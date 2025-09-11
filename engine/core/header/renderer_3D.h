@@ -9,11 +9,11 @@
 
 #pragma once
 #include <vector>
-#include "Camera.h"
+#include "camera.h"
 #include "mesh.h"
 #include "../../Math/Vectors/VectorUtil.h"
-#include "Camera.h"
-#include "Renderer_2D.h"
+#include "camera.h"
+#include "renderer_2D.h"
 
 namespace Engine {
     struct RenderCommand{
@@ -23,7 +23,7 @@ namespace Engine {
 
     class Renderer_3D {
     public:
-        Renderer_3D(Window& window);
+        explicit Renderer_3D(Window& window);
 
         void beginFrame(); // Cleart Buffer, setzt Zeit, etc.
 

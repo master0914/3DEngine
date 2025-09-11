@@ -7,7 +7,7 @@
 #include <iostream>
 #include <vector>
 
-#include "Renderer_2D.h"
+#include "renderer_2D.h"
 
 #endif //MESH_H
 #pragma once

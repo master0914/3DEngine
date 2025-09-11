@@ -2,9 +2,9 @@
 
 // TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-#include "../engine/window/Window.h"
-#include "../engine/core/Header/Renderer_2D.h"
-#include "../engine/core/Header/Renderer_3D.h"
+#include "../engine/core/Header/window.h"
+#include "../engine/core/Header/renderer_2D.h"
+#include "../engine/core/Header/renderer_3D.h"
 #include "../engine/Math/Vectors/VectorUtil.h"
 
 #include <thread>   // Für std::this_thread

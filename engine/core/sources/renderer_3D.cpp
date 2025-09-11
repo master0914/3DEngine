@@ -1,8 +1,8 @@
 //
 // Created by Master0914 on 01.09.2025.
 //
-#include "../Header/Renderer_3D.h"
-#include "../Header/Debug.h"
+#include "../Header/renderer_3D.h"
+#include "../Header/debug.h"
 #include <chrono>
 #include <thread>
 

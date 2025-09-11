@@ -11,3 +11,4 @@ void test3D();
 void test2D();
 void testDebug();
 void testMesh();
+void testEngine();

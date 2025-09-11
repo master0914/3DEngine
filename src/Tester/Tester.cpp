@@ -2,17 +2,20 @@
 // Created by Master0914 on 07.09.2025.
 //
 
-#include "../../engine/window/Window.h"
-#include "../../engine/core/Header/Renderer_2D.h"
-#include "../../engine/core/Header/Renderer_3D.h"
-#include "../../engine/core/Header/Colors.h"
+#include "../../engine/core/Header/window.h"
+#include "../../engine/core/Header/renderer_2D.h"
+#include "../../engine/core/Header/renderer_3D.h"
+#include "../../engine/core/Header/colors.h"
 #include "../../engine/Math/Vectors/VectorUtil.h"
 
 #include <thread>   // Für std::this_thread
 #include <chrono>   // Für std::chrono
 #include "../../engine/core/Header/mesh.h"
-#include "../../engine/core/Header/Debug.h"
+#include "../../engine/core/Header/debug.h"
 #include "Tester.h"
+#include "../../engine/interface/GameContainer.h"
+#include "../../engine/interface/GameContainer.h"
+#include "../../engine/interface/GameContainer.h"
 
 
 void test3D(){
@@ -23,7 +26,7 @@ void test3D(){
     // initialisierung der Camera
     Engine::Camera camera{};
     // camera auf 0 0 0 gucken lassen
-    camera.setPosition(Engine::vec3{0.0f,0.0f,7j.0f});
+    camera.setPosition(Engine::vec3{0.0f,0.0f,7.0f});
     camera.lookAt(Engine::vec3{-4.0f,0.0f,0.0f});
     // zuweisen der camera
     renderer3D.setCamera(camera);
@@ -84,6 +87,9 @@ void testDebug(){
 void testMesh(){
     Engine::Mesh mesh{"../objData/test.obj"};
 
+}
+void testEngine(){
+    Engine::GameContainer gc{800,800,"pupsi"};
 }
 
 //drawing wireframe from triangle 5

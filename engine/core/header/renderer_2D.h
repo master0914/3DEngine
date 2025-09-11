@@ -6,7 +6,7 @@
 #define RENDERER_2D_H
 #include <cstdint>
 
-#include "../../window/Window.h"
+#include "window.h"
 #include "../../Math/Vectors/VectorUtil.h"
 
 #endif //RENDERER_2D_H
@@ -14,7 +14,12 @@
 
 namespace Engine {
     class Renderer_2D {
+
+        //TODO: konstructor mit window übergabe
+        //      und r_3d einen r_2d übergeben
+        //      prinzip der hierarchie von r_2d über r_3d
     public:
+//        explicit Renderer_2D(Window& window): window(window){};
         void drawRectangle(Window& window, vec2& origin, int height, int width, uint32_t color);
         void fillRectangle(Window& window, vec2& origin, int height, int width, uint32_t color);
         void drawCircle(Window& window, vec2& middle, int radius, uint32_t color);
@@ -25,5 +30,7 @@ namespace Engine {
         void drawLine(std::vector<uint32_t>& buffer, int w, int h, int x1,int y1, int x2, int y2, uint32_t color);
         void drawTriangleWireFrame(std::vector<uint32_t>& buffer, int w, int h, vec3& p1, vec3& p2, vec3& p3, uint32_t color);
         void drawPixelToBuffer(std::vector<uint32_t>& buffer, int w, int h, int x, int y, uint32_t color);
+    private:
+//        Window& window;
     };
 }

@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include "../Header/Renderer_2D.h"
+#include "../Header/renderer_2D.h"
 
 namespace Engine {
     void Renderer_2D::drawRectangle(Window& window, vec2& origin, int height, int width, uint32_t color){}
