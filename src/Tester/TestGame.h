@@ -11,10 +11,11 @@
 class TestGame: public Engine::IGame{
 public:
     explicit TestGame(Engine::EngineContext& context) : Engine::IGame(context) {}
-    void update(float dt);
-    void render();
-    void onInit();
-    void onExit();
+    void update(float dt) override;
+    void render() override;
+    void onInit() override;
+    void onExit() override;
+    void handleInput(Engine::KeyCode key, Engine::InputState state);
 };
 
 

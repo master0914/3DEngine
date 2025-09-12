@@ -40,6 +40,7 @@ namespace Engine{
 //                m_context.input->update();
 
             while (accumulator >= frameTime) {
+                m_context->input->update();
                 m_game->update(static_cast<float>(frameTime));
                 accumulator -= frameTime;
             }

@@ -13,10 +13,9 @@
 #include <functional>
 #include <vector>
 #include "../../math/Vectors/VectorUtil.h"
+#include "window.h"
 
 namespace Engine {
-
-    class Window; // Forward declaration
 
     enum class KeyCode {
         // Alphabet
@@ -56,6 +55,45 @@ namespace Engine {
         JUST_PRESSED = 2,
         JUST_RELEASED = 3
     };
+
+    // Lookup-Array für KeyCode-Namen
+    static constexpr std::array<const char*, static_cast<size_t>(KeyCode::KEY_COUNT)> KeyCodeNames = {
+            // Alphabet
+            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+            "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
+            "U", "V", "W", "X", "Y", "Z",
+
+            // Numbers
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+
+            // Function keys
+            "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8",
+            "F9", "F10", "F11", "F12",
+
+            // Special keys
+            "SPACE", "ENTER", "ESCAPE", "BACKSPACE", "TAB", "SHIFT",
+            "CTRL", "ALT", "CAPSLOCK", "INSERT", "DELETE", "HOME",
+            "END", "PAGEUP", "PAGEDOWN",
+
+            // Arrow keys
+            "UP", "DOWN", "LEFT", "RIGHT",
+
+            // Numpad
+            "NUMPAD_0", "NUMPAD_1", "NUMPAD_2", "NUMPAD_3", "NUMPAD_4",
+            "NUMPAD_5", "NUMPAD_6", "NUMPAD_7", "NUMPAD_8", "NUMPAD_9",
+
+            // Mouse buttons
+            "MOUSE_LEFT", "MOUSE_RIGHT", "MOUSE_MIDDLE", "MOUSE_BUTTON_4", "MOUSE_BUTTON_5"
+    };
+
+// Hilfsfunktion zum Konvertieren
+    inline const char* keyCodeToString(KeyCode code) {
+        size_t index = static_cast<size_t>(code);
+        if (index < KeyCodeNames.size()) {
+            return KeyCodeNames[index];
+        }
+        return "UNKNOWN";
+    }
 
     class InputManager {
     public:

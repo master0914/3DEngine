@@ -19,7 +19,8 @@ namespace Engine{
             virtual void render() = 0;
             virtual void onInit() = 0;
             virtual void onExit() = 0;
-        private:
+
+    protected:
             EngineContext& m_context;
     };
 }

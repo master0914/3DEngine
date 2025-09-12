@@ -64,6 +64,7 @@ namespace Engine{
         MouseButtonCallback m_mouseButtonCallback;
         MouseMoveCallback m_mouseMoveCallback;
         ScrollCallback m_scrollCallback;
+
         double m_mouseX = 0.0;
         double m_mouseY = 0.0;
     private:

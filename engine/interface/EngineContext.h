@@ -5,6 +5,7 @@
 #include <memory>
 #include "../core/header/window.h"
 #include "../core/header/renderer_3D.h"
+#include "../core/header/inputManager.h"
 
 #ifndef INC_3DENGINE_ENGINECONTEXT_H
 #define INC_3DENGINE_ENGINECONTEXT_H
@@ -18,7 +19,8 @@ namespace Engine{
             renderer2D = std::make_shared<Renderer_2D>();
             renderer3D = std::make_shared<Renderer_3D>(*window);
             camera = std::make_shared<Camera>();
-
+            input = std::make_shared<InputManager>();
+            input->initialize(window.get());
         }
 
         std::shared_ptr<Window> window;
@@ -27,7 +29,7 @@ namespace Engine{
         std::shared_ptr<Renderer_3D> renderer3D;
 
         std::shared_ptr<Camera> camera;
-//        std::shared_ptr<InputManager> input;
+        std::shared_ptr<InputManager> input;
 //        std::shared_ptr<ResourceManager> resources;
 //        std::shared_ptr<Scene> scene;
     };

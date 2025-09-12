@@ -8,6 +8,7 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#include <windowsx.h>
 #include <iostream>
 #include <cstring>
 #include "../../math/Vectors/VectorUtil.h"
@@ -124,26 +125,38 @@ namespace Engine {
 
     // Message-Handler
     static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-        Window* window = reinterpret_cast<Window*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+        auto window = reinterpret_cast<Window*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
         if(!window){
             return DefWindowProc(hwnd, msg, wParam, lParam);
         }
+        std::cout << "Processing message: " << msg << std::endl;
 
         switch (msg) {
             case WM_CLOSE:
-                window->SetShouldClose(true);
+
+//                std::cout << "Window Should Close called \n";
+//                std::cout << msg << "caused should close\n";
+                //window->SetShouldClose(true);
                 return 0;
             case WM_DESTROY:
                 PostQuitMessage(0);
                 return 0;
+            case WM_ACTIVATE:
+                // Verhindert das Einfrieren bei Klick
+                break;
+            case WM_SETFOCUS:
+                break;
+
+            case WM_KILLFOCUS:
+                break;
             case WM_KEYDOWN:
             case WM_KEYUP: {
-                if (window->m_keyCallback()) {
+                if (window->m_keyCallback) {
                     int action = (msg == WM_KEYDOWN) ? 1 : 0;
-                    window->getKeyCallback()(static_cast<int>(wParam), action);
+                    window->m_keyCallback(static_cast<int>(wParam), action);
                 }
-                break;
             }
+                break;
 
             case WM_LBUTTONDOWN:
             case WM_LBUTTONUP:
@@ -151,7 +164,7 @@ namespace Engine {
             case WM_RBUTTONUP:
             case WM_MBUTTONDOWN:
             case WM_MBUTTONUP: {
-                if (window->m_mouseButtonCallback()) {
+                if (window->m_mouseButtonCallback) {
                     int button = 0;
                     int action = 0;
 
@@ -168,27 +181,36 @@ namespace Engine {
 
                     window->m_mouseButtonCallback(button, action);
                 }
-                break;
             }
+                break;
+
 
             case WM_MOUSEMOVE: {
                 if (window->m_mouseMoveCallback) {
-                    double x = static_cast<double>(GET_X_LPARAM(lParam));
-                    double y = static_cast<double>(GET_Y_LPARAM(lParam));
+//                    try{
+                    std::cout << "mouseMoveCallback in window defined and called. params: " << lParam << "\n";
+                    auto x = static_cast<double>(GET_X_LPARAM(lParam));
+                    auto y = static_cast<double>(GET_Y_LPARAM(lParam));
+                    std::cout << "coords: " << x << ", " << y;
                     window->m_mouseX = x;
                     window->m_mouseY = y;
                     window->m_mouseMoveCallback(x, y);
+//                    } catch (const std::exception& e) {
+//                    std::cerr << "Error in mouse move: " << e.what() << std::endl;
+//                }
                 }
-                break;
             }
+                break;
+
 
             case WM_MOUSEWHEEL: {
                 if (window->m_scrollCallback) {
                     double delta = static_cast<double>(GET_WHEEL_DELTA_WPARAM(wParam)) / WHEEL_DELTA;
                     window->m_scrollCallback(0.0, delta);
                 }
-                break;
             }
+                break;
+
             default:
                 return DefWindowProc(hwnd, msg, wParam, lParam);
         }
