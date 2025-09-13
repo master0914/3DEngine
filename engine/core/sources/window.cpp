@@ -12,6 +12,7 @@
 #include <iostream>
 #include <cstring>
 #include "../../math/Vectors/VectorUtil.h"
+#include "../header/debug.h"
 
 
 namespace Engine {
@@ -129,34 +130,29 @@ namespace Engine {
         if(!window){
             return DefWindowProc(hwnd, msg, wParam, lParam);
         }
-        std::cout << "Processing message: " << msg << std::endl;
+//        DEBUG_PRINT("Processing message: " << msg);
 
         switch (msg) {
             case WM_CLOSE:
-
-//                std::cout << "Window Should Close called \n";
-//                std::cout << msg << "caused should close\n";
-                //window->SetShouldClose(true);
+                window->SetShouldClose(true);
                 return 0;
             case WM_DESTROY:
                 PostQuitMessage(0);
                 return 0;
             case WM_ACTIVATE:
-                // Verhindert das Einfrieren bei Klick
-                break;
             case WM_SETFOCUS:
-                break;
-
             case WM_KILLFOCUS:
                 break;
             case WM_KEYDOWN:
             case WM_KEYUP: {
                 if (window->m_keyCallback) {
+//                    DEBUG_PRINT("KeyEvent Registered.   WPARAM = " << wParam);
                     int action = (msg == WM_KEYDOWN) ? 1 : 0;
                     window->m_keyCallback(static_cast<int>(wParam), action);
+//                    DEBUG_PRINT("KeyEventCallback succesfully executed");
                 }
             }
-                break;
+                return 0;
 
             case WM_LBUTTONDOWN:
             case WM_LBUTTONUP:
@@ -165,6 +161,7 @@ namespace Engine {
             case WM_MBUTTONDOWN:
             case WM_MBUTTONUP: {
                 if (window->m_mouseButtonCallback) {
+//                    DEBUG_PRINT("MouseEvent Registered.   msg = " << msg);
                     int button = 0;
                     int action = 0;
 
@@ -180,36 +177,37 @@ namespace Engine {
                     }
 
                     window->m_mouseButtonCallback(button, action);
+//                    DEBUG_PRINT("MouseEventCallback succesfully executed");
                 }
             }
-                break;
+                return 0;
 
 
-            case WM_MOUSEMOVE: {
+            case WM_MOUSEMOVE:
                 if (window->m_mouseMoveCallback) {
-//                    try{
-                    std::cout << "mouseMoveCallback in window defined and called. params: " << lParam << "\n";
+
+//                    DEBUG_PRINT("mouseMove registered. params: " << lParam);
                     auto x = static_cast<double>(GET_X_LPARAM(lParam));
                     auto y = static_cast<double>(GET_Y_LPARAM(lParam));
-                    std::cout << "coords: " << x << ", " << y;
+//                    DEBUG_PRINT("coords: " << x << ", " << y);
                     window->m_mouseX = x;
                     window->m_mouseY = y;
                     window->m_mouseMoveCallback(x, y);
-//                    } catch (const std::exception& e) {
-//                    std::cerr << "Error in mouse move: " << e.what() << std::endl;
-//                }
+//                    DEBUG_PRINT("MouseMoveCallback succesfully executed");
                 }
-            }
-                break;
+
+                return 0;
 
 
             case WM_MOUSEWHEEL: {
                 if (window->m_scrollCallback) {
+//                    DEBUG_PRINT("ScrollEvent Registered.   WPARAM = " << wParam);
                     double delta = static_cast<double>(GET_WHEEL_DELTA_WPARAM(wParam)) / WHEEL_DELTA;
                     window->m_scrollCallback(0.0, delta);
+//                    DEBUG_PRINT("ScrollCallback succesfully executed");
                 }
             }
-                break;
+                return 0;
 
             default:
                 return DefWindowProc(hwnd, msg, wParam, lParam);

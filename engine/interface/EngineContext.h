@@ -19,6 +19,7 @@ namespace Engine{
             renderer2D = std::make_shared<Renderer_2D>();
             renderer3D = std::make_shared<Renderer_3D>(*window);
             camera = std::make_shared<Camera>();
+            renderer3D->setCamera(*camera);
             input = std::make_shared<InputManager>();
             input->initialize(window.get());
         }

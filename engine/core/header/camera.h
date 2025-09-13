@@ -34,12 +34,14 @@ namespace Engine{
         // Berechnet die Projektions-Matrix neu (wird intern aufgerufen, wenn sich FOV/etc. ändert)
         void updateProjectionMatrix();
 
+        // Kamera settings
+        bool movable = false;
+
         // Kamera Parameter (View)
         vec3 m_Pos;
         vec3 m_Dir;   // blickrichtung der camera
         vec3 m_Up;    // welche rchtung oben ist
         vec3 m_Right; // r = dir x up
-
 
         // Kamera Parameter (Projection)
         float m_Fov;  // in grad

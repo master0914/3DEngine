@@ -29,6 +29,7 @@ namespace Engine{
         double frameTime = 1.0 / m_targetFPS;
 
         while (m_running && !m_context->window->ShouldClose()) {
+            m_context->window->PollEvents();
             // zeit berechnen!    wieso muss diese scheiße so kompliziert sein lass mich doch einfach zeit holen smh
             auto currentTime = Clock::now();
             double deltaTime = std::chrono::duration_cast<Seconds>(currentTime - lastTime).count();
@@ -42,10 +43,12 @@ namespace Engine{
             while (accumulator >= frameTime) {
                 m_context->input->update();
                 m_game->update(static_cast<float>(frameTime));
+                m_context->input->endFrame();
                 accumulator -= frameTime;
             }
 
             m_game->render();
+
 
             // FPS Controlling
             limitFPS(currentTime);
@@ -55,7 +58,7 @@ namespace Engine{
 
             // Buffer swap und Events
 //                m_context->window->swapBuffers();
-            m_context->window->PollEvents();
+
         }
 
         // Aufräumen

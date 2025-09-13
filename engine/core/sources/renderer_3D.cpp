@@ -64,8 +64,8 @@ namespace Engine{
             }
         };
 
-        void Renderer_3D::setCamera(Camera &camera){
-            this->camera = &camera;
+        void Renderer_3D::setCamera(Camera &Camera){
+            this->camera = &Camera;
         };
 
         void Renderer_3D::rasterizeMesh(const Mesh& mesh, const mat4& mvpMatrix) {

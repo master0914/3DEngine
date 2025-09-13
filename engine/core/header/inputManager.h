@@ -95,7 +95,21 @@ namespace Engine {
         return "UNKNOWN";
     }
 
-    class InputManager {
+    inline const char* InputStateToString(InputState state) {
+                switch(state){
+                    case InputState::RELEASED:
+                        return "RELEASED";
+                    case InputState::PRESSED:
+                        return "PRESSED";
+                    case InputState::JUST_PRESSED:
+                        return "JUST_PRESSED";
+                    case InputState::JUST_RELEASED:
+                        return "JUST_RELEASED";
+                }
+        return "UNKNOWN";
+    }
+
+    class InputManager: public std::enable_shared_from_this<InputManager> {
     public:
         InputManager();
 
@@ -107,12 +121,16 @@ namespace Engine {
         // Update muss jeden Frame aufgerufen werden
         void update();
 
+        void endFrame();
+
         // Key states
         bool isKeyPressed(KeyCode key) const;
 
         bool isKeyJustPressed(KeyCode key) const;
 
         bool isKeyJustReleased(KeyCode key) const;
+
+        InputState getInputStateOfKey(KeyCode key) const;
 
         // Mouse states
         bool isMouseButtonPressed(KeyCode button) const;

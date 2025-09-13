@@ -3,7 +3,10 @@
 //
 #include <iostream>
 #include <windows.h>
+#include <memory>
+#include <cmath>
 #include "../header/inputManager.h"
+#include "../header/debug.h"
 
 namespace Engine{
     InputManager::InputManager() {
@@ -11,49 +14,76 @@ namespace Engine{
             m_keyStates[i] = InputState::RELEASED;
             m_prevKeyStates[i] = InputState::RELEASED;
         }
+        setupKeyMappings();
     }
 
     void InputManager::initialize(Engine::Window *window) {
         m_window = window;
         if (m_window) {
-            m_window->setKeyCallback([this](int key, int action) {
-                this->onKeyEvent(key, action);
-            });
+            std::weak_ptr<InputManager> weak_this = std::weak_ptr<InputManager>(shared_from_this());
+//            DEBUG_PRINT("Registering Callbacks at the Window...");
+            m_window->setKeyCallback(std::function<void(int, int)>([weak_this](int key, int action) {
+                if (auto shared_this = weak_this.lock()) {
+//                    DEBUG_PRINT("Key Callback Called");
+                    shared_this->onKeyEvent(key, action);
+                }
+            }));
 
-            m_window->setMouseButtonCallback([this](int button, int action) {
-                this->onMouseButtonEvent(button, action);
-            });
+            m_window->setMouseButtonCallback(std::function<void(int, int)>([weak_this](int button, int action) {
+                if (auto shared_this = weak_this.lock()) {
+//                    DEBUG_PRINT("MouseButton Callback Called");
+                    shared_this->onMouseButtonEvent(button, action);
+                }
 
-            m_window->setMouseMoveCallback([this](double x, double y) {
-                this->onMouseMoveEvent(x, y);
-            });
+            }));
 
-            m_window->setScrollCallback([this](double xoffset, double yoffset) {
-                this->onScrollEvent(xoffset, yoffset);
-            });
+            m_window->setMouseMoveCallback(std::function<void(double, double)>([weak_this](double x, double y) {
+                if (auto shared_this = weak_this.lock()) {
+//                    DEBUG_PRINT("MouseMove Callback Called");
+                    shared_this->onMouseMoveEvent(x, y);
+                }
+            }));
+
+            m_window->setScrollCallback(std::function<void(double, double)>([weak_this](double xoffset, double yoffset) {
+                if (auto shared_this = weak_this.lock()) {
+//                    DEBUG_PRINT("croll Callback Called");
+                    shared_this->onScrollEvent(xoffset, yoffset);
+                }
+            }));
+//            DEBUG_PRINT("Registering finished!");
         }
     }
 
     void InputManager::update() {
+//        std::cout << "update begin " << std::endl;
         // Speichere previous states
         for (int i = 0; i < static_cast<int>(KeyCode::KEY_COUNT); ++i) {
             m_prevKeyStates[i] = m_keyStates[i];
         }
+//        std::cout << "InputState of A = " << InputStateToString(getInputStateOfKey(KeyCode::KEY_A)) << std::endl;
+//        std::cout << "updating keys" << std::endl;
 
-        // Update key states
-        updateKeyStates();
 
         // Reset mouse delta und scroll
         m_mouseDelta = vec2(0.0f, 0.0f);
         m_scrollDelta = 0.0f;
 
         m_prevMousePosition = m_mousePosition;
+
+//        std::cout << "InputState of A = " << InputStateToString(getInputStateOfKey(KeyCode::KEY_A)) << std::endl;
+//        std::cout << std::endl;
+    }
+
+    void InputManager::endFrame() {
+        // Update key states
+        updateKeyStates();
     }
 
     void InputManager::updateKeyStates() {
         for (int i = 0; i < static_cast<int>(KeyCode::KEY_COUNT); ++i) {
             // Update state transitions
             if (m_keyStates[i] == InputState::JUST_PRESSED) {
+                std::cout << "updateKeyStates: setting key " << i << " to pressed" << std::endl;
                 m_keyStates[i] = InputState::PRESSED;
             } else if (m_keyStates[i] == InputState::JUST_RELEASED) {
                 m_keyStates[i] = InputState::RELEASED;
@@ -77,6 +107,11 @@ namespace Engine{
     bool InputManager::isKeyJustReleased(KeyCode key) const {
         int index = static_cast<int>(key);
         return m_keyStates[index] == InputState::JUST_RELEASED;
+    }
+
+    InputState InputManager::getInputStateOfKey(KeyCode key) const{
+        int index = static_cast<int>(key);
+        return m_keyStates[index];
     }
 
     // Mouse states (same as key states)
@@ -131,7 +166,7 @@ namespace Engine{
 
     // Event callbacks
     void InputManager::onKeyEvent(int key, int action) {
-        std::cout << "KeyEvent method of Input called \n";
+//        std::cout << "KeyEvent method of Input called"  << std::endl;
         if (m_keyMap.find(key) == m_keyMap.end()) return;
 
 
@@ -139,18 +174,20 @@ namespace Engine{
         int index = static_cast<int>(keyCode);
 
         if (action == 1) { // Pressed
+            std::cout << "key " << index << " pressed. setting m_keyStates so JustPressed"<< std::endl;
             m_keyStates[index] = InputState::JUST_PRESSED;
         } else if (action == 0) { // Released
             m_keyStates[index] = InputState::JUST_RELEASED;
         }
-
+//        std::cout << "now trying to call key callback " << std::endl;
         if (m_keyCallback) {
+//            std::cout << "KeyEvent method of Input called the Callback of the Game"  << std::endl;
             m_keyCallback(keyCode, m_keyStates[index]);
         }
     }
 
     void InputManager::onMouseButtonEvent(int button, int action) {
-        std::cout << "MouseButtonEvent method of Input called \n";
+//        std::cout << "MouseButtonEvent method of Input called"  << std::endl;
         if (m_mouseMap.find(button) == m_mouseMap.end()) return;
 
         KeyCode buttonCode = m_mouseMap[button];
@@ -168,14 +205,18 @@ namespace Engine{
     }
 
     void InputManager::onMouseMoveEvent(double x, double y) {
-        std::cout << "MouseMoveEvent method of Input called \n";
-        vec2 newPos(static_cast<float>(x), static_cast<float>(y));
-        m_mouseDelta = newPos - m_mousePosition;
-        m_mousePosition = newPos;
+//        std::cout << "MouseMoveEvent method of Input called" << std::endl;
+        if (!std::isnan(x) && !std::isinf(x) && !std::isnan(y) && !std::isinf(y)) {
+            vec2 newPos(static_cast<float>(x), static_cast<float>(y));
+            m_mouseDelta = newPos - m_mousePosition;
+            m_mousePosition = newPos;
+        } else {
+//            std::cerr << "Invalid mouse coordinates: " << x << ", " << y << std::endl;
+        }
     }
 
     void InputManager::onScrollEvent(double xoffset, double yoffset) {
-        std::cout << "ScrollEvent method of Input called \n";
+//        std::cout << "ScrollEvent method of Input called" << std::endl;
         m_scrollDelta = static_cast<float>(yoffset);
 
         if (m_scrollCallback) {

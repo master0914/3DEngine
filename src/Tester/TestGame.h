@@ -7,6 +7,7 @@
 
 #pragma once
 #include "../../engine/interface/IGame.h"
+#include "../../engine/core/header/mesh.h"
 
 class TestGame: public Engine::IGame{
 public:
@@ -16,6 +17,9 @@ public:
     void onInit() override;
     void onExit() override;
     void handleInput(Engine::KeyCode key, Engine::InputState state);
+private:
+    std::unique_ptr<Engine::Mesh> mesh;
+    std::unique_ptr<Engine::mat4> transform;
 };
 
 
