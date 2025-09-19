@@ -101,28 +101,35 @@ namespace Engine {
         );
     }
 
-    void Window::DrawPixel(int x, int y, uint32_t color) {
-        if (x >= 0 && x < m_Width && y >= 0 && y < m_Height) {
-            m_PixelBuffer[y * m_Width + x] = color;
-        }
-    }
-    void Window::DrawPixel(vec2& vec, uint32_t color) {
-        int x = vec.getX();
-        int y = vec.getY();
-        if (x >= 0 && x < m_Width && y >= 0 && y < m_Height) {
-            m_PixelBuffer[y * m_Width + x] = color;
-        }
-    }
-
-    void Window::DrawPixelArray(std::vector<uint32_t> buffer) {
-        if(buffer.size() != m_Width * m_Height) {
-            std::cerr << "Window: ERROR: Tried to draw buffer with differing dimension to window! "
-                      << "Expected: " << (m_Width * m_Height) << " pixels, "
-                      << "Got: " << buffer.size() << " pixels." << std::endl;
+//    void Window::DrawPixel(int x, int y, uint32_t color) {
+//        if (x >= 0 && x < m_Width && y >= 0 && y < m_Height) {
+//            m_PixelBuffer[y * m_Width + x] = color;
+//        }
+//    }
+//    void Window::DrawPixel(vec2& vec, uint32_t color) {
+//        int x = vec.getX();
+//        int y = vec.getY();
+//        if (x >= 0 && x < m_Width && y >= 0 && y < m_Height) {
+//            m_PixelBuffer[y * m_Width + x] = color;
+//        }
+//    }
+    // Window.cpp
+    void Window::swapBuffers(const std::vector<uint32_t>& newBuffer) {
+        if (newBuffer.size() != static_cast<size_t>(m_Width * m_Height)) {
+            std::cerr << "Window: ERROR: Buffer size mismatch!" << std::endl;
             return;
         }
-        std::memcpy(m_PixelBuffer, buffer.data(), buffer.size() * sizeof(uint32_t));
+        std::memcpy(m_PixelBuffer, newBuffer.data(), newBuffer.size() * sizeof(uint32_t));
     }
+//    void Window::DrawPixelArray(std::vector<uint32_t> buffer) {
+//        if(buffer.size() != m_Width * m_Height) {
+//            std::cerr << "Window: ERROR: Tried to draw buffer with differing dimension to window! "
+//                      << "Expected: " << (m_Width * m_Height) << " pixels, "
+//                      << "Got: " << buffer.size() << " pixels." << std::endl;
+//            return;
+//        }
+//        std::memcpy(m_PixelBuffer, buffer.data(), buffer.size() * sizeof(uint32_t));
+//    }
 
     // Message-Handler
     static LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
@@ -145,6 +152,10 @@ namespace Engine {
                 break;
             case WM_KEYDOWN:
             case WM_KEYUP: {
+//                if (lParam & 0x40000000) {
+//                    // repeat event
+//                    return 0;
+//                }
                 if (window->m_keyCallback) {
 //                    DEBUG_PRINT("KeyEvent Registered.   WPARAM = " << wParam);
                     int action = (msg == WM_KEYDOWN) ? 1 : 0;

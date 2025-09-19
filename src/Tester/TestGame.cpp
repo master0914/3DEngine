@@ -21,10 +21,12 @@ void TestGame::render(){
 void TestGame::onInit(){
     std::cout << "init \n";
 
+    m_container.setTargetFPS(60);
+
     mesh = std::make_unique<Engine::Mesh>("../objData/test.obj");
     transform = std::make_unique<Engine::mat4>();
 
-    m_context.camera->setPosition({0, 0, 5});
+    m_context.camera->setPosition({-4, 1, 10});
     m_context.camera->lookAt({0, 0, 0});
 
     // Debug: Überprüfe ob InputManager existiert
@@ -39,10 +41,10 @@ void TestGame::onInit(){
 
 
 
-//    m_context.input->setKeyCallback([this](Engine::KeyCode key, Engine::InputState state) {
-////        std::cout << "Callback called! Key: " << static_cast<int>(key) << std::endl;
-//        this->handleInput(key, state);
-//    });
+    m_context.input->setKeyCallback([this](Engine::KeyCode key, Engine::InputState state) {
+        std::cout << "Callback called! Key: " << static_cast<int>(key) << std::endl;
+        this->handleInput(key, state);
+    });
 
 
 }
@@ -50,6 +52,8 @@ void TestGame::onExit(){
     mesh.reset();
     std::cout << "exit\n";
 }
-//void TestGame::handleInput(Engine::KeyCode key, Engine::InputState state) {
-////
-//}
+void TestGame::handleInput(Engine::KeyCode key, Engine::InputState state) {
+    Engine::vec3 movement;
+
+
+}

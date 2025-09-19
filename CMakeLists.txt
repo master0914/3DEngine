@@ -20,6 +20,8 @@ add_executable(3DEngine src/main.cpp
         src/Tester/TestGame.cpp
         engine/core/header/inputManager.h
         engine/core/sources/inputManager.cpp
+        engine/core/header/bufferRenderer2D.h
+        engine/core/sources/bufferRenderer2D.cpp
 )
 
 target_compile_definitions(3DEngine PRIVATE

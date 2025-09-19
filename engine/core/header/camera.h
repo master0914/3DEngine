@@ -18,6 +18,9 @@ namespace Engine{
         void lookAt(const vec3& target); // Berechnet direction aus target - position
         void setPerspective(float fieldOfViewDegrees, float aspectRatio, float nearPlane, float farPlane);
 
+        void move(const vec3& transformVec);
+        void rotate(const vec3& rotationVec);
+
 
         const mat4& getProjectionMatrix() const;
         const mat4& getViewMatrix() const;

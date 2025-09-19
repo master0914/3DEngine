@@ -17,10 +17,10 @@
 #endif //INC_3DENGINE_GAMECONTAINER_H
 
 // FORWARD DECLARATIONS - keine includes hier!
-namespace Engine {
-    class IGame;        // Forward declaration
-    struct EngineContext; // Forward declaration
-}
+//namespace Engine {
+//    class IGame;        // Forward declaration
+//    struct EngineContext; // Forward declaration
+//}
 namespace Engine{
 
     class GameContainer{
@@ -33,11 +33,12 @@ namespace Engine{
         template<typename GameType, typename... Args>
         void createGame(Args&&... args){
             m_game = std::unique_ptr<IGame>(
-                    new GameType(*m_context, std::forward<Args>(args)...)
+                    new GameType(*m_context,*this, std::forward<Args>(args)...)
             );
         }
 
         void run();
+        const void setTargetFPS(int fps){m_targetFPS = fps;}
     private:
         std::shared_ptr<EngineContext> m_context;
         std::unique_ptr<IGame> m_game;

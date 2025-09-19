@@ -52,9 +52,13 @@ namespace Engine{
         void DrawPixelArray(std::vector<uint32_t> buffer);
 
         // pixelbuffer zugriff
-        uint32_t* GetPixelBuffer() { return m_PixelBuffer; }
-        int getWidth() const { return m_Width; }
-        int getHeight() const { return m_Height; }
+        const uint32_t* getPixelBuffer() const { return m_PixelBuffer; }
+        int getBufferSize() const { return m_Width * m_Height; }
+
+        void swapBuffers(const std::vector<uint32_t>& newBuffer);
+
+        int getm_Height() const{return m_Height;}
+        int getm_Width() const{return m_Width;}
 
         // Für WindowProc-Zugriff
         void SetShouldClose(bool shouldClose) { m_ShouldClose = shouldClose; }
@@ -68,8 +72,6 @@ namespace Engine{
         double m_mouseX = 0.0;
         double m_mouseY = 0.0;
     private:
-
-
         // input daten
 
         bool m_ShouldClose = false;
@@ -78,7 +80,12 @@ namespace Engine{
         uint32_t* m_PixelBuffer;
         int m_Width, m_Height;
 
+
         struct PlatformData; // forward declaration
         PlatformData* m_Data;
+    };
+
+    struct Framebuffer{
+
     };
 }

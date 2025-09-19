@@ -8,10 +8,11 @@
 #pragma once
 #include "../../engine/interface/IGame.h"
 #include "../../engine/core/header/mesh.h"
+#include "../../engine/interface/GameContainer.h"
 
 class TestGame: public Engine::IGame{
 public:
-    explicit TestGame(Engine::EngineContext& context) : Engine::IGame(context) {}
+    explicit TestGame(Engine::EngineContext& context, Engine::GameContainer& container) : Engine::IGame(context,container){}
     void update(float dt) override;
     void render() override;
     void onInit() override;

@@ -50,6 +50,26 @@ namespace Engine {
         m_ProjectionOld = true;
     }
 
+    void Camera::move(const vec3& transformVec){
+        // Bewegung in Kamera-Richtungen umrechnen
+        // transformVec: x = seitlich, y = hoch/runter, z = vorne/hinten
+        vec3 movement;
+
+        // vorwärts/rückwärts
+        movement = movement + m_Dir * transformVec.z;
+        // seitlich
+        movement = movement + m_Right * transformVec.x;
+        // hoch/runter
+        movement = movement + m_Up * transformVec.y;
+
+        m_Pos = m_Pos + movement;
+
+        m_ViewOld = true; // ViewMatrix muss neu berechnet werden
+    }
+    void Camera::rotate(const vec3& rotationVec){
+        //TODO
+    }
+
     const mat4& Camera::getViewMatrix() const {
         if (m_ViewOld) {
             // "LookAt" Matrix berechnen:
@@ -67,6 +87,7 @@ namespace Engine {
         }
         return m_ProjectionMatrix;
     }
+
 
     void Camera::updateViewMatrix() {
         // Implementierung der "LookAt" Matrix.
