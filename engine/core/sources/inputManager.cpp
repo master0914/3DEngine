@@ -83,10 +83,10 @@ namespace Engine{
         for (int i = 0; i < static_cast<int>(KeyCode::KEY_COUNT); ++i) {
             // Update state transitions
             if (m_keyStates[i] == InputState::JUST_PRESSED) {
-                std::cout << "updateKeyStates: setting key " << i << " to pressed" << std::endl;
+//                std::cout << "updateKeyStates: setting key " << i << " to pressed" << std::endl;
                 m_keyStates[i] = InputState::PRESSED;
             } else if (m_keyStates[i] == InputState::JUST_RELEASED) {
-                std::cout << "updateKeyStates: setting key " << i << " to released" << std::endl;
+//                std::cout << "updateKeyStates: setting key " << i << " to released" << std::endl;
                 m_keyStates[i] = InputState::RELEASED;
             }
         }
@@ -177,11 +177,11 @@ namespace Engine{
         if (action == 1) { // Pressed
             if(m_keyStates[index] == InputState::PRESSED) {  // || m_keyStates[index] == InputState::JUST_PRESSED
             }else{
-                std::cout << "key " << index << " pressed. setting m_keyStates to JustPressed" << std::endl;
+//                std::cout << "key " << index << " pressed. setting m_keyStates to JustPressed" << std::endl;
                 m_keyStates[index] = InputState::JUST_PRESSED;
             }
         } else if (action == 0) { // Released
-            std::cout << "key " << index << " released. setting m_keyStates to JustReleased"<< std::endl;
+//            std::cout << "key " << index << " released. setting m_keyStates to JustReleased"<< std::endl;
             m_keyStates[index] = InputState::JUST_RELEASED;
         }
 //        std::cout << "now trying to call key callback " << std::endl;
@@ -193,17 +193,19 @@ namespace Engine{
 
     void InputManager::onMouseButtonEvent(int button, int action) {
 //        std::cout << "MouseButtonEvent method of Input called"  << std::endl;
+//        std::cout << button << std::endl;
         if (m_mouseMap.find(button) == m_mouseMap.end()) return;
 
-        std::cout << button << std::endl;
+
         KeyCode buttonCode = m_mouseMap[button];
+//        keyCodeToString(buttonCode);
         int index = static_cast<int>(buttonCode);
 
         if (action == 1) {
-            std::cout << "buttonkey " << index << " pressed. setting m_keyStates to JustPressed"<< std::endl;
+//            std::cout << "buttonkey " << index << " pressed. setting m_keyStates to JustPressed"<< std::endl;
             m_keyStates[index] = InputState::JUST_PRESSED;
         } else if (action == 0) {
-            std::cout << "buttonkey " << index << " released. setting m_keyStates to JustReleased"<< std::endl;
+//            std::cout << "buttonkey " << index << " released. setting m_keyStates to JustReleased"<< std::endl;
             m_keyStates[index] = InputState::JUST_RELEASED;
         }
 

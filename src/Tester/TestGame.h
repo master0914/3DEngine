@@ -17,10 +17,11 @@ public:
     void render() override;
     void onInit() override;
     void onExit() override;
-    void handleInput(Engine::KeyCode key, Engine::InputState state);
+    void handleInput(float dt);
 private:
     std::unique_ptr<Engine::Mesh> mesh;
     std::unique_ptr<Engine::mat4> transform;
+    float m_movespeed = 2;
 };
 
 

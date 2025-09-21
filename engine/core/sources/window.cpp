@@ -177,13 +177,13 @@ namespace Engine {
                     int action = 0;
 
                     if (msg == WM_LBUTTONDOWN || msg == WM_LBUTTONUP) {
-                        button = 0; // Left button
+                        button = 1; // Left button
                         action = (msg == WM_LBUTTONDOWN) ? 1 : 0;
                     } else if (msg == WM_RBUTTONDOWN || msg == WM_RBUTTONUP) {
-                        button = 1; // Right button
+                        button = 2; // Right button
                         action = (msg == WM_RBUTTONDOWN) ? 1 : 0;
                     } else if (msg == WM_MBUTTONDOWN || msg == WM_MBUTTONUP) {
-                        button = 2; // Middle button
+                        button = 3; // Middle button
                         action = (msg == WM_MBUTTONDOWN) ? 1 : 0;
                     }
 
