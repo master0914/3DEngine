@@ -3,6 +3,22 @@ project(3DEngine)
 
 set(CMAKE_CXX_STANDARD 20)
 
+
+add_library(3DEngineLib STATIC
+        engine/core/sources/window.cpp
+        engine/core/sources/renderer_2D.cpp
+        engine/core/sources/mesh.cpp
+        engine/core/sources/renderer_3D.cpp
+        engine/core/sources/camera.cpp
+        engine/math/Vectors/vec2.cpp
+        engine/math/Vectors/vec3.cpp
+        engine/math/Vectors/vec4.cpp
+        engine/math/Vectors/mat4.cpp
+        engine/core/sources/inputManager.cpp
+        engine/core/sources/bufferRenderer2D.cpp
+        engine/interface/GameContainer.cpp
+)
+
 add_executable(3DEngine src/main.cpp
         engine/core/sources/window.cpp
         engine/core/sources/renderer_2D.cpp
@@ -22,6 +38,15 @@ add_executable(3DEngine src/main.cpp
         engine/core/sources/inputManager.cpp
         engine/core/header/bufferRenderer2D.h
         engine/core/sources/bufferRenderer2D.cpp
+)
+
+target_link_libraries(3DEngine 3DEngineLib)
+
+
+target_include_directories(3DEngineLib PUBLIC
+        engine/core/header
+        engine/math/Vectors
+        engine/interface
 )
 
 target_compile_definitions(3DEngine PRIVATE
