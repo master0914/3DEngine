@@ -15,6 +15,7 @@
 #include "Tester.h"
 #include "../../engine/interface/GameContainer.h"
 #include "TestGame.h"
+#include "../../engine/core/header/image.h"
 
 
 void test3D(){
@@ -59,25 +60,17 @@ void test3D(){
     }
     }
 void test2D(){
-        Engine::Window window(400, 400, "Software Renderer");
-     Engine::Renderer_2D renderer{};
+    Engine::Window window(800, 800, "Software Renderer");
+    Engine::Renderer_2D renderer{window};
+    // Engine::Image image{};
+    int imgID = renderer.loadImage("C:/Users/augus/CLionProjects/3DEngine/src/Tester/img.png");
 
      while (!window.ShouldClose()) {
          window.PollEvents();
-
-         window.Clear();
-         uint32_t color = Colors::MAGENTA;
-         Engine::vec2 v0{160.275,239.725};
-         Engine::vec2 v1{239.725,239.725};
-         Engine::vec2 v2{239.725,160.275};
-
-
-
-         // Zeichenoperationen
-//         renderer.drawLine(window,v1,v2,color);
-         renderer.drawTriangle(window,v0,v1,v2,color);
-
-         window.Present();
+        renderer.beginFrame();
+         // renderer.drawImage(imgID,10,10);
+         renderer.drawTileFromImage(imgID,200,200,1,1,64);
+         renderer.present();
      }
     }
 void testDebug(){

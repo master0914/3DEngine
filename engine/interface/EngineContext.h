@@ -16,7 +16,7 @@ namespace Engine{
     struct EngineContext {
         void initAllSystems(int width, int height, const char* title){
             window = std::make_shared<Window>(width, height,title);
-            renderer2D = std::make_shared<Renderer_2D>();
+            renderer2D = std::make_shared<Renderer_2D>(*window);
             renderer3D = std::make_shared<Renderer_3D>(*window);
             camera = std::make_shared<Camera>();
             renderer3D->setCamera(*camera);

@@ -16,7 +16,7 @@
 // 3D testing
 
 int main(){
-    testEngine();
+    test2D();
     return 0;
 }
 

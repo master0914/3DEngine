@@ -4,6 +4,9 @@ project(3DEngine)
 set(CMAKE_CXX_STANDARD 20)
 
 
+include_directories(lib/stb)
+
+
 add_library(3DEngineLib STATIC
         engine/core/sources/window.cpp
         engine/core/sources/renderer_2D.cpp
@@ -17,6 +20,7 @@ add_library(3DEngineLib STATIC
         engine/core/sources/inputManager.cpp
         engine/core/sources/bufferRenderer2D.cpp
         engine/interface/GameContainer.cpp
+        engine/core/sources/image.cpp
 )
 
 add_executable(3DEngine src/main.cpp
@@ -38,6 +42,8 @@ add_executable(3DEngine src/main.cpp
         engine/core/sources/inputManager.cpp
         engine/core/header/bufferRenderer2D.h
         engine/core/sources/bufferRenderer2D.cpp
+        engine/core/header/image.h
+        engine/core/sources/image.cpp
 )
 
 target_link_libraries(3DEngine 3DEngineLib)
@@ -47,6 +53,7 @@ target_include_directories(3DEngineLib PUBLIC
         engine/core/header
         engine/math/Vectors
         engine/interface
+        lib/stb
 )
 
 target_compile_definitions(3DEngine PRIVATE
