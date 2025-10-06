@@ -39,6 +39,8 @@ namespace Engine{
 
         void run();
         const void setTargetFPS(int fps){m_targetFPS = fps;}
+        void setUseFrameLimit(bool useFrameLimit){m_useFrameLimit = useFrameLimit;}
+        void setShowFPS(bool showFPS){m_showFPS = showFPS;}
     private:
         std::shared_ptr<EngineContext> m_context;
         std::unique_ptr<IGame> m_game;
