@@ -29,6 +29,8 @@ namespace Engine {
         }
         void drawRectangle(vec2& origin, int height, int width, uint32_t color);
         void fillRectangle(vec2& origin, int height, int width, uint32_t color);
+        void drawRectangle(int x, int y, int height, int width, uint32_t color);
+        void fillRectangle(int x, int y, int height, int width, uint32_t color);
         void drawCircle(vec2& middle, int radius, uint32_t color);
         void fillCircle(vec2& middle, int radius, uint32_t color);
         void drawTriangle(vec2& p1, vec2& p2, vec2& p3, uint32_t color);
