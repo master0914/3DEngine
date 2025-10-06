@@ -46,8 +46,36 @@ namespace Engine {
     }
 
 
-    void Renderer_2D::drawRectangle(vec2& origin, int height, int width, uint32_t color){}
-    void Renderer_2D::fillRectangle(vec2& origin, int height, int width, uint32_t color){}
+    void Renderer_2D::drawRectangle(vec2& origin, int height, int width, uint32_t color) {
+        // Obere Kante
+        for(int dx = 0; dx < width; dx++) {
+            drawPixel(origin.getX() + dx, origin.getY(), color);
+        }
+        // Untere Kante
+        for(int dx = 0; dx < width; dx++) {
+            drawPixel(origin.getX() + dx, origin.getY() + height - 1, color);
+        }
+        // Linke Kante
+        for(int dy = 0; dy < height; dy++) {
+            drawPixel(origin.getX(), origin.getY() + dy, color);
+        }
+        // Rechte Kante
+        for(int dy = 0; dy < height; dy++) {
+            drawPixel(origin.getX() + width - 1, origin.getY() + dy, color);
+        }
+    }
+    void Renderer_2D::fillRectangle(vec2& origin, int height, int width, uint32_t color) {
+        for(int dy = 0; dy < height; dy++) {
+            for(int dx = 0; dx < width; dx++) {
+                int pixelX = origin.getX() + dx;
+                int pixelY = origin.getY() + dy;
+
+                if(isValidCoord(pixelX, pixelY)) {
+                    m_FrameBufferBack[pixelY * m_Width + pixelX] = color;
+                }
+            }
+        }
+    }
     void Renderer_2D::drawCircle(vec2& middle, int radius, uint32_t color){}
     void Renderer_2D::fillCircle(vec2& middle, int radius, uint32_t color){}
     void Renderer_2D::drawTriangle(vec2& p1, vec2& p2, vec2& p3, uint32_t color) {
