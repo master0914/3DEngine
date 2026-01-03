@@ -44,6 +44,8 @@ add_executable(3DEngine src/main.cpp
         engine/core/sources/bufferRenderer2D.cpp
         engine/core/header/image.h
         engine/core/sources/image.cpp
+        engine/core/header/bitmapFont.h
+        engine/core/sources/bitmapFont.cpp
 )
 
 target_link_libraries(3DEngine 3DEngineLib)
