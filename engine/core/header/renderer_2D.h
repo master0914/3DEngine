@@ -6,6 +6,7 @@
 #define RENDERER_2D_H
 #include <cstdint>
 
+#include "bitmapFont.h"
 #include "image.h"
 #include "window.h"
 #include "../../Math/Vectors/VectorUtil.h"
@@ -40,6 +41,10 @@ namespace Engine {
         int loadImage(const std::string& filepath);
         void drawImage(int imgID, int x, int y);
 
+        void loadDefaultFont();  // Lädt eingebetteten Standard-Font
+        void drawText(const std::string& text, int x, int y, uint32_t color = 0xFFFFFFFF);
+        void drawText(const std::string& text, const vec2& position, uint32_t color = 0xFFFFFFFF);
+
         // void drawLine(std::vector<uint32_t>& buffer, int w, int h, vec2& p1, vec2& p2, uint32_t color);
         // void drawLine(std::vector<uint32_t>& buffer, int w, int h, int x1,int y1, int x2, int y2, uint32_t color);
         // void drawTriangleWireFrame(std::vector<uint32_t>& buffer, int w, int h, vec3& p1, vec3& p2, vec3& p3, uint32_t color);
@@ -54,6 +59,9 @@ namespace Engine {
 
         // Image-Loading Cache
         std::vector<Image> m_LoadedImages;
+
+        // für font rendering
+        BitmapFont* m_font;
 
         void clearBuffer(uint32_t color = 0xFF000000);
         bool isValidCoord(int x, int y) const;
