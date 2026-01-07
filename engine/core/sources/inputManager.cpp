@@ -6,8 +6,9 @@
 #include <cmath>
 #include "../header/inputManager.h"
 
-#include <SDL_keycode.h>
-#include <SDL_mouse.h>
+// #include <SDL_keycode.h>
+////#include <SDL_mouse.h>
+#include <SDL2/SDL.h>
 
 #include "../header/debug.h"
 
