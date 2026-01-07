@@ -7,7 +7,7 @@
 
 #endif //INC_3DENGINE_CAMERA_H
 #pragma once
-#include "../../Math/Vectors/VectorUtil.h"
+#include "../../math/Vectors/VectorUtil.h"
 
 namespace Engine{
     class Camera{

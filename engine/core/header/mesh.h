@@ -11,7 +11,7 @@
 
 #endif //MESH_H
 #pragma once
-#include "../../Math/Vectors/VectorUtil.h"
+#include "../../math/Vectors/VectorUtil.h"
 
 namespace Engine {
     struct Vertex {

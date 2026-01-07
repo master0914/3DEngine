@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include "../Header/renderer_2D.h"
+#include "../header/renderer_2D.h"
 
 #include "bitmapFont.h"
 #include "../../../../../src/util/Logger.h"

@@ -9,8 +9,7 @@
 
 #pragma once
 #include <string>
-#include <minwindef.h>
-#include <windef.h>
+
 #include <vector>
 #include <cstdint>
 #include <functional>

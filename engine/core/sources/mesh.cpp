@@ -2,8 +2,8 @@
 // Created by User on 05.08.2025.
 //
 #include <string>
-#include "../Header/mesh.h"
-#include "../Header/debug.h"
+#include "../header/mesh.h"
+#include "../header/debug.h"
 
 #include <fstream>
 #include <iostream>

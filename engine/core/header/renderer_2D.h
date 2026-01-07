@@ -9,7 +9,7 @@
 #include "bitmapFont.h"
 #include "image.h"
 #include "window.h"
-#include "../../Math/Vectors/VectorUtil.h"
+#include "../../math/Vectors/VectorUtil.h"
 
 #endif //RENDERER_2D_H
 #pragma once

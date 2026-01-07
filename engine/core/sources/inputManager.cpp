@@ -2,10 +2,14 @@
 // Created by Master0914 on 11.09.2025.
 //
 #include <iostream>
-#include <windows.h>
 #include <memory>
 #include <cmath>
 #include "../header/inputManager.h"
+
+// #include <SDL_keycode.h>
+////#include <SDL_mouse.h>
+#include <SDL2/SDL.h>
+
 #include "../header/debug.h"
 
 namespace Engine{
@@ -238,96 +242,103 @@ namespace Engine{
 
     void InputManager::setupKeyMappings() {
         // Alphabet
-        m_keyMap[0x41] = KeyCode::KEY_A;
-        m_keyMap[0x42] = KeyCode::KEY_B;
-        m_keyMap[0x43] = KeyCode::KEY_C;
-        m_keyMap[0x44] = KeyCode::KEY_D;
-        m_keyMap[0x45] = KeyCode::KEY_E;
-        m_keyMap[0x46] = KeyCode::KEY_F;
-        m_keyMap[0x47] = KeyCode::KEY_G;
-        m_keyMap[0x48] = KeyCode::KEY_H;
-        m_keyMap[0x49] = KeyCode::KEY_I;
-        m_keyMap[0x4A] = KeyCode::KEY_J;
-        m_keyMap[0x4B] = KeyCode::KEY_K;
-        m_keyMap[0x4C] = KeyCode::KEY_L;
-        m_keyMap[0x4D] = KeyCode::KEY_M;
-        m_keyMap[0x4E] = KeyCode::KEY_N;
-        m_keyMap[0x4F] = KeyCode::KEY_O;
-        m_keyMap[0x50] = KeyCode::KEY_P;
-        m_keyMap[0x51] = KeyCode::KEY_Q;
-        m_keyMap[0x52] = KeyCode::KEY_R;
-        m_keyMap[0x53] = KeyCode::KEY_S;
-        m_keyMap[0x54] = KeyCode::KEY_T;
-        m_keyMap[0x55] = KeyCode::KEY_U;
-        m_keyMap[0x56] = KeyCode::KEY_V;
-        m_keyMap[0x57] = KeyCode::KEY_W;
-        m_keyMap[0x58] = KeyCode::KEY_X;
-        m_keyMap[0x59] = KeyCode::KEY_Y;
-        m_keyMap[0x5A] = KeyCode::KEY_Z;
+        m_keyMap[SDLK_a] = KeyCode::KEY_A;
+        m_keyMap[SDLK_b] = KeyCode::KEY_B;
+        m_keyMap[SDLK_c] = KeyCode::KEY_C;
+        m_keyMap[SDLK_d] = KeyCode::KEY_D;
+        m_keyMap[SDLK_e] = KeyCode::KEY_E;
+        m_keyMap[SDLK_f] = KeyCode::KEY_F;
+        m_keyMap[SDLK_g] = KeyCode::KEY_G;
+        m_keyMap[SDLK_h] = KeyCode::KEY_H;
+        m_keyMap[SDLK_i] = KeyCode::KEY_I;
+        m_keyMap[SDLK_j] = KeyCode::KEY_J;
+        m_keyMap[SDLK_k] = KeyCode::KEY_K;
+        m_keyMap[SDLK_l] = KeyCode::KEY_L;
+        m_keyMap[SDLK_m] = KeyCode::KEY_M;
+        m_keyMap[SDLK_n] = KeyCode::KEY_N;
+        m_keyMap[SDLK_o] = KeyCode::KEY_O;
+        m_keyMap[SDLK_p] = KeyCode::KEY_P;
+        m_keyMap[SDLK_q] = KeyCode::KEY_Q;
+        m_keyMap[SDLK_r] = KeyCode::KEY_R;
+        m_keyMap[SDLK_s] = KeyCode::KEY_S;
+        m_keyMap[SDLK_t] = KeyCode::KEY_T;
+        m_keyMap[SDLK_u] = KeyCode::KEY_U;
+        m_keyMap[SDLK_v] = KeyCode::KEY_V;
+        m_keyMap[SDLK_w] = KeyCode::KEY_W;
+        m_keyMap[SDLK_x] = KeyCode::KEY_X;
+        m_keyMap[SDLK_y] = KeyCode::KEY_Y;
+        m_keyMap[SDLK_z] = KeyCode::KEY_Z;
 
 
         // Numbers
-        m_keyMap[0x30] = KeyCode::KEY_0;
-        m_keyMap[0x31] = KeyCode::KEY_1;
-        m_keyMap[0x32] = KeyCode::KEY_2;
-        m_keyMap[0x33] = KeyCode::KEY_3;
-        m_keyMap[0x34] = KeyCode::KEY_4;
-        m_keyMap[0x35] = KeyCode::KEY_5;
-        m_keyMap[0x36] = KeyCode::KEY_6;
-        m_keyMap[0x37] = KeyCode::KEY_7;
-        m_keyMap[0x38] = KeyCode::KEY_8;
-        m_keyMap[0x39] = KeyCode::KEY_9;
+        m_keyMap[SDLK_0] = KeyCode::KEY_0;
+        m_keyMap[SDLK_1] = KeyCode::KEY_1;
+        m_keyMap[SDLK_2] = KeyCode::KEY_2;
+        m_keyMap[SDLK_3] = KeyCode::KEY_3;
+        m_keyMap[SDLK_4] = KeyCode::KEY_4;
+        m_keyMap[SDLK_5] = KeyCode::KEY_5;
+        m_keyMap[SDLK_6] = KeyCode::KEY_6;
+        m_keyMap[SDLK_7] = KeyCode::KEY_7;
+        m_keyMap[SDLK_8] = KeyCode::KEY_8;
+        m_keyMap[SDLK_9] = KeyCode::KEY_9;
         // Function keys
-        m_keyMap[VK_F1] = KeyCode::KEY_F1;
-        m_keyMap[VK_F2] = KeyCode::KEY_F2;
-        m_keyMap[VK_F3] = KeyCode::KEY_F3;
-        m_keyMap[VK_F4] = KeyCode::KEY_F4;
-        m_keyMap[VK_F5] = KeyCode::KEY_F5;
-        m_keyMap[VK_F6] = KeyCode::KEY_F6;
-        m_keyMap[VK_F7] = KeyCode::KEY_F7;
-        m_keyMap[VK_F8] = KeyCode::KEY_F8;
-        m_keyMap[VK_F9] = KeyCode::KEY_F9;
-        m_keyMap[VK_F10] = KeyCode::KEY_F10;
-        m_keyMap[VK_F11] = KeyCode::KEY_F11;
-        m_keyMap[VK_F12] = KeyCode::KEY_F12;
+        m_keyMap[SDLK_F1]  = KeyCode::KEY_F1;
+        m_keyMap[SDLK_F2]  = KeyCode::KEY_F2;
+        m_keyMap[SDLK_F3]  = KeyCode::KEY_F3;
+        m_keyMap[SDLK_F4]  = KeyCode::KEY_F4;
+        m_keyMap[SDLK_F5]  = KeyCode::KEY_F5;
+        m_keyMap[SDLK_F6]  = KeyCode::KEY_F6;
+        m_keyMap[SDLK_F7]  = KeyCode::KEY_F7;
+        m_keyMap[SDLK_F8]  = KeyCode::KEY_F8;
+        m_keyMap[SDLK_F9]  = KeyCode::KEY_F9;
+        m_keyMap[SDLK_F10] = KeyCode::KEY_F10;
+        m_keyMap[SDLK_F11] = KeyCode::KEY_F11;
+        m_keyMap[SDLK_F12] = KeyCode::KEY_F12;
         // Special keys
-        m_keyMap[VK_SPACE]     = KeyCode::KEY_SPACE;
-        m_keyMap[VK_RETURN]    = KeyCode::KEY_ENTER;
-        m_keyMap[VK_ESCAPE]    = KeyCode::KEY_ESCAPE;
-        m_keyMap[VK_BACK]      = KeyCode::KEY_BACKSPACE;
-        m_keyMap[VK_TAB]       = KeyCode::KEY_TAB;
-        m_keyMap[VK_SHIFT]     = KeyCode::KEY_SHIFT;
-        m_keyMap[VK_CONTROL]   = KeyCode::KEY_CTRL;
-        m_keyMap[VK_MENU]      = KeyCode::KEY_ALT;
-        m_keyMap[VK_CAPITAL]   = KeyCode::KEY_CAPSLOCK;
-        m_keyMap[VK_INSERT]    = KeyCode::KEY_INSERT;
-        m_keyMap[VK_DELETE]    = KeyCode::KEY_DELETE;
-        m_keyMap[VK_HOME]      = KeyCode::KEY_HOME;
-        m_keyMap[VK_END]       = KeyCode::KEY_END;
-        m_keyMap[VK_PRIOR]     = KeyCode::KEY_PAGEUP;
-        m_keyMap[VK_NEXT]      = KeyCode::KEY_PAGEDOWN;
+        m_keyMap[SDLK_SPACE]      = KeyCode::KEY_SPACE;
+        m_keyMap[SDLK_RETURN]     = KeyCode::KEY_ENTER;
+        m_keyMap[SDLK_ESCAPE]     = KeyCode::KEY_ESCAPE;
+        m_keyMap[SDLK_BACKSPACE]  = KeyCode::KEY_BACKSPACE;
+        m_keyMap[SDLK_TAB]        = KeyCode::KEY_TAB;
+
+        m_keyMap[SDLK_LSHIFT]     = KeyCode::KEY_SHIFT;
+        m_keyMap[SDLK_RSHIFT]     = KeyCode::KEY_SHIFT;
+
+        m_keyMap[SDLK_LCTRL]      = KeyCode::KEY_CTRL;
+        m_keyMap[SDLK_RCTRL]      = KeyCode::KEY_CTRL;
+
+        m_keyMap[SDLK_LALT]       = KeyCode::KEY_ALT;
+        m_keyMap[SDLK_RALT]       = KeyCode::KEY_ALT;
+
+        m_keyMap[SDLK_CAPSLOCK]   = KeyCode::KEY_CAPSLOCK;
+        m_keyMap[SDLK_INSERT]     = KeyCode::KEY_INSERT;
+        m_keyMap[SDLK_DELETE]     = KeyCode::KEY_DELETE;
+        m_keyMap[SDLK_HOME]       = KeyCode::KEY_HOME;
+        m_keyMap[SDLK_END]        = KeyCode::KEY_END;
+        m_keyMap[SDLK_PAGEUP]     = KeyCode::KEY_PAGEUP;
+        m_keyMap[SDLK_PAGEDOWN]   = KeyCode::KEY_PAGEDOWN;
         // Arrow keys
-        m_keyMap[VK_UP]        = KeyCode::KEY_UP;
-        m_keyMap[VK_DOWN]      = KeyCode::KEY_DOWN;
-        m_keyMap[VK_LEFT]      = KeyCode::KEY_LEFT;
-        m_keyMap[VK_RIGHT]     = KeyCode::KEY_RIGHT;
+        m_keyMap[SDLK_UP]    = KeyCode::KEY_UP;
+        m_keyMap[SDLK_DOWN]  = KeyCode::KEY_DOWN;
+        m_keyMap[SDLK_LEFT]  = KeyCode::KEY_LEFT;
+        m_keyMap[SDLK_RIGHT] = KeyCode::KEY_RIGHT;
         // Numpad
-        m_keyMap[VK_NUMPAD0] = KeyCode::KEY_NUMPAD_0;
-        m_keyMap[VK_NUMPAD1] = KeyCode::KEY_NUMPAD_1;
-        m_keyMap[VK_NUMPAD2] = KeyCode::KEY_NUMPAD_2;
-        m_keyMap[VK_NUMPAD3] = KeyCode::KEY_NUMPAD_3;
-        m_keyMap[VK_NUMPAD4] = KeyCode::KEY_NUMPAD_4;
-        m_keyMap[VK_NUMPAD5] = KeyCode::KEY_NUMPAD_5;
-        m_keyMap[VK_NUMPAD6] = KeyCode::KEY_NUMPAD_6;
-        m_keyMap[VK_NUMPAD7] = KeyCode::KEY_NUMPAD_7;
-        m_keyMap[VK_NUMPAD8] = KeyCode::KEY_NUMPAD_8;
-        m_keyMap[VK_NUMPAD9] = KeyCode::KEY_NUMPAD_9;
+        m_keyMap[SDLK_KP_0] = KeyCode::KEY_NUMPAD_0;
+        m_keyMap[SDLK_KP_1] = KeyCode::KEY_NUMPAD_1;
+        m_keyMap[SDLK_KP_2] = KeyCode::KEY_NUMPAD_2;
+        m_keyMap[SDLK_KP_3] = KeyCode::KEY_NUMPAD_3;
+        m_keyMap[SDLK_KP_4] = KeyCode::KEY_NUMPAD_4;
+        m_keyMap[SDLK_KP_5] = KeyCode::KEY_NUMPAD_5;
+        m_keyMap[SDLK_KP_6] = KeyCode::KEY_NUMPAD_6;
+        m_keyMap[SDLK_KP_7] = KeyCode::KEY_NUMPAD_7;
+        m_keyMap[SDLK_KP_8] = KeyCode::KEY_NUMPAD_8;
+        m_keyMap[SDLK_KP_9] = KeyCode::KEY_NUMPAD_9;
         // Mouse buttons
-        m_mouseMap[VK_LBUTTON] = KeyCode::MOUSE_LEFT;
-        m_mouseMap[VK_RBUTTON] = KeyCode::MOUSE_RIGHT;
-        m_mouseMap[VK_MBUTTON] = KeyCode::MOUSE_MIDDLE;
-        m_mouseMap[VK_XBUTTON1] = KeyCode::MOUSE_BUTTON_4;
-        m_mouseMap[VK_XBUTTON2] = KeyCode::MOUSE_BUTTON_5;
+        m_mouseMap[SDL_BUTTON_LEFT]   = KeyCode::MOUSE_LEFT;
+        m_mouseMap[SDL_BUTTON_RIGHT]  = KeyCode::MOUSE_RIGHT;
+        m_mouseMap[SDL_BUTTON_MIDDLE] = KeyCode::MOUSE_MIDDLE;
+        m_mouseMap[SDL_BUTTON_X1]     = KeyCode::MOUSE_BUTTON_4;
+        m_mouseMap[SDL_BUTTON_X2]     = KeyCode::MOUSE_BUTTON_5;
     }
 
 

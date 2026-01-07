@@ -3,7 +3,7 @@
 //
 
 #include <cmath>
-#include "../Header/camera.h"
+#include "../header/camera.h"
 
 namespace Engine {
 
