@@ -11,7 +11,7 @@
 #include <vector>
 #include "camera.h"
 #include "mesh.h"
-#include "../../Math/Vectors/VectorUtil.h"
+#include "../../math/Vectors/VectorUtil.h"
 #include "camera.h"
 #include "renderer_2D.h"
 #include "bufferRenderer2D.h"

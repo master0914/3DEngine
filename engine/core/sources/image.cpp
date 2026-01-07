@@ -9,7 +9,7 @@
 #include <vector>
 #include <algorithm>
 #include <stdexcept>
-#include <windows.h>
+
 
 namespace Engine {
     Image::Image(int width, int height, uint32_t fillColor)
