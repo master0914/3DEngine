@@ -6,7 +6,7 @@
 #include "../header/renderer_2D.h"
 
 #include "bitmapFont.h"
-#include "../../../../../src/util/Logger.h"
+#include "../header/Logger.h"
 
 namespace Engine {
     // TODO: Rework without window.drawPiexl

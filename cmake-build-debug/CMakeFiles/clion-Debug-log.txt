@@ -1,4 +1,4 @@
 C:\Users\augus\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "MinGW Makefiles" -S C:\Users\augus\CLionProjects\3DEngine -B C:\Users\augus\CLionProjects\3DEngine\cmake-build-debug
--- Configuring done (1.3s)
+-- Configuring done (0.3s)
 -- Generating done (0.1s)
 -- Build files have been written to: C:/Users/augus/CLionProjects/3DEngine/cmake-build-debug

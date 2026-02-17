@@ -20,6 +20,7 @@ add_library(3DEngineLib STATIC
         engine/core/sources/bufferRenderer2D.cpp
         engine/interface/GameContainer.cpp
         engine/core/sources/image.cpp
+        engine/core/header/Logger.h
 )
 
 if(WIN32)
@@ -80,6 +81,7 @@ add_executable(3DEngine src/main.cpp
         engine/core/header/bitmapFont.h
         engine/core/sources/bitmapFont.cpp
         engine/core/sources/window.cpp
+        engine/core/header/Logger.h
 )
 target_link_libraries(3DEngine PUBLIC 3DEngineLib)
 
