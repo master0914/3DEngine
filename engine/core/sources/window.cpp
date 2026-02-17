@@ -2,7 +2,7 @@
 // Created by augus on 07.01.2026.
 //
 #include "window.h"
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <cstring>
 #include <iostream>
 

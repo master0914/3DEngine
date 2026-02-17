@@ -23,40 +23,78 @@ add_library(3DEngineLib STATIC
         engine/core/header/Logger.h
 )
 
+#if(WIN32)
+#    set(SDL2_INCLUDE_DIR "C:/CodingLibs/SDL2/x86_64-w64-mingw32/include")
+#    set(SDL2_LIB_DIR "C:/CodingLibs/SDL2/x86_64-w64-mingw32/lib")
+#
+#    target_include_directories(3DEngineLib PUBLIC ${SDL2_INCLUDE_DIR})
+#    # Linker-Pfad setzen
+#    link_directories(${SDL2_LIB_DIR})
+#
+#    # Reihenfolge ist wichtig: mingw32, SDL2main, SDL2, dann Windows-Libs
+#    target_link_libraries(3DEngineLib PUBLIC
+#            mingw32
+#            "${SDL2_LIB_DIR}/libSDL2main.a"
+#            "${SDL2_LIB_DIR}/libSDL2.a"
+#            user32
+#            gdi32
+#            kernel32
+#            winspool
+#            shell32
+#            ole32
+#            oleaut32
+#            uuid
+#            comdlg32
+#            advapi32
+#            setupapi
+#            imm32
+#            winmm
+#            cfgmgr32
+#            version
+#    )
+#elseif(UNIX)
+#    find_package(SDL2 REQUIRED)
+#    include_directories(${SDL2_INCLUDE_DIRS})
+#    target_link_libraries(3DEngineLib PRIVATE ${SDL2_LIBRARIES})
+#endif()
 if(WIN32)
-    set(SDL2_INCLUDE_DIR "C:/CodingLibs/SDL2/x86_64-w64-mingw32/include")
-    set(SDL2_LIB_DIR "C:/CodingLibs/SDL2/x86_64-w64-mingw32/lib")
+    # SDL2 für Visual Studio
+    set(SDL2_DIR "C:/CodingLibs/SDL2_VC")  # <- Hier die VC Version!
 
-    target_include_directories(3DEngineLib PUBLIC ${SDL2_INCLUDE_DIR})
-    # Linker-Pfad setzen
-    link_directories(${SDL2_LIB_DIR})
+    target_include_directories(3DEngineLib PUBLIC ${SDL2_DIR}/include)
 
-    # Reihenfolge ist wichtig: mingw32, SDL2main, SDL2, dann Windows-Libs
+
+    # Linker-Pfad
+    target_link_directories(3DEngineLib PUBLIC ${SDL2_DIR}/lib/x64)
+
+    # RICHTIGE SDL2-Libs für Visual Studio (nicht MinGW!)
     target_link_libraries(3DEngineLib PUBLIC
-            mingw32
-            "${SDL2_LIB_DIR}/libSDL2main.a"
-            "${SDL2_LIB_DIR}/libSDL2.a"
-            user32
-            gdi32
-            kernel32
-            winspool
-            shell32
-            ole32
-            oleaut32
-            uuid
-            comdlg32
-            advapi32
-            setupapi
-            imm32
-            winmm
-            cfgmgr32
-            version
+            SDL2.lib
+            SDL2main.lib
+            # Windows-Standard-Libs
+            user32.lib
+            gdi32.lib
+            kernel32.lib
+            winspool.lib
+            shell32.lib
+            ole32.lib
+            oleaut32.lib
+            uuid.lib
+            comdlg32.lib
+            advapi32.lib
+            setupapi.lib
+            imm32.lib
+            winmm.lib
+            cfgmgr32.lib
+            version.lib
     )
+
 elseif(UNIX)
     find_package(SDL2 REQUIRED)
-    include_directories(${SDL2_INCLUDE_DIRS})
+    target_include_directories(3DEngineLib PUBLIC ${SDL2_INCLUDE_DIRS})
     target_link_libraries(3DEngineLib PRIVATE ${SDL2_LIBRARIES})
 endif()
+
 
 add_executable(3DEngine src/main.cpp
         engine/core/sources/renderer_2D.cpp
@@ -94,6 +132,11 @@ target_include_directories(3DEngineLib PUBLIC
 
 target_compile_definitions(3DEngine PRIVATE
         $<$<CONFIG:Debug>:DEBUG_MODE>
+)
+add_custom_command(TARGET 3DEngineLib POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "C:/CodingLibs/SDL2_VC/lib/x64/SDL2.dll"
+        $<TARGET_FILE_DIR:3DEngineLib>
 )
 
 #add_executable(3DEngine src/main.cpp

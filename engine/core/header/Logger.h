@@ -15,7 +15,7 @@
 #include <sstream>
 #include <string>
 
-namespace Chess {
+
     static constexpr const char* RESET = "\033[0m";
     static constexpr const char* RED = "\033[31m";
     static constexpr const char* GREEN = "\033[32m";
@@ -88,11 +88,23 @@ namespace Chess {
             << msg
             << std::endl;
     }
-}
 
 
-#define LOG_INFO(msg)  ((void)0)
-#define LOG_WARN(msg)  ((void)0)
-#define LOG_ERROR(msg) ((void)0)
+
+#define LOG_INFO(msg)  do { \
+std::ostringstream _oss; \
+_oss << msg; \
+log(Level::Info, _oss.str(), __FILE__, __LINE__); \
+} while(0)
+#define LOG_WARN(msg)  do { \
+std::ostringstream _oss; \
+_oss << msg; \
+log(Level::Warn, _oss.str(), __FILE__, __LINE__); \
+} while(0)
+#define LOG_ERROR(msg) do { \
+std::ostringstream _oss; \
+_oss << msg; \
+log(Level::Error, _oss.str(), __FILE__, __LINE__); \
+} while(0)
 
 

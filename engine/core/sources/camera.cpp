@@ -5,6 +5,10 @@
 #include <cmath>
 #include "../header/camera.h"
 
+
+#define M_PI 3.14159265358979323846
+
+
 namespace Engine {
 
     Camera::Camera()
@@ -61,6 +65,7 @@ namespace Engine {
         movement = movement + m_Right * transformVec.x;
         // hoch/runter
         movement = movement + m_Up * transformVec.y;
+
 
         m_Pos = m_Pos + movement;
 

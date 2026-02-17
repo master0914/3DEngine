@@ -8,7 +8,7 @@
 
 // #include <SDL_keycode.h>
 ////#include <SDL_mouse.h>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #include "../header/debug.h"
 
@@ -70,7 +70,7 @@ namespace Engine{
 
         // Reset mouse delta und scroll
         m_mouseDelta = vec2(0.0f, 0.0f);
-        m_scrollDelta = 0.0f;
+        // m_scrollDelta = 0.0f;
 
         m_prevMousePosition = m_mousePosition;
 
@@ -81,6 +81,7 @@ namespace Engine{
     void InputManager::endFrame() {
         // Update key states
         updateKeyStates();
+        m_scrollDelta = 0.0f;
     }
 
     void InputManager::updateKeyStates() {
