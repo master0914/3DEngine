@@ -19,7 +19,7 @@
 // 3D testing
 
 int main(){
-    test3D();
+    test2D();
     return 0;
 }
 

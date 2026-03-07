@@ -1,4 +1,5 @@
 C:/Users/augus/CLionProjects/3DEngine/cmake-build-debug/CMakeFiles/3DEngineLib.dir
 C:/Users/augus/CLionProjects/3DEngine/cmake-build-debug/CMakeFiles/3DEngine.dir
+C:/Users/augus/CLionProjects/3DEngine/cmake-build-debug/CMakeFiles/copy_sdl2.dir
 C:/Users/augus/CLionProjects/3DEngine/cmake-build-debug/CMakeFiles/edit_cache.dir
 C:/Users/augus/CLionProjects/3DEngine/cmake-build-debug/CMakeFiles/rebuild_cache.dir
