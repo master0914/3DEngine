@@ -9,6 +9,13 @@
 #endif //SCHACHENGINE_LOGGER_H
 #pragma once
 
+#ifdef DEBUG_MODE
+    #define LOGGING_ENABLED 1
+#else
+    #define LOGGING_ENABLED 0
+#endif
+
+
 #include <iostream>
 #include <chrono>
 #include <iomanip>
@@ -90,21 +97,25 @@
     }
 
 
-
-#define LOG_INFO(msg)  do { \
-std::ostringstream _oss; \
-_oss << msg; \
-log(Level::Info, _oss.str(), __FILE__, __LINE__); \
-} while(0)
-#define LOG_WARN(msg)  do { \
-std::ostringstream _oss; \
-_oss << msg; \
-log(Level::Warn, _oss.str(), __FILE__, __LINE__); \
-} while(0)
-#define LOG_ERROR(msg) do { \
-std::ostringstream _oss; \
-_oss << msg; \
-log(Level::Error, _oss.str(), __FILE__, __LINE__); \
-} while(0)
-
+#if LOGGING_ENABLED
+    #define LOG_INFO(msg)  do { \
+    std::ostringstream _oss; \
+    _oss << msg; \
+    log(Level::Info, _oss.str(), __FILE__, __LINE__); \
+    } while(0)
+    #define LOG_WARN(msg)  do { \
+    std::ostringstream _oss; \
+    _oss << msg; \
+    log(Level::Warn, _oss.str(), __FILE__, __LINE__); \
+    } while(0)
+    #define LOG_ERROR(msg) do { \
+    std::ostringstream _oss; \
+    _oss << msg; \
+    log(Level::Error, _oss.str(), __FILE__, __LINE__); \
+    } while(0)
+#else
+    #define LOG_INFO(msg)  ((void)0)
+    #define LOG_WARN(msg)  ((void)0)
+    #define LOG_ERROR(msg) ((void)0)
+#endif
 

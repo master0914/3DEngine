@@ -21,6 +21,8 @@ add_library(3DEngineLib STATIC
         engine/interface/GameContainer.cpp
         engine/core/sources/image.cpp
         engine/core/header/Logger.h
+        engine/math/Vectors/vector.h
+        engine/math/Vectors/mat4.h
 )
 
 #if(WIN32)
@@ -120,6 +122,8 @@ add_executable(3DEngine src/main.cpp
         engine/core/sources/bitmapFont.cpp
         engine/core/sources/window.cpp
         engine/core/header/Logger.h
+        engine/math/Vectors/vector.h
+        engine/math/Vectors/mat4.h
 )
 target_link_libraries(3DEngine PUBLIC 3DEngineLib)
 

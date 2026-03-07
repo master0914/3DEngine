@@ -9,14 +9,17 @@
 
 #include <thread>   // Für std::this_thread
 #include <chrono>   // Für std::chrono
+
+#include "Logger.h"
 #include "../engine/core/Header/mesh.h"
 #include "Tester/Tester.h"
 #include "../engine/core/header/inputManager.h"
+#include "../engine/math/Vectors/vector.h"
 
 // 3D testing
 
 int main(){
-    test2D();
+    test3D();
     return 0;
 }
 
