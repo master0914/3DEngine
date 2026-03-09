@@ -12,22 +12,24 @@ set(SDL2_LIB_DIR "${PROJECT_SOURCE_DIR}/engine/SDL2/lib/x64") # adjust if needed
 
 # Engine Library----------------------------------------------------------------------
 add_library(3DEngineLib STATIC
-        engine/core/sources/window.cpp
-        engine/core/sources/renderer_2D.cpp
-        engine/core/sources/mesh.cpp
-        engine/core/sources/renderer_3D.cpp
-        engine/core/sources/camera.cpp
+        engine/core/General/window.cpp
+        engine/core/General/renderer_2D.cpp
+        engine/core/3D/mesh.cpp
+        engine/core/3D/renderer_3D.cpp
+        engine/core/3D/camera.cpp
         engine/math/Vectors/vec2.cpp
         engine/math/Vectors/vec3.cpp
         engine/math/Vectors/vec4.cpp
         engine/math/Vectors/mat4.cpp
-        engine/core/sources/inputManager.cpp
-        engine/core/sources/bufferRenderer2D.cpp
+        engine/core/General/inputManager.cpp
+        engine/core/3D/bufferRenderer2D.cpp
         engine/interface/GameContainer.cpp
-        engine/core/sources/image.cpp
-        engine/core/header/Logger.h
+        engine/core/General/image.cpp
+        engine/core/util/Logger.h
         engine/math/Vectors/vector.h
         engine/math/Vectors/mat4.h
+        engine/Assets/IComponent.h
+        engine/Assets/Button.h
 )
 target_include_directories(3DEngineLib PUBLIC
         engine/core/header
@@ -74,7 +76,9 @@ endif()
 add_executable(3DEngine
         src/main.cpp
         src/Tester/Tester.cpp
-        src/Tester/TestGame.cpp
+        src/Tester/Test3DGame.cpp
+        src/Tester/TestComponentsGame.h
+
 )
 target_link_libraries(3DEngine PRIVATE 3DEngineLib)
 

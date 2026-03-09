@@ -7,17 +7,17 @@
 #include <iostream>
 #include <vector>
 
-#include "renderer_2D.h"
+#include "../General/renderer_2D.h"
 
 #endif //MESH_H
 #pragma once
-#include "../../math/Vectors/VectorUtil.h"
+// #include "../../math/Vectors/VectorUtil.h"
 
 namespace Engine {
     struct Vertex {
-        Engine::vec3 position;
-        Engine::vec2 texCoord;
-        Engine::vec3 normal;
+        vec3 position;
+        vec2 texCoord;
+        vec3 normal;
     };
 
     struct Triangle {

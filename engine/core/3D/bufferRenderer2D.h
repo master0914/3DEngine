@@ -4,11 +4,12 @@
 
 #ifndef INC_3DENGINE_BUFFERRENDERER2D_H
 #define INC_3DENGINE_BUFFERRENDERER2D_H
+#include "vector.h"
 
 #endif //INC_3DENGINE_BUFFERRENDERER2D_H
 #pragma once
 #include <cstdint>
-#include "../../math/Vectors/VectorUtil.h"
+
 namespace Engine {
     class BufferRenderer2D {
     public:

@@ -7,8 +7,8 @@
 #include <memory>
 #include <chrono>
 #include <thread>
-#include "../core/header/window.h"
-#include "../core/header/renderer_3D.h"
+#include "../core/General/window.h"
+#include "../core/3D/renderer_3D.h"
 
 
 #ifndef INC_3DENGINE_GAMECONTAINER_H

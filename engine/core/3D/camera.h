@@ -4,10 +4,12 @@
 
 #ifndef INC_3DENGINE_CAMERA_H
 #define INC_3DENGINE_CAMERA_H
+#include "mat4.h"
+#include "vector.h"
 
 #endif //INC_3DENGINE_CAMERA_H
 #pragma once
-#include "../../math/Vectors/VectorUtil.h"
+// #include "../../math/Vectors/VectorUtil.h"
 
 namespace Engine{
     class Camera{

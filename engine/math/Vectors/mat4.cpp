@@ -2,13 +2,13 @@
 // Created by Master0914 on 01.09.2025.
 //
 
-#include "VectorUtil.h"
+#include "mat4.h"
 #include <ostream>
 #include <valarray>
 #include <iomanip>
 #include <iostream>
 
-namespace Engine {
+
     //Matrix4-----------------------------------------------------------------------
     // SPALTEN-MAJOR
 
@@ -220,4 +220,3 @@ namespace Engine {
         }
         return os;
     }
-}

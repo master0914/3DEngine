@@ -2,13 +2,13 @@
 // Created by Master0914 on 11.09.2025.
 //
 
-#include "TestGame.h"
-#include "../../engine/core/header/inputManager.h"
+#include "Test3DGame.h"
+#include "../../engine/core/General/inputManager.h"
 
-void TestGame::update(float dt){
+void Test3DGame::update(float dt){
     handleInput(dt);
 }
-void TestGame::render(){
+void Test3DGame::render(){
     m_context.renderer3D->beginFrame();
     // hinzufügen
     m_context.renderer3D->submit(*mesh,*transform);
@@ -18,13 +18,13 @@ void TestGame::render(){
     m_context.renderer3D->present();
 
 }
-void TestGame::onInit(){
+void Test3DGame::onInit(){
     std::cout << "init \n";
 
     m_container.setTargetFPS(60);
 
     mesh = std::make_unique<Engine::Mesh>("../objData/suzanne.obj");
-    transform = std::make_unique<Engine::mat4>();
+    transform = std::make_unique<mat4>();
 
     m_context.camera->setPosition({-4, 1, 10});
     m_context.camera->lookAt({0, 0, 0});
@@ -48,12 +48,12 @@ void TestGame::onInit(){
 
 
 }
-void TestGame::onExit(){
+void Test3DGame::onExit(){
     mesh.reset();
     std::cout << "exit\n";
 }
-void TestGame::handleInput(float dt) {
-    Engine::vec3 movement;
+void Test3DGame::handleInput(float dt) {
+    vec3 movement;
     if (m_context.input->isKeyPressed(Engine::KeyCode::KEY_W)) {
         movement.z += 1.0f; // Vorwärts
     }

@@ -3,10 +3,10 @@
 //
 
 #include <iostream>
-#include "../header/renderer_2D.h"
+#include "renderer_2D.h"
 
 #include "bitmapFont.h"
-#include "../header/Logger.h"
+#include "../util/Logger.h"
 
 namespace Engine {
     // TODO: Rework without window.drawPiexl

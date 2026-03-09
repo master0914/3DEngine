@@ -4,6 +4,7 @@
 
 #ifndef INC_3DENGINE_WINDOW_H
 #define INC_3DENGINE_WINDOW_H
+#include "vector.h"
 
 #endif //INC_3DENGINE_WINDOW_H
 
@@ -13,7 +14,7 @@
 #include <vector>
 #include <cstdint>
 #include <functional>
-#include "../../math/Vectors/VectorUtil.h"
+// #include "../../math/Vectors/VectorUtil.h"
 
 
 namespace Engine{

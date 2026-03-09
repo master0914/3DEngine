@@ -4,6 +4,7 @@
 
 #ifndef SCHACHENGINE_BITMAPFONT_H
 #define SCHACHENGINE_BITMAPFONT_H
+#include "vector.h"
 
 #endif //SCHACHENGINE_BITMAPFONT_H
 
@@ -76,6 +77,25 @@ namespace Engine {
         int getCharWidth() const { return charWidth; }
         int getCharHeight() const { return charHeight; }
 
+        vec2 getTextSize(const std::string& text) const {
+            int maxWidth = 0;
+            int currentWidth = 0;
+            int lines = 1;
+
+            for (char c : text) {
+                if (c == '\n') {
+                    maxWidth = std::max(maxWidth, currentWidth);
+                    currentWidth = 0;
+                    lines++;
+                } else {
+                    currentWidth += charWidth + 1; // +1 = spacing wie in drawText
+                }
+            }
+            maxWidth = std::max(maxWidth, currentWidth);
+
+            int totalHeight = lines * (charHeight + 2); // +2 = line spacing wie in drawText
+            return {maxWidth, totalHeight};
+        }
 
     };
     static const uint8_t SIMPLE_FONT[95][8] = {

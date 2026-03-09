@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include "../header/bufferRenderer2D.h"
+#include "bufferRenderer2D.h"
 namespace Engine{
     void BufferRenderer2D::drawLine(int x0,int y0, int x1, int y1, uint32_t color){
 

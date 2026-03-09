@@ -12,7 +12,6 @@
 #include <unordered_map>
 #include <functional>
 #include <vector>
-#include "../../math/Vectors/VectorUtil.h"
 #include "window.h"
 
 namespace Engine {

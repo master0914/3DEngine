@@ -1,7 +1,7 @@
 //
 // Created by augus on 26.09.2025.
 //
-#include "../header/image.h"
+#include "image.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../lib/stb_image.h"
 #include <fstream>

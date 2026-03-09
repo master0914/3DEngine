@@ -2,20 +2,21 @@
 // Created by Master0914 on 07.09.2025.
 //
 
-#include "../../engine/core/Header/window.h"
-#include "../../engine/core/Header/renderer_2D.h"
-#include "../../engine/core/Header/renderer_3D.h"
-#include "../../engine/core/Header/colors.h"
+#include "../../engine/core/General/window.h"
+#include "../../engine/core/General/renderer_2D.h"
+#include "../../engine/core/3D/renderer_3D.h"
+#include "../../engine/core/util/colors.h"
 #include "../../engine/math/Vectors/VectorUtil.h"
 
 #include <thread>   // Für std::this_thread
 #include <chrono>   // Für std::chrono
-#include "../../engine/core/Header/mesh.h"
-#include "../../engine/core/Header/debug.h"
+#include "../../engine/core/3D/mesh.h"
+// #include "../../engine/core/LEGACY/debug.h"
 #include "Tester.h"
 #include "../../engine/interface/GameContainer.h"
-#include "TestGame.h"
-#include "../../engine/core/header/image.h"
+#include "Test3DGame.h"
+#include "../../engine/core/General/image.h"
+#include "../../engine/core/util/Logger.h"
 
 
 void test3D(){
@@ -26,13 +27,13 @@ void test3D(){
     // initialisierung der Camera
     Engine::Camera camera{};
     // camera auf 0 0 0 gucken lassen
-    camera.setPosition(Engine::vec3{0.0f,0.0f,7.0f});
-    camera.lookAt(Engine::vec3{-4.0f,0.0f,0.0f});
+    camera.setPosition(vec3{0.0f,0.0f,7.0f});
+    camera.lookAt(vec3{-4.0f,0.0f,0.0f});
     // zuweisen der camera
     renderer3D.setCamera(camera);
     // laden von objecten und transformieren
     Engine::Mesh mesh{"../objData/suzanne.obj"};
-    Engine::mat4 transform = Engine::mat4::Translation(0,0,0);
+    mat4 transform = mat4::Translation(0,0,0);
 
 //    Engine::mat4 view = camera.getViewMatrix();
 //    std::cout << "view: \n" << view;
@@ -45,16 +46,16 @@ void test3D(){
     while (!window.ShouldClose()) {
         // sorgt für eventHandeling eg Schließen des Fensters, wenn man auf das X drückt
         window.PollEvents();
-        DEBUG_PRINT("Pollevents complete \n");
+        LOG_INFO("Pollevents complete \n");
         // beginn eines Frames
         renderer3D.beginFrame();
-        DEBUG_PRINT("BeginFrame complete \n");
+        LOG_INFO("BeginFrame complete \n");
         // hinzufügen
         renderer3D.submit(mesh,transform);
-        DEBUG_PRINT("Submit complete \n");
+        LOG_INFO("Submit complete \n");
         // frame ende: Bild wird erstellt
         renderer3D.endFrame();
-        DEBUG_PRINT("Endframe complete \n");
+        LOG_INFO("Endframe complete \n");
         // renderer gibt bild an window
         renderer3D.present();
     }
@@ -74,7 +75,7 @@ void test2D(){
      }
     }
 void testDebug(){
-    DEBUG_PRINT("hollo world");
+    LOG_INFO("hollo world");
 }
 void testMesh(){
     Engine::Mesh mesh{"../objData/test.obj"};
@@ -82,7 +83,7 @@ void testMesh(){
 }
 void testEngine(){
     Engine::GameContainer gc{800,800,"pupsi"};
-    gc.createGame<TestGame>();
+    gc.createGame<Test3DGame>();
     gc.run();
 }
 

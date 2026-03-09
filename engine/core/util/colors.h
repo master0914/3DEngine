@@ -10,9 +10,15 @@
 #include <cstdint>
 
 namespace Colors{
+    constexpr uint32_t constructColor(uint8_t r, uint8_t g, uint8_t b)
+    {
+        return (255 << 24) | (r << 16) | (g << 8) | b;
+    }
+    constexpr uint32_t WHITE   = 0xFFFFFFFF;
+    constexpr uint32_t BLACK   = 0xFF000000;
     constexpr uint32_t RED     = 0xFF0000FF;
-    constexpr uint32_t GREEN   = 0x00FF00FF;
-    constexpr uint32_t BLUE    = 0x0000FFFF;
+    constexpr uint32_t GREEN   = 0xFF00FF00;
+    constexpr uint32_t BLUE    = 0xFF00FFFF;
     constexpr uint32_t YELLOW  = 0xFFFF00FF;
     constexpr uint32_t CYAN    = 0x00FFFFFF;
     constexpr uint32_t MAGENTA = 0xFF00FFFF;

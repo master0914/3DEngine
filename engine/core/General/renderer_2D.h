@@ -8,8 +8,9 @@
 
 #include "bitmapFont.h"
 #include "image.h"
+#include "vector.h"
 #include "window.h"
-#include "../../math/Vectors/VectorUtil.h"
+// #include "../../math/Vectors/VectorUtil.h"
 
 #endif //RENDERER_2D_H
 #pragma once
@@ -42,6 +43,7 @@ namespace Engine {
         void drawImage(int imgID, int x, int y);
 
         void loadDefaultFont();  // Lädt eingebetteten Standard-Font
+        const BitmapFont* getFont() const {return m_font;}
         void drawText(const std::string& text, int x, int y, uint32_t color = 0xFFFFFFFF);
         void drawText(const std::string& text, const vec2& position, uint32_t color = 0xFFFFFFFF);
 

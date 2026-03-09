@@ -3,9 +3,9 @@
 //
 #pragma once
 #include <memory>
-#include "../core/header/window.h"
-#include "../core/header/renderer_3D.h"
-#include "../core/header/inputManager.h"
+#include "../core/General/window.h"
+#include "../core/3D/renderer_3D.h"
+#include "../core/General/inputManager.h"
 
 #ifndef INC_3DENGINE_ENGINECONTEXT_H
 #define INC_3DENGINE_ENGINECONTEXT_H

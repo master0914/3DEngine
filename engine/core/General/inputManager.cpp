@@ -4,13 +4,13 @@
 #include <iostream>
 #include <memory>
 #include <cmath>
-#include "../header/inputManager.h"
+#include "inputManager.h"
 
 // #include <SDL_keycode.h>
 ////#include <SDL_mouse.h>
 #include <SDL.h>
 
-#include "../header/debug.h"
+#include "../LEGACY/debug.h"
 
 namespace Engine{
     InputManager::InputManager() {

@@ -10,6 +10,7 @@
 #include <iosfwd>
 #include <ostream>
 #include <type_traits>
+#include <cmath>
 
 #endif //INC_3DENGINE_VECTOR_H
 
@@ -188,7 +189,7 @@ using vec2 = vec<float,2>;
 using vec3 = vec<float,3>;
 using vec4 = vec<float,4>;
 
-using ivec2 = vec<int,2>;
+using ivec2 = vec2;
 
 
 // für debug prints

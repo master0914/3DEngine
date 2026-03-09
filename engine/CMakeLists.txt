@@ -1,5 +1,5 @@
 add_library(Engine
-        core/sources/windowOLD.cpp
+        core/LEGACY/windowOLD.cpp
 )
 
 target_include_directories(Engine PUBLIC

@@ -2,8 +2,8 @@
 // Created by User on 05.08.2025.
 //
 #include <string>
-#include "../header/mesh.h"
-#include "../header/debug.h"
+#include "mesh.h"
+// #include "../header/debug.h"
 
 #include <fstream>
 #include <iostream>
@@ -32,7 +32,7 @@ namespace Engine {
 
 
     Mesh::Mesh(const std::string& filepath) {
-        DEBUG_PRINT("Mesh created \n");
+        // DEBUG_PRINT("Mesh created \n");
         loadFromOBJ(filepath);
     }
     void Mesh::loadFromOBJ(const std::string& filepath) {
@@ -40,8 +40,8 @@ namespace Engine {
         std::ifstream file(filepath);
         if (!file.is_open()){std::cerr << "loading obj-file failed" << "\n";return;}
 
-        std::vector<Engine::vec3> temp_positions;  // Speichert alle "v"-Einträge
-        std::vector<Engine::vec3> temp_normals;   // Speichert alle "vn"-Einträge
+        std::vector<vec3> temp_positions;  // Speichert alle "v"-Einträge
+        std::vector<vec3> temp_normals;   // Speichert alle "vn"-Einträge
         std::map<std::pair<unsigned int, unsigned int>, unsigned int> vertexCache; // vertex cache um duplikate vertices zu vermeiden
 
         std::string line;
@@ -59,7 +59,7 @@ namespace Engine {
 //                std::cout << "parsing v line:" << "\n";
 //                std::cout << line << "\n";
 //                std::cout << "found data: "<< x << ", " << y << ", " << z << "\n";
-                temp_positions.push_back(Engine::vec3(x,y,z));
+                temp_positions.push_back(vec3(x,y,z));
             }
             else if (type == "vn"){
                 float x,y,z;
@@ -67,7 +67,7 @@ namespace Engine {
 //                std::cout << "parsing vn line:" << "\n";
 //                std::cout << line << "\n";
 //                std::cout << "found data: "<< x << ", " << y << ", " << z << "\n";
-                temp_normals.push_back(Engine::vec3(x,y,z));}
+                temp_normals.push_back(vec3(x,y,z));}
             else if (type == "f") {
                 std::string faceToken;
                 std::vector<unsigned int> faceIndices;
@@ -90,7 +90,7 @@ namespace Engine {
                         Vertex vertex;
                         vertex.position = temp_positions[vIdx - 1];
                         vertex.normal = temp_normals[nIdx - 1];
-                        vertex.texCoord = Engine::vec2(); // Default, falls keine Texturkoordinaten
+                        vertex.texCoord = vec2(); // Default, falls keine Texturkoordinaten
 
                         vertices.push_back(vertex);
                         vertexCache[vertexKey] = vertices.size() - 1;
