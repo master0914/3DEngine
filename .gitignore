@@ -10,3 +10,8 @@
 # build folders
 /cmake-build-*/
 /build/
+/.idea/3DEngine.iml
+/.idea/editor.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
