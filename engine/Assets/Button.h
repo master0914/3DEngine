@@ -13,13 +13,28 @@
 
 class Button: public Engine::IComponent {
     public:
-        Button(Engine::EngineContext &context, Engine::GameContainer &container, vec2 pos, vec2 padding, uint32_t buttonColor, uint32_t textColor, bool filled, const std::string& text)
+        // full constructor
+        Button(Engine::EngineContext &context, Engine::GameContainer &container, ivec2 pos, ivec2 padding, uint32_t buttonColor, uint32_t textColor, bool filled, const std::string& text)
             : IComponent(context, container), m_pos(pos), m_padding(padding) {
             setParameters(buttonColor, textColor, filled, text);
         }
         Button(Engine::EngineContext &context, Engine::GameContainer &container, int x, int y, int w, int h, uint32_t buttonColor, uint32_t textColor, bool filled, const std::string& text)
-            : IComponent(context, container), m_pos(vec2{x,y}), m_padding(vec2{w,h}) {
+            : IComponent(context, container), m_pos(ivec2{x,y}), m_padding(ivec2{w,h}) {
             setParameters(buttonColor, textColor, filled, text);
+        }
+        // constructor with pos and padding
+        Button(Engine::EngineContext &context, Engine::GameContainer &container, ivec2 pos, ivec2 padding)
+            : IComponent(context, container), m_pos(pos), m_padding(padding) {
+        }
+        Button(Engine::EngineContext &context, Engine::GameContainer &container, int x, int y, int w, int h)
+            : IComponent(context, container), m_pos(ivec2{x,y}), m_padding(ivec2{w,h}) {
+        }
+        // constructor only with pos
+        Button(Engine::EngineContext &context, Engine::GameContainer &container, ivec2 pos)
+            : IComponent(context, container), m_pos(pos) {
+        }
+        Button(Engine::EngineContext &context, Engine::GameContainer &container, int x, int y)
+            : IComponent(context, container), m_pos(ivec2{x,y}) {
         }
 
         void setParameters(uint32_t buttonColor, uint32_t textColor, bool filled, const std::string& text) {
@@ -38,7 +53,6 @@ class Button: public Engine::IComponent {
         void update(float dt) override{
             if (clickedOnButton()) {
                 if (m_onClick) {
-                    std::cout << "clock";
                     m_onClick();
                 }
             }
@@ -54,16 +68,16 @@ class Button: public Engine::IComponent {
             m_context.renderer2D->drawText(m_text,m_pos.x + m_padding.x + 1, m_pos.y + m_padding.y + 1, m_textColor);
         }
 
-        bool hoversOverButton() const {
-            vec2 mousePos = m_context.input->getMousePosition();
+        [[nodiscard]] bool hoversOverButton() const {
+            ivec2 mousePos = m_context.input->getMousePositionIvec();
             if (mousePos.x > m_pos.x && mousePos.x < m_pos.x + m_finalButtonSize.x
                 && mousePos.y > m_pos.y && mousePos.y < m_pos.y + m_finalButtonSize.y) {
                 return true;
             }
             return false;
         }
-
-        bool clickedOnButton() const {
+        // uses JustPressed so will not activate when held down
+        [[nodiscard]] bool clickedOnButton() const {
             if (m_context.input->isMouseButtonJustPressed(Engine::KeyCode::MOUSE_LEFT)) {
                 if (hoversOverButton()) {
                     return true;
@@ -73,14 +87,14 @@ class Button: public Engine::IComponent {
         }
     private:
         Callback m_onClick;
-        vec2 m_pos;
-        vec2 m_padding;
+        ivec2 m_pos;
+        ivec2 m_padding = ivec2(5,5);
         // parameters
-        uint32_t m_buttonColor = Colors::BLUE;
-        uint32_t m_textColor = Colors::WHITE;
+        uint32_t m_buttonColor = Colors::WHITE;
+        uint32_t m_textColor = Colors::BLACK;
         bool m_filled = false;
-        std::string m_text = "";
+        std::string m_text;
         // calculated parameters
-        vec2 m_textSize = vec2();
-        vec2 m_finalButtonSize = vec2();
+        ivec2 m_textSize = ivec2();
+        ivec2 m_finalButtonSize = ivec2();
 };

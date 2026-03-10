@@ -74,10 +74,10 @@ namespace Engine {
         }
 
         // Hilfsfunktionen
-        int getCharWidth() const { return charWidth; }
-        int getCharHeight() const { return charHeight; }
+        [[nodiscard]] int getCharWidth() const { return charWidth; }
+        [[nodiscard]] int getCharHeight() const { return charHeight; }
 
-        vec2 getTextSize(const std::string& text) const {
+        [[nodiscard]] ivec2 getTextSize(const std::string& text) const {
             int maxWidth = 0;
             int currentWidth = 0;
             int lines = 1;
@@ -94,7 +94,7 @@ namespace Engine {
             maxWidth = std::max(maxWidth, currentWidth);
 
             int totalHeight = lines * (charHeight + 2); // +2 = line spacing wie in drawText
-            return {maxWidth, totalHeight};
+            return ivec2{maxWidth, totalHeight};
         }
 
     };

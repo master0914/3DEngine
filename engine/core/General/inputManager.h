@@ -143,6 +143,10 @@ namespace Engine {
 
         vec2 getMouseDelta() const;
 
+        ivec2 getMousePositionIvec() const;
+
+        ivec2 getMouseDeltaIvec() const;
+
         float getMouseScroll() const;
 
         // Event callbacks

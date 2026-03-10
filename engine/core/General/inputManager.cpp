@@ -142,6 +142,14 @@ namespace Engine{
         return m_mouseDelta;
     }
 
+    ivec2 InputManager::getMousePositionIvec() const {
+        return vec_cast<int>(m_mousePosition);
+    }
+
+    ivec2 InputManager::getMouseDeltaIvec() const {
+        return vec_cast<int>(m_mouseDelta);
+    }
+
     float InputManager::getMouseScroll() const {
         return m_scrollDelta;
     }

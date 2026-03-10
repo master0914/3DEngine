@@ -5,6 +5,7 @@
 #ifndef INC_3DENGINE_TESTCOMPONENTSGAME_H
 #define INC_3DENGINE_TESTCOMPONENTSGAME_H
 #include "../../engine/Assets/Button.h"
+#include "../../engine/Assets/Slider.h"
 
 #endif //INC_3DENGINE_TESTCOMPONENTSGAME_H
 
@@ -19,17 +20,21 @@ public:
         button.setOnClick([](){
             std::cout << "clicked\n";
         });
+        slider.setRange(20,50,30);
     }
     void update(float dt) override{
         button.update(dt);
+        slider.update(dt);
     }
     void render() override{
         button.render();
+        slider.render();
         m_context.renderer2D->present();
     }
     void onInit() override{}
     void onExit() override{}
     void handleInput(float dt);
 private:
-    Button button = Button{m_context,m_container,vec2{100,100},vec2{1,1},Colors::GREEN, Colors::BLACK,true,"Asdfgjhaogihaljkfhkjaswrf"};
+    Button button = Button{m_context,m_container,ivec2{100,100},ivec2{1,1},Colors::GREEN, Colors::BLACK,true,"Asdfgjhaogihaljkfhkjaswrf"};
+    Slider<float> slider = Slider<float>{m_context,m_container,ivec2{100,200},ivec2{100,40}};
 };

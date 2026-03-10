@@ -30,6 +30,7 @@ add_library(3DEngineLib STATIC
         engine/math/Vectors/mat4.h
         engine/Assets/IComponent.h
         engine/Assets/Button.h
+        engine/Assets/Slider.h
 )
 target_include_directories(3DEngineLib PUBLIC
         engine/core/header

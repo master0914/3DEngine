@@ -51,10 +51,10 @@ namespace Engine {
     }
 
 
-    void Renderer_2D::drawRectangle(vec2& origin, int height, int width, uint32_t color) {
+    void Renderer_2D::drawRectangle(ivec2& origin, int height, int width, uint32_t color) {
         drawRectangle(origin.getX(),origin.getY() , height, width, color);
     }
-    void Renderer_2D::fillRectangle(vec2& origin, int height, int width, uint32_t color) {
+    void Renderer_2D::fillRectangle(ivec2& origin, int height, int width, uint32_t color) {
         fillRectangle(origin.getX(),origin.getY() , height, width, color);
     }
 
@@ -85,19 +85,19 @@ namespace Engine {
         }
     }
 
-    void Renderer_2D::drawCircle(vec2& middle, int radius, uint32_t color){}
-    void Renderer_2D::fillCircle(vec2& middle, int radius, uint32_t color){}
-    void Renderer_2D::drawTriangle(vec2& p1, vec2& p2, vec2& p3, uint32_t color) {
+    void Renderer_2D::drawCircle(ivec2& middle, int radius, uint32_t color){}
+    void Renderer_2D::fillCircle(ivec2& middle, int radius, uint32_t color){}
+    void Renderer_2D::drawTriangle(ivec2& p1, ivec2& p2, ivec2& p3, uint32_t color) {
         std::cout << "drawing triangle: \n" << p1 << p2 << p3 << "\n";
         drawLine(p1,p2,color);
         drawLine(p2,p3,color);
         drawLine(p1,p3,color);
     }
-    void Renderer_2D::drawLine(vec2& p1, vec2& p2, uint32_t color) {
-        int x0 = static_cast<int>(p1.getX());
-        int y0 = static_cast<int>(p1.getY());
-        int x1 = static_cast<int>(p2.getX());
-        int y1 = static_cast<int>(p2.getY());
+    void Renderer_2D::drawLine(ivec2& p1, ivec2& p2, uint32_t color) {
+        int x0 = p1.getX();
+        int y0 = p1.getY();
+        int x1 = p2.getX();
+        int y1 = p2.getY();
         std::cout << "with coordinates: \n" << x0 << "  "<< y0 << "  "<< x1 << "  "<< y1 << "  ";
         // Sonderfall: Punkt
         if (x0 == x1 && y0 == y1) {
@@ -218,8 +218,8 @@ namespace Engine {
         if (!m_font) {LOG_ERROR("No bitmapFont found!!!");return;}
         m_font->drawText(m_FrameBufferBack, m_Width, m_Height, text, x, y, color);
     }
-    void Renderer_2D::drawText(const std::string& text, const vec2& position, uint32_t color) {
-        drawText(text, static_cast<int>(position.getX()), static_cast<int>(position.getY()), color);
+    void Renderer_2D::drawText(const std::string& text, const ivec2& position, uint32_t color) {
+        drawText(text, position.getX(), position.getY(), color);
     }
 }
 

@@ -38,7 +38,7 @@ struct vec {
         static_assert(sizeof...(Args) == D, "Incompatible arguments for vec!");
     }
     // fill constructor v(3) = {3,3,3}
-    constexpr vec(T fillNumber) {
+    constexpr explicit vec(T fillNumber) {
         std::fill(data, data + D, fillNumber);
     }
 
@@ -176,7 +176,7 @@ struct vec {
         return true;
     }
 
-    constexpr size_t size() const {return D;}
+    [[nodiscard]] constexpr size_t size() const {return D;}
 
     // Getter for legacy code
     constexpr T getX() const{static_assert(D > 0, "This Vector has no X component"); return x;}
@@ -189,7 +189,7 @@ using vec2 = vec<float,2>;
 using vec3 = vec<float,3>;
 using vec4 = vec<float,4>;
 
-using ivec2 = vec2;
+using ivec2 = vec<int,2>;
 
 
 // für debug prints
@@ -211,4 +211,13 @@ template<typename T, std::size_t D>
 constexpr vec<T,D> operator*(T scalar, const vec<T,D>& v)
 {
     return v * scalar;
+}
+// casting vec zw typen
+template<typename ToT, std::size_t D, typename FromT>
+constexpr vec<ToT, D> vec_cast(const vec<FromT, D>& v) {
+    vec<ToT, D> result;
+    for (size_t i = 0; i < D; i++) {
+        result[i] = static_cast<ToT>(v[i]);
+    }
+    return result;
 }
