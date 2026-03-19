@@ -29,8 +29,9 @@ add_library(3DEngineLib STATIC
         engine/math/Vectors/vector.h
         engine/math/Vectors/mat4.h
         engine/Assets/IComponent.h
-        engine/Assets/Button.h
-        engine/Assets/Slider.h
+        engine/Assets/button.h
+        engine/Assets/slider.h
+        engine/Assets/textField.h
 )
 target_include_directories(3DEngineLib PUBLIC
         engine/core/header
@@ -97,6 +98,9 @@ endif ()
 
 # Compile definition----------------------------------------------------------------------
 target_compile_definitions(3DEngine PRIVATE
+        $<$<CONFIG:Debug>:DEBUG_MODE>
+)
+target_compile_definitions(3DEngineLib PRIVATE
         $<$<CONFIG:Debug>:DEBUG_MODE>
 )
 

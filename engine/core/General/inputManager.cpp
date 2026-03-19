@@ -11,6 +11,7 @@
 #include <SDL.h>
 
 #include "../LEGACY/debug.h"
+#include "../util/Logger.h"
 
 namespace Engine{
     InputManager::InputManager() {
@@ -21,40 +22,40 @@ namespace Engine{
         setupKeyMappings();
     }
 
-    void InputManager::initialize(Engine::Window *window) {
+    void InputManager::initialize(Window *window) {
         m_window = window;
         if (m_window) {
-            std::weak_ptr<InputManager> weak_this = std::weak_ptr<InputManager>(shared_from_this());
-//            DEBUG_PRINT("Registering Callbacks at the Window...");
-            m_window->setKeyCallback(std::function<void(int, int)>([weak_this](int key, int action) {
+            std::weak_ptr<InputManager> weak_this = std::weak_ptr(shared_from_this());
+            m_window->setKeyCallback(std::function([weak_this](int key, int action) {
                 if (auto shared_this = weak_this.lock()) {
-//                    DEBUG_PRINT("Key Callback Called");
                     shared_this->onKeyEvent(key, action);
                 }
             }));
 
-            m_window->setMouseButtonCallback(std::function<void(int, int)>([weak_this](int button, int action) {
+            m_window->setMouseButtonCallback(std::function([weak_this](int button, int action) {
                 if (auto shared_this = weak_this.lock()) {
-//                    DEBUG_PRINT("MouseButton Callback Called");
                     shared_this->onMouseButtonEvent(button, action);
                 }
 
             }));
 
-            m_window->setMouseMoveCallback(std::function<void(double, double)>([weak_this](double x, double y) {
+            m_window->setMouseMoveCallback(std::function([weak_this](double x, double y) {
                 if (auto shared_this = weak_this.lock()) {
-//                    DEBUG_PRINT("MouseMove Callback Called");
                     shared_this->onMouseMoveEvent(x, y);
                 }
             }));
 
-            m_window->setScrollCallback(std::function<void(double, double)>([weak_this](double xoffset, double yoffset) {
+            m_window->setScrollCallback(std::function([weak_this](double xoffset, double yoffset) {
                 if (auto shared_this = weak_this.lock()) {
-//                    DEBUG_PRINT("croll Callback Called");
                     shared_this->onScrollEvent(xoffset, yoffset);
                 }
             }));
-//            DEBUG_PRINT("Registering finished!");
+
+            m_window->setTextInputCallback(std::function([weak_this](const char* text) {
+                if (auto shared_this = weak_this.lock()) {
+                    shared_this->onTextInputEvent(text);
+                }
+            }));
         }
     }
 
@@ -85,7 +86,7 @@ namespace Engine{
     }
 
     void InputManager::updateKeyStates() {
-        for (int i = 0; i < static_cast<int>(KeyCode::KEY_COUNT); ++i) {
+        for (int i = 0; i < static_cast<int>(KeyCode::KEY_COUNT); ++i) { // NOLINT(*-loop-convert)
             // Update state transitions
             if (m_keyStates[i] == InputState::JUST_PRESSED) {
 //                std::cout << "updateKeyStates: setting key " << i << " to pressed" << std::endl;
@@ -180,7 +181,6 @@ namespace Engine{
 
     // Event callbacks
     void InputManager::onKeyEvent(int key, int action) {
-//        std::cout << "KeyEvent method of Input called"  << std::endl;
         if (m_keyMap.find(key) == m_keyMap.end()) return;
 
 
@@ -188,65 +188,70 @@ namespace Engine{
         int index = static_cast<int>(keyCode);
 
         if (action == 1) { // Pressed
-            if(m_keyStates[index] == InputState::PRESSED) {  // || m_keyStates[index] == InputState::JUST_PRESSED
+            if(m_keyStates[index] == InputState::PRESSED) {
             }else{
-//                std::cout << "key " << index << " pressed. setting m_keyStates to JustPressed" << std::endl;
                 m_keyStates[index] = InputState::JUST_PRESSED;
             }
         } else if (action == 0) { // Released
-//            std::cout << "key " << index << " released. setting m_keyStates to JustReleased"<< std::endl;
             m_keyStates[index] = InputState::JUST_RELEASED;
         }
-//        std::cout << "now trying to call key callback " << std::endl;
         if (m_keyCallback) {
-//            std::cout << "KeyEvent method of Input called the Callback of the Game"  << std::endl;
             m_keyCallback(keyCode, m_keyStates[index]);
+        }
+        for (auto& [id,listener] : m_keyListeners) {
+            listener(keyCode, m_keyStates[index]);
         }
     }
 
     void InputManager::onMouseButtonEvent(int button, int action) {
-//        std::cout << "MouseButtonEvent method of Input called"  << std::endl;
-//        std::cout << button << std::endl;
         if (m_mouseMap.find(button) == m_mouseMap.end()) return;
 
 
         KeyCode buttonCode = m_mouseMap[button];
-//        keyCodeToString(buttonCode);
         int index = static_cast<int>(buttonCode);
 
         if (action == 1) {
-//            std::cout << "buttonkey " << index << " pressed. setting m_keyStates to JustPressed"<< std::endl;
             m_keyStates[index] = InputState::JUST_PRESSED;
         } else if (action == 0) {
-//            std::cout << "buttonkey " << index << " released. setting m_keyStates to JustReleased"<< std::endl;
             m_keyStates[index] = InputState::JUST_RELEASED;
         }
 
         if (m_mouseCallback) {
             m_mouseCallback(buttonCode, m_keyStates[index]);
         }
+        for (auto& [id,listener] : m_mouseListeners) {
+            listener(buttonCode, m_keyStates[index]);
+        }
     }
 
     void InputManager::onMouseMoveEvent(double x, double y) {
-//        std::cout << "MouseMoveEvent method of Input called" << std::endl;
         if (!std::isnan(x) && !std::isinf(x) && !std::isnan(y) && !std::isinf(y)) {
             vec2 newPos(static_cast<float>(x), static_cast<float>(y));
             m_mouseDelta = newPos - m_mousePosition;
             m_mousePosition = newPos;
         } else {
-//            std::cerr << "Invalid mouse coordinates: " << x << ", " << y << std::endl;
+            LOG_ERROR("INVALID MOUSE POSITION");
         }
     }
 
+    // @TODO wieso xoffset??
     void InputManager::onScrollEvent(double xoffset, double yoffset) {
-//        std::cout << "ScrollEvent method of Input called" << std::endl;
+
         m_scrollDelta = static_cast<float>(yoffset);
 
         if (m_scrollCallback) {
             m_scrollCallback(yoffset);
         }
+        for (auto& [id,listener] : m_scrollListeners) {
+            listener(yoffset);
+        }
     }
 
+    void InputManager::onTextInputEvent(const char *text) {
+        for (auto& [id,listener] : m_textInputListeners) {
+            listener(text);
+        }
+    }
 
 
     void InputManager::setupKeyMappings() {

@@ -6,6 +6,8 @@
 #include <cstring>
 #include <iostream>
 
+#include "../util/Logger.h"
+
 namespace Engine {
 
     // SDL-spezifische Daten
@@ -19,6 +21,10 @@ namespace Engine {
     Window::Window(int width, int height, const char* title)
         : m_Width(width), m_Height(height)
     {
+        // evtl entfernen
+        SDL_StartTextInput();
+
+
         // Pixelbuffer initialisieren
         m_PixelBuffer = new uint32_t[width * height];
         std::memset(m_PixelBuffer, 0, width * height * sizeof(uint32_t));
@@ -50,6 +56,8 @@ namespace Engine {
             SDL_TEXTUREACCESS_STREAMING,
             width, height
         );
+
+
     }
 
     // ---------------- Destruktor ----------------
@@ -77,6 +85,11 @@ namespace Engine {
                 case SDL_KEYUP:
                     if (m_keyCallback)
                         m_keyCallback(e.key.keysym.sym, e.type == SDL_KEYDOWN);
+                    break;
+
+                case SDL_TEXTINPUT:
+                    if (m_textInputCallback)
+                        m_textInputCallback(e.text.text);
                     break;
 
                 case SDL_MOUSEBUTTONDOWN:
@@ -142,22 +155,23 @@ namespace Engine {
     }
 
     void Window::DrawPixelArray(std::vector<uint32_t> buffer) {
-        if (buffer.size() != static_cast<size_t>(m_Width * m_Height)) {
+        if (buffer.size() != m_Width * m_Height) {
             std::cerr << "Window: Tried to draw buffer with differing dimension to window!" << std::endl;
             return;
         }
         std::memcpy(m_PixelBuffer, buffer.data(), buffer.size() * sizeof(uint32_t));
     }
 
-    // ---------------- Callback Setter / Getter ----------------
+    // Callback setter getter
     void Window::setKeyCallback(KeyCallback callback) { m_keyCallback = std::move(callback); }
     void Window::setMouseButtonCallback(MouseButtonCallback callback) { m_mouseButtonCallback = std::move(callback); }
     void Window::setMouseMoveCallback(MouseMoveCallback callback) { m_mouseMoveCallback = std::move(callback); }
     void Window::setScrollCallback(ScrollCallback callback) { m_scrollCallback = std::move(callback); }
+    void Window::setTextInputCallback(TextInputCallback callback) { m_textInputCallback = std::move(callback); }
 
-    Window::KeyCallback Window::getKeyCallback() { return m_keyCallback; }
-    Window::MouseButtonCallback Window::getMouseButtonCallback() { return m_mouseButtonCallback; }
-    Window::MouseMoveCallback Window::getMouseMoveCallback() { return m_mouseMoveCallback; }
-    Window::ScrollCallback Window::getScrollCallback() { return m_scrollCallback; }
-
+    Window::KeyCallback Window::getKeyCallback() const { return m_keyCallback; }
+    Window::MouseButtonCallback Window::getMouseButtonCallback() const { return m_mouseButtonCallback; }
+    Window::MouseMoveCallback Window::getMouseMoveCallback() const { return m_mouseMoveCallback; }
+    Window::ScrollCallback Window::getScrollCallback() const { return m_scrollCallback; }
+    Window::TextInputCallback Window::getTextInputCallback() const { return m_textInputCallback; }
 }

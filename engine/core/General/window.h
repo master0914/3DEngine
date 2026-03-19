@@ -24,24 +24,27 @@ namespace Engine{
         using MouseButtonCallback = std::function<void(int button, int action)>;
         using MouseMoveCallback = std::function<void(double x, double y)>;
         using ScrollCallback = std::function<void(double xoffset, double yoffset)>;
+        using TextInputCallback = std::function<void(const char*)>;
 
         Window(int width, int height, const char* title);
         ~Window();
 
         // eventDispatcher
         void PollEvents() ;
-        bool ShouldClose() const  { return m_ShouldClose; }
+        [[nodiscard]] bool ShouldClose() const  { return m_ShouldClose; }
 
         // callback methoden
         void setKeyCallback(KeyCallback callback);
         void setMouseButtonCallback(MouseButtonCallback callback);
         void setMouseMoveCallback(MouseMoveCallback callback);
         void setScrollCallback(ScrollCallback callback);
+        void setTextInputCallback(TextInputCallback callback);
 
-        KeyCallback getKeyCallback();
-        MouseButtonCallback getMouseButtonCallback();
-        MouseMoveCallback getMouseMoveCallback();
-        ScrollCallback getScrollCallback();
+        [[nodiscard]] KeyCallback getKeyCallback() const;
+        [[nodiscard]] MouseButtonCallback getMouseButtonCallback() const;
+        [[nodiscard]] MouseMoveCallback getMouseMoveCallback() const;
+        [[nodiscard]] ScrollCallback getScrollCallback() const;
+        [[nodiscard]] TextInputCallback getTextInputCallback() const;
 
 
         // renderer
@@ -52,13 +55,13 @@ namespace Engine{
         void DrawPixelArray(std::vector<uint32_t> buffer);
 
         // pixelbuffer zugriff
-        const uint32_t* getPixelBuffer() const { return m_PixelBuffer; }
-        int getBufferSize() const { return m_Width * m_Height; }
+        [[nodiscard]] const uint32_t* getPixelBuffer() const { return m_PixelBuffer; }
+        [[nodiscard]] int getBufferSize() const { return m_Width * m_Height; }
 
         void swapBuffers(const std::vector<uint32_t>& newBuffer);
 
-        int getm_Height() const{return m_Height;}
-        int getm_Width() const{return m_Width;}
+        [[nodiscard]] int getm_Height() const{return m_Height;}
+        [[nodiscard]] int getm_Width() const{return m_Width;}
 
         // Für WindowProc-Zugriff
         void SetShouldClose(bool shouldClose) { m_ShouldClose = shouldClose; }
@@ -68,6 +71,7 @@ namespace Engine{
         MouseButtonCallback m_mouseButtonCallback;
         MouseMoveCallback m_mouseMoveCallback;
         ScrollCallback m_scrollCallback;
+        TextInputCallback m_textInputCallback;
 
         double m_mouseX = 0.0;
         double m_mouseY = 0.0;

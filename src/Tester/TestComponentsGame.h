@@ -6,6 +6,7 @@
 #define INC_3DENGINE_TESTCOMPONENTSGAME_H
 #include "../../engine/Assets/Button.h"
 #include "../../engine/Assets/Slider.h"
+#include "../../engine/Assets/textField.h"
 
 #endif //INC_3DENGINE_TESTCOMPONENTSGAME_H
 
@@ -21,20 +22,25 @@ public:
             std::cout << "clicked\n";
         });
         slider.setRange(20,50,30);
+        field.registerCallback();
+
     }
     void update(float dt) override{
         button.update(dt);
         slider.update(dt);
+        field.update(dt);
     }
     void render() override{
         button.render();
         slider.render();
+        field.render();
         m_context.renderer2D->present();
     }
     void onInit() override{}
     void onExit() override{}
     void handleInput(float dt);
 private:
-    Button button = Button{m_context,m_container,ivec2{100,100},ivec2{1,1},Colors::GREEN, Colors::BLACK,true,"Asdfgjhaogihaljkfhkjaswrf"};
-    Slider<float> slider = Slider<float>{m_context,m_container,ivec2{100,200},ivec2{100,40}};
+    Button button = Button{m_context,m_container,ivec2{100,100},ivec2{1,1},Colors::GREEN, Colors::BLACK,true,"HI"};
+    Slider<float> slider = Slider<float>{m_context,m_container,ivec2{100,200},ivec2{100,40}, 5};
+    TextField field = TextField{m_context,m_container,{200,100},{0,0}};
 };

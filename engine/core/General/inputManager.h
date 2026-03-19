@@ -87,7 +87,7 @@ namespace Engine {
 
 // Hilfsfunktion zum Konvertieren
     inline const char* keyCodeToString(KeyCode code) {
-        size_t index = static_cast<size_t>(code);
+        auto index = static_cast<size_t>(code);
         if (index < KeyCodeNames.size()) {
             return KeyCodeNames[index];
         }
@@ -124,46 +124,72 @@ namespace Engine {
 
         // Key states
         bool isKeyPressed(KeyCode key) const;
-
         bool isKeyJustPressed(KeyCode key) const;
-
         bool isKeyJustReleased(KeyCode key) const;
 
         InputState getInputStateOfKey(KeyCode key) const;
 
         // Mouse states
         bool isMouseButtonPressed(KeyCode button) const;
-
         bool isMouseButtonJustPressed(KeyCode button) const;
-
         bool isMouseButtonJustReleased(KeyCode button) const;
 
         // Mouse position
         vec2 getMousePosition() const;
-
         vec2 getMouseDelta() const;
-
         ivec2 getMousePositionIvec() const;
-
         ivec2 getMouseDeltaIvec() const;
-
         float getMouseScroll() const;
 
-        // Event callbacks
+        // Event callbacks (LEGACY)
         void setKeyCallback(std::function<void(KeyCode, InputState)> callback);
-
         void setMouseCallback(std::function<void(KeyCode, InputState)> callback);
-
         void setScrollCallback(std::function<void(double)> callback);
+
+        // Event Listeners
+        int addKeyListener(std::function<void(KeyCode, InputState)> callback) {
+            static int counter = 0;
+            int id = ++counter;
+            m_keyListeners[id] = std::move(callback);
+            return id;
+        }
+        void removeKeyListener(const int id) {
+            m_keyListeners.erase(id);
+        }
+        int addMouseListener(std::function<void(KeyCode, InputState)> callback) {
+            static int counter = 0;
+            int id = ++counter;
+            m_mouseListeners[id] = std::move(callback);
+            return id;
+        }
+        void removeMouseListener(const int id) {
+            m_mouseListeners.erase(id);
+        }
+        int addScrollListener(std::function<void(double)> callback) {
+            static int counter = 0;
+            int id = ++counter;
+            m_scrollListeners[id] = std::move(callback);
+            return id;
+        }
+        void removeScrollListener(const int id) {
+            m_scrollListeners.erase(id);
+        }
+        int addTextInputListener(std::function<void(const char*)> callback) {
+            static int counter = 0;
+            int id = ++counter;
+            m_textInputListeners[id] = std::move(callback);
+            return id;
+        }
+        void removeTextInputListener(const int id) {
+            m_textInputListeners.erase(id);
+        }
 
         // Window callbacks (werden vom Window aufgerufen)
         void onKeyEvent(int key, int action);
-
         void onMouseButtonEvent(int button, int action);
-
         void onMouseMoveEvent(double x, double y);
-
         void onScrollEvent(double xoffset, double yoffset);
+        void onTextInputEvent(const char* text);
 
     private:
         void updateKeyStates();
@@ -172,19 +198,25 @@ namespace Engine {
         Window *m_window = nullptr;
 
         // Key states
-        InputState m_keyStates[static_cast<int>(KeyCode::KEY_COUNT)];
-        InputState m_prevKeyStates[static_cast<int>(KeyCode::KEY_COUNT)];
+        InputState m_keyStates[static_cast<int>(KeyCode::KEY_COUNT)]{};
+        InputState m_prevKeyStates[static_cast<int>(KeyCode::KEY_COUNT)]{};
 
         // Mouse
         vec2 m_mousePosition;
         vec2 m_prevMousePosition;
         vec2 m_mouseDelta;
-        float m_scrollDelta;
+        float m_scrollDelta{};
 
-        // Callbacks
+        // Callbacks (LEGACY)
         std::function<void(KeyCode, InputState)> m_keyCallback;
         std::function<void(KeyCode, InputState)> m_mouseCallback;
         std::function<void(double)> m_scrollCallback;
+
+        // Listeners (wie callback aber nur als vector sodass mehrere registriert werden können)
+        std::unordered_map<int, std::function<void(KeyCode,InputState)>> m_keyListeners;
+        std::unordered_map<int, std::function<void(KeyCode,InputState)>> m_mouseListeners;
+        std::unordered_map<int, std::function<void(double)>> m_scrollListeners;
+        std::unordered_map<int, std::function<void(const char*)>> m_textInputListeners;
 
         // Key mapping (kann je nach Backend angepasst werden)
         std::unordered_map<int, KeyCode> m_keyMap;

@@ -18,9 +18,40 @@ public:
     //  |     |                             |
     //  -------------------------------------
     //        |-> slider component(sliderPos,sliderSize)
-    Slider(Engine::EngineContext &context, Engine::GameContainer &container, ivec2 pos, ivec2 size)
-        : IComponent(context, container), m_pos(pos), m_size(size){
-        m_sliderSize = ivec2(20, size.y);
+    // full constructor with colors and range
+    Slider(Engine::EngineContext &context, Engine::GameContainer &container, ivec2 pos, ivec2 size, int sliderWidth, uint32_t backgroundColor, uint32_t sliderColor, T from, T to, int resolution)
+        : IComponent(context, container, pos, size) {
+        m_sliderSize = ivec2(sliderWidth, size.y);
+        setColors(backgroundColor, sliderColor);
+        setRange(from, to, resolution);
+    }
+    Slider(Engine::EngineContext &context, Engine::GameContainer &container, int x, int y, int w, int h, int sliderWidth, uint32_t backgroundColor, uint32_t sliderColor, T from, T to, int resolution)
+        : IComponent(context, container, ivec2{x,y}, ivec2{w,h}) {
+        m_sliderSize = ivec2(sliderWidth, h);
+        setColors(backgroundColor, sliderColor);
+        setRange(from, to, resolution);
+    }
+
+    // with colors, no range
+    Slider(Engine::EngineContext &context, Engine::GameContainer &container, ivec2 pos, ivec2 size, int sliderWidth, uint32_t backgroundColor, uint32_t sliderColor)
+        : IComponent(context, container, pos, size) {
+        m_sliderSize = ivec2(sliderWidth, size.y);
+        setColors(backgroundColor, sliderColor);
+    }
+    Slider(Engine::EngineContext &context, Engine::GameContainer &container, int x, int y, int w, int h, int sliderWidth, uint32_t backgroundColor, uint32_t sliderColor)
+        : IComponent(context, container, ivec2{x,y}, ivec2{w,h}) {
+        m_sliderSize = ivec2(sliderWidth, h);
+        setColors(backgroundColor, sliderColor);
+    }
+
+    // pos and size only
+    Slider(Engine::EngineContext &context, Engine::GameContainer &container, ivec2 pos, ivec2 size, int sliderWidth)
+        : IComponent(context, container, pos, size) {
+        m_sliderSize = ivec2(sliderWidth, size.y);
+    }
+    Slider(Engine::EngineContext &context, Engine::GameContainer &container, int x, int y, int w, int h, int sliderWidth)
+        : IComponent(context, container, ivec2{x,y}, ivec2{w,h}) {
+        m_sliderSize = ivec2(sliderWidth, h);
     }
 
     void setRange(T from, T to, int resolution) {
@@ -40,6 +71,11 @@ public:
         updateSliderPositionFromValue();
     }
 
+    void setColors(const uint32_t backgroundColor, const uint32_t sliderColor) {
+        m_backgroundColor = backgroundColor;
+        m_sliderColor = sliderColor;
+    }
+
     void update(float dt) override {
         handleSliderInteraction();
     }
@@ -57,12 +93,14 @@ public:
 
 
 private:
-    // size of the Slider Overlay
-    ivec2 m_pos;
-    ivec2 m_size;
+    // size of the Slider Overlay is stored in parent IComponent
+
     // size of actual Slider
     ivec2 m_sliderPos;
     ivec2 m_sliderSize;
+
+    uint32_t m_backgroundColor;
+    uint32_t m_sliderColor;
 
     T m_currentValue;
     T m_valueFrom;
