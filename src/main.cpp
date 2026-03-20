@@ -20,6 +20,7 @@
 
 int main(){
     Engine::GameContainer gc{800,800,"pupsi"};
+    gc.setShowFPS(false);
     gc.createGame<TestComponentsGame>();
     gc.run();
     return 0;

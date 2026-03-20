@@ -4,9 +4,38 @@
 
 #ifndef INC_3DENGINE_SLIDER_H
 #define INC_3DENGINE_SLIDER_H
+#include <assert.h>
+
 #include "IComponent.h"
 
 #endif //INC_3DENGINE_SLIDER_H
+
+// config mit resolution
+template<typename T>
+struct SliderConfigWithResolution{
+    ivec2 pos = ivec2(0, 0);
+    ivec2 size = ivec2(50, 30);
+    int sliderWidth = 20;
+    uint32_t backgroundColor = 0xff666666;
+    uint32_t sliderColor = 0xff000000;
+    T from = T{0};
+    T to = T{100};
+    int resolution = 100;
+};
+
+// config mit stepSize
+template<typename T>
+struct SliderConfigWithStepSize{
+    ivec2 pos = ivec2(0, 0);
+    ivec2 size = ivec2(50, 30);
+    int sliderWidth = 20;
+    uint32_t backgroundColor = 0xff666666;
+    uint32_t sliderColor = 0xff000000;
+    T from = T{0};
+    T to = T{100};
+    T stepSize = T{1};
+};
+
 template<typename T>
 class Slider: Engine::IComponent{
 public:
@@ -18,62 +47,29 @@ public:
     //  |     |                             |
     //  -------------------------------------
     //        |-> slider component(sliderPos,sliderSize)
-    // full constructor with colors and range
-    Slider(Engine::EngineContext &context, Engine::GameContainer &container, ivec2 pos, ivec2 size, int sliderWidth, uint32_t backgroundColor, uint32_t sliderColor, T from, T to, int resolution)
-        : IComponent(context, container, pos, size) {
-        m_sliderSize = ivec2(sliderWidth, size.y);
-        setColors(backgroundColor, sliderColor);
-        setRange(from, to, resolution);
-    }
-    Slider(Engine::EngineContext &context, Engine::GameContainer &container, int x, int y, int w, int h, int sliderWidth, uint32_t backgroundColor, uint32_t sliderColor, T from, T to, int resolution)
-        : IComponent(context, container, ivec2{x,y}, ivec2{w,h}) {
-        m_sliderSize = ivec2(sliderWidth, h);
-        setColors(backgroundColor, sliderColor);
-        setRange(from, to, resolution);
-    }
 
-    // with colors, no range
-    Slider(Engine::EngineContext &context, Engine::GameContainer &container, ivec2 pos, ivec2 size, int sliderWidth, uint32_t backgroundColor, uint32_t sliderColor)
-        : IComponent(context, container, pos, size) {
-        m_sliderSize = ivec2(sliderWidth, size.y);
-        setColors(backgroundColor, sliderColor);
+    // konstruktor bsp
+    // Slider<float> slider = Slider<float>(m_context,m_container,SliderConfigWithStepSize<float>{
+    //     .pos = {100, 200},
+    //     .size = {500, 40},
+    //     .sliderWidth = 20,
+    //     .backgroundColor = 0xffff0000,
+    //     .sliderColor = 0xff0000ff,
+    //     .from = 0.0f,
+    //     .to = 10.0f,
+    //     .stepSize = 1
+    // });
+    Slider(Engine::EngineContext &context, Engine::GameContainer &container, const SliderConfigWithResolution<T>& config = {}) // NOLINT(*-pro-type-member-init)
+        : IComponent(context, container, config.pos, config.size) {
+        m_sliderSize = ivec2(config.sliderWidth, m_size.y);
+        setColors(config.backgroundColor, config.sliderColor);
+        setRange(config.from, config.to, config.resolution);
     }
-    Slider(Engine::EngineContext &context, Engine::GameContainer &container, int x, int y, int w, int h, int sliderWidth, uint32_t backgroundColor, uint32_t sliderColor)
-        : IComponent(context, container, ivec2{x,y}, ivec2{w,h}) {
-        m_sliderSize = ivec2(sliderWidth, h);
-        setColors(backgroundColor, sliderColor);
-    }
-
-    // pos and size only
-    Slider(Engine::EngineContext &context, Engine::GameContainer &container, ivec2 pos, ivec2 size, int sliderWidth)
-        : IComponent(context, container, pos, size) {
-        m_sliderSize = ivec2(sliderWidth, size.y);
-    }
-    Slider(Engine::EngineContext &context, Engine::GameContainer &container, int x, int y, int w, int h, int sliderWidth)
-        : IComponent(context, container, ivec2{x,y}, ivec2{w,h}) {
-        m_sliderSize = ivec2(sliderWidth, h);
-    }
-
-    void setRange(T from, T to, int resolution) {
-        m_valueFrom = from;
-        m_valueTo = to;
-        m_stepResolution = resolution;
-        m_stepSize = (to - from) / resolution;
-        m_currentValue = from;
-        updateSliderPositionFromValue();
-    }
-    void setRangeWithStepSize(T from, T to, T stepSize) {
-        m_valueFrom = from;
-        m_valueTo = to;
-        m_stepSize = stepSize;
-        m_stepResolution = static_cast<int>((to - from) / stepSize);
-        m_currentValue = from;
-        updateSliderPositionFromValue();
-    }
-
-    void setColors(const uint32_t backgroundColor, const uint32_t sliderColor) {
-        m_backgroundColor = backgroundColor;
-        m_sliderColor = sliderColor;
+    Slider(Engine::EngineContext &context, Engine::GameContainer &container, const SliderConfigWithStepSize<T>& config = {}) // NOLINT(*-pro-type-member-init)
+        : IComponent(context, container, config.pos, config.size) {
+        m_sliderSize = ivec2(config.sliderWidth, m_size.y);
+        setColors(config.backgroundColor, config.sliderColor);
+        setRangeWithStepSize(config.from, config.to, config.stepSize);
     }
 
     void update(float dt) override {
@@ -109,6 +105,36 @@ private:
     T m_stepSize;
 
     bool m_isDragging = false;
+
+    void setRange(T from, T to, int resolution) {
+        if (resolution < 1) {
+            LOG_WARN("Resolution 0 or smaller results in undefined behavior. Will be set to 1");
+            resolution = 1;
+        }
+        m_valueFrom = from;
+        m_valueTo = to;
+        m_stepResolution = resolution;
+        m_stepSize = (to - from) / resolution;
+        m_currentValue = from;
+        updateSliderPositionFromValue();
+    }
+    void setRangeWithStepSize(T from, T to, T stepSize) {
+        if (stepSize < 1) {
+            LOG_WARN("stepSize 0 or smaller results in undefined behavior. Will be set to 1");
+            stepSize = 1;
+        }
+        m_valueFrom = from;
+        m_valueTo = to;
+        m_stepSize = stepSize;
+        m_stepResolution = static_cast<int>((to - from) / stepSize);
+        m_currentValue = from;
+        updateSliderPositionFromValue();
+    }
+
+    void setColors(const uint32_t backgroundColor, const uint32_t sliderColor) {
+        m_backgroundColor = backgroundColor;
+        m_sliderColor = sliderColor;
+    }
 
     void handleSliderInteraction() {
         if (clickingOnSliderComponent()) {

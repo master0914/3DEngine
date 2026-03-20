@@ -24,6 +24,14 @@ namespace Engine {
         virtual void render() {LOG_WARN("THIS FUNKTION IS NOT IMPLEMENTED");}
         virtual void onInit() {LOG_WARN("THIS FUNKTION IS NOT IMPLEMENTED");}
         virtual void onExit() {LOG_WARN("THIS FUNKTION IS NOT IMPLEMENTED");}
+        [[nodiscard]] bool hoversOver() const {
+            ivec2 mousePos = m_context.input->getMousePositionIvec();
+            if (mousePos.x > m_pos.x && mousePos.x < m_pos.x + m_size.x
+                && mousePos.y > m_pos.y && mousePos.y < m_pos.y + m_size.y) {
+                return true;
+                }
+            return false;
+        }
 
         [[nodiscard]] ivec2 getPos() const {return m_pos;}
         [[nodiscard]] ivec2 getSize() const {return m_size;}
