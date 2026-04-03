@@ -57,22 +57,45 @@ inline AudioData wavLoad(const std::string& filename) {
             std::cerr << "Could not read data chunk" << std::endl;
             return result;
         }
-        // look for fmt
-        if (std::string(chunkID,4) != "fmt ") {
-            if (chunkSize < 16) {
-                std::cerr << "Incorrect fmt chunk(too small)" << std::endl;
-                return result;
-            }
-            uint16_t audioFormat;
-            file.read(reinterpret_cast<char*>(&audioFormat), 2);
-            file.read(reinterpret_cast<char*>(&result.numChannels), 2);
-            file.read(reinterpret_cast<char*>(&result.sampleRate), 4);
 
+        // std::cout << "Chunk: " << chunkID[0] << chunkID[1] << chunkID[2] << chunkID[3]
+        //   << " Size: " << chunkSize << std::endl;
+
+        // look for fmt
+        if (std::string(chunkID,4) == "fmt ") {
+            uint32_t fmtSize = chunkSize;
+
+            uint16_t audioFormat;
             uint32_t byteRate;
             uint16_t blockAlign;
+            // temp für struct
+            uint16_t numChannelsTEMP;
+            uint32_t sampleRateTEMP;
+            uint16_t bitsPerSampleTEMP;
+
+
+
+            file.read(reinterpret_cast<char*>(&audioFormat), 2);
+            file.read(reinterpret_cast<char*>(&numChannelsTEMP), 2);
+            file.read(reinterpret_cast<char*>(&sampleRateTEMP), 4);
             file.read(reinterpret_cast<char*>(&byteRate), 4);
             file.read(reinterpret_cast<char*>(&blockAlign), 2);
-            file.read(reinterpret_cast<char*>(&result.bitsPerSample), 2);
+            file.read(reinterpret_cast<char*>(&bitsPerSampleTEMP), 2);
+
+            result.numChannels = numChannelsTEMP;
+            result.sampleRate = sampleRateTEMP;
+            result.bitsPerSample = bitsPerSampleTEMP;
+
+            // std::cout << "audioFormat: " << audioFormat << std::endl;
+            // std::cout << "numChannels: " << result.numChannels << std::endl;
+            // std::cout << "sampleRate: " << result.sampleRate << std::endl;
+            // std::cout << "bitsPerSample: " << result.bitsPerSample << std::endl;
+
+            if (fmtSize > 16) {
+                file.seekg(fmtSize - 16, std::ios::cur);
+            }
+
+
             fmtFound = true;
         }
         else if (std::string(chunkID,4) == "data") {
@@ -130,12 +153,12 @@ inline AudioData wavLoad(const std::string& filename) {
     }
 
     // debug ausgabe
-    std::cout << "Datei erfolgreich geladen: " << filename << std::endl;
-    std::cout << "  Kanäle: " << result.numChannels << std::endl;
-    std::cout << "  Sample-Rate: " << result.sampleRate << " Hz" << std::endl;
-    std::cout << "  Bittiefe: " << result.bitsPerSample << " Bit" << std::endl;
-    std::cout << "  Samples (gesamt): " << totalSamples << std::endl;
-    std::cout << "  Dauer: " << (float)totalSamples / result.sampleRate / result.numChannels << " s" << std::endl;
+    // std::cout << "Datei erfolgreich geladen: " << filename << std::endl;
+    // std::cout << "  Kanaele: " << result.numChannels << std::endl;
+    // std::cout << "  Sample-Rate: " << result.sampleRate << " Hz" << std::endl;
+    // std::cout << "  Bittiefe: " << result.bitsPerSample << " Bit" << std::endl;
+    // std::cout << "  Samples (gesamt): " << totalSamples << std::endl;
+    // std::cout << "  Dauer: " << (float)totalSamples / result.sampleRate / result.numChannels << " s" << std::endl;
 
     return result;
 }

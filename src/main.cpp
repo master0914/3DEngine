@@ -25,7 +25,7 @@ int main(){
     // gc.createGame<TestComponentsGame>();
     // gc.run();
 
-    wavLoad("C:/Users/augus/CLionProjects/3DEngine/engine/core/Audio/AudioTest/M1F1-int16WE-AFsp.wav");
+    wavLoad("C:/Users/augus/CLionProjects/3DEngine/engine/core/Audio/AudioTest/Utopia Critical Stop.WAV");
     return 0;
 }
 
