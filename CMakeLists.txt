@@ -32,6 +32,9 @@ add_library(3DEngineLib STATIC
         engine/Assets/button.h
         engine/Assets/slider.h
         engine/Assets/textField.h
+        engine/Assets/DragField.h
+        engine/core/Audio/audioData.h
+        engine/core/Audio/wavLoader.h
 )
 target_include_directories(3DEngineLib PUBLIC
         engine/core/header

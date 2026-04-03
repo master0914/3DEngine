@@ -5,6 +5,7 @@
 #ifndef INC_3DENGINE_TESTCOMPONENTSGAME_H
 #define INC_3DENGINE_TESTCOMPONENTSGAME_H
 #include "../../engine/Assets/Button.h"
+#include "../../engine/Assets/DragField.h"
 #include "../../engine/Assets/Slider.h"
 #include "../../engine/Assets/textField.h"
 
@@ -26,14 +27,16 @@ public:
     }
     void update(float dt) override{
         button.update(dt);
-        slider.update(dt);
+        //slider.update(dt);
         field.update(dt);
+        drag.update(dt);
     }
     void render() override{
         button.render();
-        slider.render();
+        // slider.render();
         field.render();
         m_context.renderer2D->present();
+        drag.render();
     }
     void onInit() override{}
     void onExit() override{}
@@ -69,5 +72,14 @@ private:
         .renderInputPrompt = true,
         .inputPrompt = "> ",
         .maxCharacters = 10
+    }};
+    DragField<float> drag = DragField<float>{m_context,m_container,DragFieldConfig<float>{
+        .pos = {200,200},
+        .size = {40,20},
+        .backgroundColor = 0xff222222,
+        .textColor = 0xffffffff,
+        .from = 150,
+        .to = 1000,
+        .stepSize = 1
     }};
 };

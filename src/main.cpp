@@ -11,6 +11,7 @@
 
 #include "../engine/core/util/Logger.h"
 #include "../engine/core/3D/mesh.h"
+#include "../engine/core/Audio/wavLoader.h"
 #include "Tester/Tester.h"
 #include "../engine/core/general/inputManager.h"
 #include "../engine/math/Vectors/vector.h"
@@ -19,10 +20,12 @@
 // 3D testing
 
 int main(){
-    Engine::GameContainer gc{800,800,"pupsi"};
-    gc.setShowFPS(false);
-    gc.createGame<TestComponentsGame>();
-    gc.run();
+    // Engine::GameContainer gc{800,800,"pupsi"};
+    // gc.setShowFPS(false);
+    // gc.createGame<TestComponentsGame>();
+    // gc.run();
+
+    wavLoad("C:/Users/augus/CLionProjects/3DEngine/engine/core/Audio/AudioTest/M1F1-int16WE-AFsp.wav");
     return 0;
 }
 

@@ -7,7 +7,7 @@
 #pragma once
 #include "EngineContext.h"
 #include "GameContainer.h"
-#include "../util/Logger.h"
+#include "../core/util/Logger.h"
 
 #endif //INC_3DENGINE_ICOMPONENT_H
 // WICHTIG @TODO
