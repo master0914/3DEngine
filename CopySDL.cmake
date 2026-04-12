@@ -1,7 +1,7 @@
 if(WIN32)
     add_custom_command(TARGET ${EXECUTABLE_NAME} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${CMAKE_CURRENT_LIST_DIR}/../engine/SDL2/SDL2.dll"
+            "${CMAKE_CURRENT_LIST_DIR}/engine/SDL2/SDL2.dll"
             $<TARGET_FILE_DIR:${EXECUTABLE_NAME}>
     )
 endif()
