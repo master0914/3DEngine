@@ -85,20 +85,77 @@ namespace Engine {
         }
     }
 
-    void Renderer_2D::drawCircle(ivec2& middle, int radius, uint32_t color){}
-    void Renderer_2D::fillCircle(ivec2& middle, int radius, uint32_t color){}
+    void Renderer_2D::drawCircle(ivec2& middle, int radius, uint32_t color) {
+        int x0 = middle.getX();
+        int y0 = middle.getY();
+
+        int x = radius;
+        int y = 0;
+        int err = 0;
+
+        while (x >= y) {
+            // 8 symmetrische Punkte zeichnen
+            drawPixel(x0 + x, y0 + y, color);
+            drawPixel(x0 + y, y0 + x, color);
+            drawPixel(x0 - y, y0 + x, color);
+            drawPixel(x0 - x, y0 + y, color);
+            drawPixel(x0 - x, y0 - y, color);
+            drawPixel(x0 - y, y0 - x, color);
+            drawPixel(x0 + y, y0 - x, color);
+            drawPixel(x0 + x, y0 - y, color);
+
+            if (err <= 0) {
+                y++;
+                err += 2*y + 1;
+            }
+            if (err > 0) {
+                x--;
+                err -= 2*x + 1;
+            }
+        }
+    }
+    void Renderer_2D::fillCircle(ivec2& middle, int radius, uint32_t color) {
+        int x0 = middle.getX();
+        int y0 = middle.getY();
+
+        int x = radius;
+        int y = 0;
+        int err = 0;
+
+        while (x >= y) {
+            // Horizontale Linien für jeden y-Wert zeichnen
+            for (int i = x0 - x; i <= x0 + x; i++) {
+                drawPixel(i, y0 + y, color);
+                drawPixel(i, y0 - y, color);
+            }
+            for (int i = x0 - y; i <= x0 + y; i++) {
+                drawPixel(i, y0 + x, color);
+                drawPixel(i, y0 - x, color);
+            }
+
+            if (err <= 0) {
+                y++;
+                err += 2*y + 1;
+            }
+            if (err > 0) {
+                x--;
+                err -= 2*x + 1;
+            }
+        }
+    }
     void Renderer_2D::drawTriangle(ivec2& p1, ivec2& p2, ivec2& p3, uint32_t color) {
-        std::cout << "drawing triangle: \n" << p1 << p2 << p3 << "\n";
+        // std::cout << "drawing triangle: \n" << p1 << p2 << p3 << "\n";
         drawLine(p1,p2,color);
         drawLine(p2,p3,color);
         drawLine(p1,p3,color);
     }
     void Renderer_2D::drawLine(ivec2& p1, ivec2& p2, uint32_t color) {
+        // danke an deepseek
         int x0 = p1.getX();
         int y0 = p1.getY();
         int x1 = p2.getX();
         int y1 = p2.getY();
-        std::cout << "with coordinates: \n" << x0 << "  "<< y0 << "  "<< x1 << "  "<< y1 << "  ";
+        // std::cout << "with coordinates: \n" << x0 << "  "<< y0 << "  "<< x1 << "  "<< y1 << "  ";
         // Sonderfall: Punkt
         if (x0 == x1 && y0 == y1) {
             drawPixel(x0, y0, color);
@@ -154,7 +211,7 @@ namespace Engine {
         int width = img.getWidth();
         for(int dy = 0; dy < height; dy++) {
             for(int dx = 0; dx < width; dx++) {
-                // Texture coordinates
+                // texture coordinates
                 float u = (float)dx / width;
                 float v = (float)dy / height;
 
@@ -163,7 +220,7 @@ namespace Engine {
 
                 uint32_t pixel = img.getPixel(srcX, srcY);
 
-                // Alpha Check (nur zeichnen wenn nicht transparent)
+                // alpha check (nur zeichnen wenn nicht transparent)
                 if(!isTransparent(pixel) ) {
                     int destX = x + dx;
                     int destY = y + dy;
@@ -189,7 +246,7 @@ namespace Engine {
 
                 uint32_t pixel = img.getPixel(srcX, srcY);
 
-                // Alpha Check (nur zeichnen wenn nicht transparent)
+                // alpha check (nur zeichnen wenn nicht transparent)
                 if(!isTransparent(pixel) ) {
                     int destX = x + dx;
                     int destY = y + dy;
