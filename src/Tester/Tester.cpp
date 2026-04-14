@@ -69,8 +69,8 @@ void test2D(){
      while (!window.ShouldClose()) {
          window.PollEvents();
          renderer.beginFrame();
-         // renderer.drawImage(imgID,10,10);
-         renderer.drawTileFromImage(imgID,200,200,1,1,64);
+         renderer.drawImage(imgID,10,10);
+         // renderer.drawTileFromImage(imgID,200,200,1,1,64);
          renderer.present();
      }
     }

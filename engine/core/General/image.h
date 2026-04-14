@@ -16,6 +16,7 @@ namespace Engine {
     public:
         explicit Image(const std::string& filepath);
         Image(int width, int height, uint32_t color = 0x00000000);
+        Image(int width, int height, std::vector<uint32_t> imageData); // actually copys no big overhead
 
         uint32_t getPixel(int x, int y) const;
         void setPixel(int x, int y, uint32_t color);

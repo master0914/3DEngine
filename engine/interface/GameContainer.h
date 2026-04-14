@@ -38,7 +38,7 @@ namespace Engine{
         }
 
         void run();
-        const void setTargetFPS(int fps){m_targetFPS = fps;}
+        void setTargetFPS(int fps){m_targetFPS = fps;}
         void setUseFrameLimit(bool useFrameLimit){m_useFrameLimit = useFrameLimit;}
         void setShowFPS(bool showFPS){m_showFPS = showFPS;}
     private:

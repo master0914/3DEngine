@@ -40,6 +40,7 @@ namespace Engine {
         void drawTileFromImage(int imgID, int x, int y, int tileX, int tileY, int tileSize);
 
         int loadImage(const std::string& filepath);
+        int loadImage(const Image& image);
         void drawImage(int imgID, int x, int y);
 
         void loadDefaultFont();  // Lädt eingebetteten Standard-Font

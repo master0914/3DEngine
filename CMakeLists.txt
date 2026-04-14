@@ -35,6 +35,8 @@ add_library(3DEngineLib STATIC
         engine/Assets/DragField.h
         engine/core/Audio/audioData.h
         engine/core/Audio/wavLoader.h
+        engine/core/General/audioSystem.cpp
+        engine/core/General/audioSystem.h
 )
 target_include_directories(3DEngineLib PUBLIC
         engine/core/header
@@ -50,7 +52,7 @@ target_link_directories(3DEngineLib PUBLIC ${SDL2_LIB_DIR})
 if(WIN32)
     target_link_libraries(3DEngineLib PUBLIC
             SDL2.lib
-            SDL2main.lib
+#            SDL2main.lib
             # Windows-Standard-Libs
             user32.lib
             gdi32.lib
@@ -68,6 +70,7 @@ if(WIN32)
             cfgmgr32.lib
             version.lib
     )
+    target_compile_definitions(3DEngineLib PUBLIC SDL_MAIN_HANDLED)
 
 elseif(UNIX)
     find_package(SDL2 REQUIRED)
@@ -83,6 +86,8 @@ add_executable(3DEngine
         src/Tester/Tester.cpp
         src/Tester/Test3DGame.cpp
         src/Tester/TestComponentsGame.h
+        src/Tester/AudioTest.h
+        engine/core/Audio/waveformGenerator.h
 
 )
 target_link_libraries(3DEngine PRIVATE 3DEngineLib)

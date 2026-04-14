@@ -4,6 +4,8 @@
 
 #ifndef INC_3DENGINE_WAVLOADER_H
 #define INC_3DENGINE_WAVLOADER_H
+#pragma once
+
 #include <cstdint>
 #include <fstream>
 #include <iosfwd>
@@ -18,6 +20,15 @@ inline bool readChunk(std::ifstream& file, char* id, uint32_t& size) {
     file.read(reinterpret_cast<char*>(&size),sizeof(size)); // anscheinend ist der cast zum char* wichtig, da sonst fehler passieren XD ka wieso
     return file.good();
 }
+
+
+// UNSUPPORTED:
+// ADPCM (mittel — verbreitet in älteren Game-Assets)
+// IMA-ADPCM (mittel)
+// IEEE Float WAV / audioFormat 0x0003 (hoch — sehr verbreitet in professionellem Audio)
+// WAVE_FORMAT_EXTENSIBLE / 0xFFFE (hoch — wird von vielen modernen Tools exportiert, Surround-Sound)
+// RF64 (niedrig — nur relevant für Dateien >4GB)
+// BWF / Broadcast Wave (niedrig — nur professionelle Produktion)
 
 inline AudioData wavLoad(const std::string& filename) {
     AudioData result;
@@ -153,12 +164,12 @@ inline AudioData wavLoad(const std::string& filename) {
     }
 
     // debug ausgabe
-    // std::cout << "Datei erfolgreich geladen: " << filename << std::endl;
-    // std::cout << "  Kanaele: " << result.numChannels << std::endl;
-    // std::cout << "  Sample-Rate: " << result.sampleRate << " Hz" << std::endl;
-    // std::cout << "  Bittiefe: " << result.bitsPerSample << " Bit" << std::endl;
-    // std::cout << "  Samples (gesamt): " << totalSamples << std::endl;
-    // std::cout << "  Dauer: " << (float)totalSamples / result.sampleRate / result.numChannels << " s" << std::endl;
+    std::cout << "Datei erfolgreich geladen: " << filename << std::endl;
+    std::cout << "  Kanaele: " << result.numChannels << std::endl;
+    std::cout << "  Sample-Rate: " << result.sampleRate << " Hz" << std::endl;
+    std::cout << "  Bittiefe: " << result.bitsPerSample << " Bit" << std::endl;
+    std::cout << "  Samples (gesamt): " << totalSamples << std::endl;
+    std::cout << "  Dauer: " << static_cast<float>(totalSamples) / result.sampleRate / result.numChannels << " s" << std::endl; // NOLINT(*-narrowing-conversions)
 
     return result;
 }

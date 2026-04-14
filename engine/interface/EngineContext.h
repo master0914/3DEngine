@@ -3,9 +3,10 @@
 //
 #pragma once
 #include <memory>
-#include "../core/General/window.h"
 #include "../core/3D/renderer_3D.h"
+#include "../core/General/audioSystem.h"
 #include "../core/General/inputManager.h"
+#include "../core/General/window.h"
 
 #ifndef INC_3DENGINE_ENGINECONTEXT_H
 #define INC_3DENGINE_ENGINECONTEXT_H
@@ -22,6 +23,8 @@ namespace Engine{
             renderer3D->setCamera(*camera);
             input = std::make_shared<InputManager>();
             input->initialize(window.get());
+            audio = std::make_shared<AudioSystem>();
+            audio->init();
         }
 
         std::shared_ptr<Window> window;
@@ -33,6 +36,7 @@ namespace Engine{
         std::shared_ptr<InputManager> input;
 //        std::shared_ptr<ResourceManager> resources;
 //        std::shared_ptr<Scene> scene;
+        std::shared_ptr<AudioSystem> audio;
     };
 
 

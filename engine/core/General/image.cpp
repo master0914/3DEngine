@@ -37,6 +37,14 @@ namespace Engine {
         }
     }
 
+    Image::Image(int width, int height, std::vector<uint32_t> imageData)
+    : m_Width(width), m_Height(height), m_Pixels(std::move(imageData))
+    {
+        if (m_Pixels.size() != static_cast<size_t>(width * height)) {
+            throw std::runtime_error("Image data size does not match dimensions");
+        }
+    }
+
     bool Image::loadPNG(const std::string& filepath) {
         int width, height, channels;
 

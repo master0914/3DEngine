@@ -37,8 +37,7 @@ namespace Engine{
 
             accumulator += deltaTime;
 
-            // input verarbeiten
-//                m_context.input->update();
+
 
             while (accumulator >= frameTime) {
                 m_context->input->update();

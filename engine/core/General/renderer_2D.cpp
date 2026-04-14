@@ -41,14 +41,20 @@ namespace Engine {
 
     int Renderer_2D::loadImage(const std::string& filepath) {
         try {
-            m_LoadedImages.emplace_back(filepath); // Deine Image-Klasse mit PNG Support
-            return m_LoadedImages.size() - 1; // Rückgabe Image-ID
+            m_LoadedImages.emplace_back(filepath);
+            return static_cast<int>(m_LoadedImages.size()) - 1; // gibt imgID zurück
         }
         catch(const std::exception& e) {
             std::cerr << "Failed to load image: " << filepath << " - " << e.what() << std::endl;
             return -1;
         }
     }
+
+    int Renderer_2D::loadImage(const Image& image) {
+        m_LoadedImages.push_back(image);
+        return static_cast<int>(m_LoadedImages.size()) - 1; // gibt imgID zurück
+    }
+
 
 
     void Renderer_2D::drawRectangle(ivec2& origin, int height, int width, uint32_t color) {
@@ -143,6 +149,7 @@ namespace Engine {
             }
         }
     }
+
     void Renderer_2D::drawTriangle(ivec2& p1, ivec2& p2, ivec2& p3, uint32_t color) {
         // std::cout << "drawing triangle: \n" << p1 << p2 << p3 << "\n";
         drawLine(p1,p2,color);
@@ -206,6 +213,10 @@ namespace Engine {
     }
 
     void Renderer_2D::drawImage(int imgID, int x, int y) {
+        if (m_LoadedImages.empty()) {
+            LOG_WARN("Tried To render Image, but none were loaded");
+            return;
+        }
         Image img = m_LoadedImages[imgID];
         int height = img.getHeight();
         int width = img.getWidth();
@@ -271,6 +282,8 @@ namespace Engine {
         // Font initialisieren: 8x8 Pixel, 16 Zeichen pro Zeile, 128 Bytes breit (16*8)
         m_font = new BitmapFont(SIMPLE_FONT,7,8);
     }
+
+
     void Renderer_2D::drawText(const std::string& text, int x, int y, uint32_t color) {
         if (!m_font) {LOG_ERROR("No bitmapFont found!!!");return;}
         m_font->drawText(m_FrameBufferBack, m_Width, m_Height, text, x, y, color);

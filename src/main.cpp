@@ -15,17 +15,17 @@
 #include "Tester/Tester.h"
 #include "../engine/core/general/inputManager.h"
 #include "../engine/math/Vectors/vector.h"
+#include "Tester/AudioTest.h"
 #include "Tester/TestComponentsGame.h"
 
 // 3D testing
 
 int main(){
-    // Engine::GameContainer gc{800,800,"pupsi"};
-    // gc.setShowFPS(false);
-    // gc.createGame<TestComponentsGame>();
-    // gc.run();
+    Engine::GameContainer gc{800,800,"pupsi"};
+    gc.setShowFPS(false);
+    gc.createGame<TestAudioGame>();
+    gc.run();
 
-    wavLoad("C:/Users/augus/CLionProjects/3DEngine/engine/core/Audio/AudioTest/Utopia Critical Stop.WAV");
     return 0;
 }
 

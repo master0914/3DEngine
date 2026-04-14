@@ -35,8 +35,8 @@ public:
         button.render();
         // slider.render();
         field.render();
-        m_context.renderer2D->present();
         drag.render();
+        m_context.renderer2D->present();
     }
     void onInit() override{}
     void onExit() override{}
