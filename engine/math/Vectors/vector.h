@@ -106,7 +106,7 @@ struct vec {
         return result;
     }
     T length() const {
-        return sqrt(dot(*this));
+        return sqrtf(dot(*this));
     }
     T lengthSquared() const { // better performance because no sqrt
         return dot(*this);

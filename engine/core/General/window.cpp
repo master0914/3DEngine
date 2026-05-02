@@ -155,7 +155,13 @@ namespace Engine {
     }
 
     void Window::DrawPixelArray(std::vector<uint32_t> buffer) {
-        if (buffer.size() != m_Width * m_Height) {
+        if (m_Width <= 0 || m_Height <= 0) {
+            std::cerr << "Window: Invalid dimensions: " << m_Width << "x" << m_Height << std::endl;
+            return;
+        }
+
+        size_t expectedSize = static_cast<size_t>(m_Width) * static_cast<size_t>(m_Height);
+        if (buffer.size() != expectedSize) {
             std::cerr << "Window: Tried to draw buffer with differing dimension to window!" << std::endl;
             return;
         }

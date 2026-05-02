@@ -14,6 +14,7 @@
 namespace Engine {
     class Image {
     public:
+        Image(): m_Width(0),m_Height(0){}
         explicit Image(const std::string& filepath);
         Image(int width, int height, uint32_t color = 0x00000000);
         Image(int width, int height, std::vector<uint32_t> imageData); // actually copys no big overhead
@@ -32,7 +33,7 @@ namespace Engine {
     private:
         bool loadPNG(const std::string& filepath);
 
-        std::vector<uint32_t> m_Pixels;
         int m_Width, m_Height;
+        std::vector<uint32_t> m_Pixels;
     };
 }

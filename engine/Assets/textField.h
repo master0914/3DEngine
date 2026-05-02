@@ -36,7 +36,7 @@ public:
 
         m_textInputListener = [this](const char* text) {
             if (m_inFokus) {
-                if (m_text.length() < m_maxCharacters) {
+                if (m_text.length() < static_cast<size_t>(m_maxCharacters)) {
                     m_text.append(text);
                 }
             }

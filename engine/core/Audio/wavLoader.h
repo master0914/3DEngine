@@ -150,7 +150,7 @@ inline AudioData wavLoad(const std::string& filename) {
             if (val & 0x800000) {
                 val |= 0xFF000000; // NOLINT(*-narrowing-conversions)
             }
-            sample = val / 8388608.0f; // NOLINT(*-narrowing-conversions)
+            sample = std::clamp(val, -8388607, 8388607) / 8388608.0f; // NOLINT(*-narrowing-conversions)
         }
         else if (result.bitsPerSample == 32) {
             const int32_t val = *reinterpret_cast<const int32_t*>(bytePtr + i * 4);

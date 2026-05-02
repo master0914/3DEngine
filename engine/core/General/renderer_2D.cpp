@@ -217,7 +217,7 @@ namespace Engine {
             LOG_WARN("Tried To render Image, but none were loaded");
             return;
         }
-        Image img = m_LoadedImages[imgID];
+        Image& img = m_LoadedImages[imgID];
         int height = img.getHeight();
         int width = img.getWidth();
         for(int dy = 0; dy < height; dy++) {
@@ -226,8 +226,8 @@ namespace Engine {
                 float u = (float)dx / width;
                 float v = (float)dy / height;
 
-                int srcX = u * width;
-                int srcY = v * height;
+                int srcX = static_cast<int>(u * width);
+                int srcY = static_cast<int>(v * height);
 
                 uint32_t pixel = img.getPixel(srcX, srcY);
 

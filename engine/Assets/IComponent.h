@@ -10,8 +10,7 @@
 #include "../core/util/Logger.h"
 
 #endif //INC_3DENGINE_ICOMPONENT_H
-// WICHTIG @TODO
-// struct config   für alle children machen damit konstruktoren nicht gewaltig werden
+
 
 namespace Engine {
     class IComponent {
@@ -37,10 +36,10 @@ namespace Engine {
         [[nodiscard]] ivec2 getSize() const {return m_size;}
 
     protected:
-        ivec2 m_pos;
-        ivec2 m_size;
-
         EngineContext& m_context;
         GameContainer& m_container;
+
+        ivec2 m_pos;
+        ivec2 m_size;
     };
 }

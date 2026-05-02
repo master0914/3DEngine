@@ -71,9 +71,9 @@ namespace Engine {
 
         m_ViewOld = true; // ViewMatrix muss neu berechnet werden
     }
-    void Camera::rotate(const vec3& rotationVec){
-        //TODO
-    }
+    // void Camera::rotate(const vec3& rotationVec){
+    //     //TODO
+    // }
 
     const mat4& Camera::getViewMatrix() const {
         if (m_ViewOld) {

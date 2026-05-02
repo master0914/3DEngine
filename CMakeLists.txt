@@ -3,6 +3,17 @@ project(3DEngine)
 
 set(CMAKE_CXX_STANDARD 20)
 
+# aktivieren um rigorös zu testen
+#add_compile_options(
+#        -Wall -Wextra     # basiswarnungen
+#        -Wreorder -Wshadow
+#        -Wno-unused-parameter
+#        -Wno-unused-local-typedefs
+#        -Wconversion -Wuninitialized
+#        -Wnull-dereference -Wformat=2 -Wformat-security
+#        -g                           # Debug-Symbole für bessere Fehlermeldungen
+#)
+
 include_directories(lib/stb)
 
 # SDL PATHS----------------------------------------------------------------------
@@ -37,6 +48,10 @@ add_library(3DEngineLib STATIC
         engine/core/Audio/wavLoader.h
         engine/core/General/audioSystem.cpp
         engine/core/General/audioSystem.h
+        engine/core/Audio/audioFactory.h
+        engine/core/Audio/waveformGenerator.h
+        engine/core/Audio/notes.h
+        engine/core/Audio/audioUtil.h
 )
 target_include_directories(3DEngineLib PUBLIC
         engine/core/header
@@ -87,7 +102,7 @@ add_executable(3DEngine
         src/Tester/Test3DGame.cpp
         src/Tester/TestComponentsGame.h
         src/Tester/AudioTest.h
-        engine/core/Audio/waveformGenerator.h
+
 
 )
 target_link_libraries(3DEngine PRIVATE 3DEngineLib)
@@ -111,4 +126,6 @@ target_compile_definitions(3DEngine PRIVATE
 target_compile_definitions(3DEngineLib PRIVATE
         $<$<CONFIG:Debug>:DEBUG_MODE>
 )
+
+
 

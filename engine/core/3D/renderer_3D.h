@@ -25,7 +25,7 @@ namespace Engine {
     class Renderer_3D {
         //TODO: depthbuffer
     public:
-        explicit Renderer_3D(Window& window);
+        explicit Renderer_3D(Window& win);
 
         void beginFrame(); // Cleart Buffer, setzt Zeit, etc.
 

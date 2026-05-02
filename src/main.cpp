@@ -21,7 +21,7 @@
 // 3D testing
 
 int main(){
-    Engine::GameContainer gc{800,800,"pupsi"};
+    Engine::GameContainer gc{800,1000,"hallo"};
     gc.setShowFPS(false);
     gc.createGame<TestAudioGame>();
     gc.run();

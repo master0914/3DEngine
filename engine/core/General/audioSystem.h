@@ -18,7 +18,7 @@ namespace Engine {
 
 struct AudioClip {
     AudioData data;
-    double playhead = 0;  // aktuelle position in samples
+    size_t playhead = 0;  // aktuelle position in samples
     bool playing = false;
     bool loop = false;
     float volume = 1.0f;
@@ -66,7 +66,7 @@ public:
         SDL_LockAudioDevice(m_deviceId);
         int id = m_nextId++;
         double resampleRatio = static_cast<double>(data.sampleRate) / m_spec.freq;
-        m_clips[id] = AudioClip{data, 0.0, true, loop, volume, resampleRatio};
+        m_clips[id] = AudioClip{data, 0, true, loop, volume, resampleRatio};
         SDL_UnlockAudioDevice(m_deviceId);
         return id;
     }

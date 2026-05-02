@@ -64,7 +64,7 @@ namespace Engine {
         std::vector<Image> m_LoadedImages;
 
         // für font rendering
-        BitmapFont* m_font;
+        BitmapFont* m_font{};
 
         void clearBuffer(uint32_t color = 0xFF000000);
         [[nodiscard]] bool isValidCoord(int x, int y) const;

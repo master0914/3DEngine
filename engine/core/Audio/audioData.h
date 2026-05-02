@@ -7,14 +7,112 @@
 #pragma once
 #include <cstdint>
 #include <vector>
+#include <algorithm>
 
 #endif //INC_3DENGINE_AUDIODATA_H
 
 struct AudioData {
-    std::vector<float> samples;
-    uint32_t numChannels;
-    uint32_t sampleRate;
-    uint32_t bitsPerSample;
+    std::vector<float> samples = {};
+    uint32_t numChannels = 1;
+    uint32_t sampleRate = 44100;
+    uint32_t bitsPerSample = 32;
+
+    [[nodiscard]] size_t timeToIndex(float seconds) const {
+        return static_cast<size_t>(sampleRate * seconds); // NOLINT(*-narrowing-conversions)
+    }
+
+    [[nodiscard]] float duration() const {
+        if (numChannels == 0 || sampleRate == 0) return 0.0f;
+        return samples.size() / static_cast<float>(numChannels * sampleRate); // NOLINT(*-narrowing-conversions)
+    }
+
+    void setVolume(float volume) {
+        for (auto& sample : samples) {
+            sample *= volume;
+        }
+    }
+    void setVolumeClipped(float volume) {
+        for (auto& sample : samples) {
+            sample *= volume;
+            sample = std::clamp(sample, -1.0f, 1.0f);
+
+        }
+    }
+
+    // concatenates the clips
+    AudioData operator+(const AudioData& other) const {
+        if (sampleRate != other.sampleRate || numChannels != other.numChannels) {
+            throw std::runtime_error("Cannot concatenate: Incompatible formats");
+        }
+
+        AudioData result;
+        result.numChannels = numChannels;
+        result.sampleRate = sampleRate;
+        result.bitsPerSample = bitsPerSample;
+
+        result.samples.reserve(samples.size() + other.samples.size());
+        result.samples.insert(result.samples.end(), samples.begin(), samples.end());
+        result.samples.insert(result.samples.end(), other.samples.begin(), other.samples.end());
+
+        return result;
+    }
+    AudioData& operator+=(const AudioData& other) {
+        if (sampleRate != other.sampleRate || numChannels != other.numChannels) {
+            throw std::runtime_error("Cannot concatenate: Incompatible formats");
+        }
+
+        samples.reserve(samples.size() + other.samples.size());
+        samples.insert(samples.end(), other.samples.begin(), other.samples.end());
+        return *this;
+    }
+
+    // mixes the clips   WICHTIG!!! NICHT KETTEN!!! SONST WIRD DAZWISCHEN NORMALISIERT!!!
+    AudioData operator|(const AudioData& other) const {
+        if (sampleRate != other.sampleRate || numChannels != other.numChannels) {
+            throw std::runtime_error("Cannot mix: Incompatible formats");
+        }
+
+        size_t maxSize = std::max(samples.size(), other.samples.size());
+        AudioData result = *this;
+        result.samples.resize(maxSize, 0.0f);
+
+        for (size_t i = 0; i < other.samples.size(); ++i) {
+            result.samples[i] += other.samples[i];
+        }
+
+        // Peak normalisation
+        float maxPeak = 0.0f;
+        for (const auto& sample: result.samples) {
+            maxPeak = std::max(maxPeak, std::abs(sample));
+        }
+        if (maxPeak > 0.95f) {
+            float gain = 0.95f / maxPeak;
+            for (auto& sample : result.samples) {
+                sample *= gain;
+            }
+        }
+
+        // clipping prot
+        // for (auto& sample : result.samples) {
+        //     sample = std::clamp(sample, -1.0f, 1.0f);
+        // }
+
+        return result;
+    }
+    AudioData& operator|=(const AudioData& other) {
+        if (sampleRate != other.sampleRate || numChannels != other.numChannels) {
+            throw std::runtime_error("Cannot mix: Incompatible formats");
+        }
+
+        samples.resize(std::max(samples.size(), other.samples.size()), 0.0f);
+        for (size_t i = 0; i < other.samples.size(); ++i) {
+            samples[i] += other.samples[i];
+            // clipping prot
+            samples[i] = std::clamp(samples[i], -1.0f, 1.0f);
+        }
+
+        return *this;
+    }
 };
 
 // #pragma pack(push, 1) // braucht man anscheinend um kein padding über 1 Byte zu erschaffen

@@ -8,9 +8,9 @@
 
 
 namespace Engine{
-        Renderer_3D::Renderer_3D(Engine::Window &window) {
-            m_width = window.getm_Width();
-            m_height = window.getm_Height();
+        Renderer_3D::Renderer_3D(Engine::Window &win) {
+            m_width = win.getm_Width();
+            m_height = win.getm_Height();
 
             backGroundColor = 0xff000000;
             renderColor = 0xffff0000;
@@ -20,7 +20,7 @@ namespace Engine{
             m_FrameBufferFront.resize(m_width * m_height);
             m_DepthBufferBack.resize(m_width * m_height, 1.0f);
 
-            this->window = &window;
+            this->window = &win;
         }
 
         void Renderer_3D::beginFrame() {
@@ -88,10 +88,10 @@ namespace Engine{
 
                 // transformiert alle 3 vertices mit der mvpMatrix
                 vec4 vertices[3];
-                for (int i = 0; i < 3; ++i) {
+                for (int idx = 0; idx < 3; ++idx) {
                     // Konvertiere Vertex-Position zu vec4 (homogene Koordinaten)
-                    vec3 pos = triangle.vertices[i].position;
-                    vertices[i] = mvpMatrix * vec4(pos.getX(), pos.getY(), pos.getZ(), 1.0f);
+                    vec3 pos = triangle.vertices[idx].position;
+                    vertices[idx] = mvpMatrix * vec4(pos.getX(), pos.getY(), pos.getZ(), 1.0f);
                 }
 //                DEBUG_PRINT("vertices to vec4 translated \n");
 //                DEBUG_PRINT("vertices after transformation: \n" << vertices[0] << "\n" << vertices[1] << "\n"<< vertices[2] << "\n");
@@ -118,10 +118,10 @@ namespace Engine{
                 //@TODO Clipping
                 // mappe die homogenen Koordinaten (-1 to 1) auf Screen-Koordinaten (0 to width/height) um
                 vec3 screenCoords[3];
-                for (int i = 0; i < 3; ++i) {
-                    screenCoords[i].x = (vertices[i].x + 1.0f) * 0.5f * m_width;
-                    screenCoords[i].y = (1.0f - vertices[i].y) * 0.5f * m_height; // Y ist invertiert
-                    screenCoords[i].z = vertices[i].z; // Behalte Z für Depth-Testing
+                for (int idx = 0; idx < 3; ++idx) {
+                    screenCoords[idx].x = (vertices[idx].x + 1.0f) * 0.5f * m_width;
+                    screenCoords[idx].y = (1.0f - vertices[idx].y) * 0.5f * m_height; // Y ist invertiert
+                    screenCoords[idx].z = vertices[idx].z; // Behalte Z für Depth-Testing
                 }
 //                DEBUG_PRINT("Screecoords: \n" << screenCoords[0]  << "\n" << screenCoords[1]  << "\n" << screenCoords[2] << "\n");
                 // - Rasterisiere das Dreieck (deine draw_triangle Funktion)
