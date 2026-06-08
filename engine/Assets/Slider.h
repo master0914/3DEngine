@@ -85,7 +85,12 @@ public:
 
     void onExit() override{}
 
+    void setValue(T value) {
+        m_currentValue = value;
+    }
+
     T getCurrentValue() {return m_currentValue;}
+    T getCurrentValue() const {return m_currentValue;}
 
 
 private:
@@ -119,7 +124,7 @@ private:
         updateSliderPositionFromValue();
     }
     void setRangeWithStepSize(T from, T to, T stepSize) {
-        if (stepSize < 1) {
+        if (stepSize <= 0) {
             LOG_WARN("stepSize 0 or smaller results in undefined behavior. Will be set to 1");
             stepSize = 1;
         }

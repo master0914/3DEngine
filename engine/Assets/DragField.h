@@ -25,7 +25,7 @@ struct DragFieldConfig {
 };
 
 template<typename T>
-class DragField : Engine::IComponent {
+class DragField : public Engine::IComponent {
 public:
     DragField(Engine::EngineContext &context, Engine::GameContainer &container, const DragFieldConfig<T> &config = {})
         : IComponent(context, container, config.pos, config.size) {

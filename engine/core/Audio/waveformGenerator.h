@@ -57,41 +57,41 @@ inline Engine::Image generateWaveformBars(const AudioData& audio,
                                         int targetHeight = 200,
                                         uint32_t barColor = 0xff0033dd,
                                         uint32_t backgroundColor = 0x00000000) {
-                                            std::vector<uint32_t> pixels(targetWidth * targetHeight, backgroundColor);
-                                            if (audio.samples.empty()) return {targetWidth, targetHeight, pixels};
+    std::vector<uint32_t> pixels(targetWidth * targetHeight, backgroundColor);
+    if (audio.samples.empty()) return {targetWidth, targetHeight, pixels};
 
-                                            int samplesPerBar = std::max(1, (int)audio.samples.size() / targetWidth);
-                                            float halfHeight = targetHeight / 2.0f;
-                                            float centerY = halfHeight;
-
-
-                                            for (int x = 0; x < targetWidth; x++) {
-                                                int startSample = x * samplesPerBar;
-                                                int endSample = std::min((int)audio.samples.size(), (x + 1) * samplesPerBar);
-                                                if (startSample >= audio.samples.size()) break;
-
-                                                // Berechne durchschnittliche absolute Amplitude (RMS) für diesen Balken
-                                                float sum = 0.0f;
-                                                for (int i = startSample; i < endSample; i++) {
-                                                    sum += std::abs(audio.samples[i]);
-                                                }
-                                                float avgAbs = sum / (endSample - startSample);
-                                                int barHeight = static_cast<int>(avgAbs * halfHeight * 1.5f); // Faktor für bessere Sichtbarkeit
-                                                barHeight = std::min(barHeight, (int)halfHeight);
+    int samplesPerBar = std::max(1, (int)audio.samples.size() / targetWidth);
+    float halfHeight = targetHeight / 2.0f;
+    float centerY = halfHeight;
 
 
-                                                // Zeichne symmetrische Balken nach oben und unten
-                                                for (int y = 0; y < barHeight; y++) {
-                                                    // Oberer Balken
-                                                    int upperY = (int)centerY - y - 1;
-                                                    if (upperY >= 0) pixels[upperY * targetWidth + x] = barColor;
-                                                    // Unterer Balken
-                                                    int lowerY = (int)centerY + y;
-                                                    if (lowerY < targetHeight) pixels[lowerY * targetWidth + x] = barColor;
-                                                }
-                                            }
-                                            return {targetWidth, targetHeight, pixels};
-                                        }
+    for (int x = 0; x < targetWidth; x++) {
+        int startSample = x * samplesPerBar;
+        int endSample = std::min((int)audio.samples.size(), (x + 1) * samplesPerBar);
+        if (startSample >= audio.samples.size()) break;
+
+        // Berechne durchschnittliche absolute Amplitude (RMS) für diesen Balken
+        float sum = 0.0f;
+        for (int i = startSample; i < endSample; i++) {
+            sum += std::abs(audio.samples[i]);
+        }
+        float avgAbs = sum / (endSample - startSample);
+        int barHeight = static_cast<int>(avgAbs * halfHeight * 1.5f); // Faktor für bessere Sichtbarkeit
+        barHeight = std::min(barHeight, (int)halfHeight);
+
+
+        // Zeichne symmetrische Balken nach oben und unten
+        for (int y = 0; y < barHeight; y++) {
+            // Oberer Balken
+            int upperY = (int)centerY - y - 1;
+            if (upperY >= 0) pixels[upperY * targetWidth + x] = barColor;
+            // Unterer Balken
+            int lowerY = (int)centerY + y;
+            if (lowerY < targetHeight) pixels[lowerY * targetWidth + x] = barColor;
+        }
+    }
+    return {targetWidth, targetHeight, pixels};
+}
 
 // vielen dank an deepseek:
 inline Engine::Image debugWaveFormView(const AudioData& audio,
@@ -103,27 +103,39 @@ inline Engine::Image debugWaveFormView(const AudioData& audio,
                                         uint32_t pointColor = 0xffff0000,
                                         uint32_t backgroundColor = 0x00000000,
                                         uint32_t gridColor = 0xff333333) {
+    std::vector<uint32_t> pixels(targetWidth * targetHeight, backgroundColor);
 
     if (audio.samples.empty() || audio.sampleRate == 0) {
         return {targetWidth, targetHeight, backgroundColor};
     }
 
-    std::vector<uint32_t> pixels(targetWidth * targetHeight, backgroundColor);
-
-    // Berechne Sample-Index Bereich
+    // Prüfe auf NaN/Inf
+    for (size_t i = 0; i < std::min(audio.samples.size(), size_t(100)); i++) {
+        if (!std::isfinite(audio.samples[i])) {
+            LOG_ERROR("Invalid sample detected at index " + std::to_string(i));
+            return {targetWidth, targetHeight, 0xFFFF0000}; // Roter Bildschirm als Fehler
+        }
+    }
+    // LOG_INFO("NO RETURN STATE REACHED");
     auto startSample = static_cast<size_t>(viewWindowStartTime * audio.sampleRate);
     auto endSample = static_cast<size_t>((viewWindowStartTime + viewWindowSize) * audio.sampleRate);
 
-    // Begrenze auf verfügbare Samples
-    startSample = std::min(startSample, audio.samples.size() - 1);
+    // Sicherere Begrenzung
+    if (startSample >= audio.samples.size()) {
+        return {targetWidth, targetHeight, backgroundColor};
+    }
     endSample = std::min(endSample, audio.samples.size());
+    startSample = std::min(startSample, endSample);
+
+    // LOG_INFO("START-END SAMPLES CALCULATED");
 
     size_t numSamples = endSample - startSample;
-    if (numSamples == 0) return {targetWidth, targetHeight, backgroundColor};
+    if (numSamples < 2) return {targetWidth, targetHeight, backgroundColor};
 
     float halfHeight = targetHeight / 2.0f;
     float centerY = halfHeight;
 
+    // LOG_INFO("PRECALC FINISHED");
     // Gitter zeichnen (Hilfslinien)
     // Horizontale Linien bei -1, -0.5, 0, 0.5, 1
     for (float level = -1.0f; level <= 1.0f; level += 0.5f) {
@@ -149,11 +161,16 @@ inline Engine::Image debugWaveFormView(const AudioData& audio,
         }
     }
 
+    // LOG_INFO("GRID DRAWN");
+
     // Wenn zu viele Samples, nur jeden n-ten Punkt zeichnen
     int step = 1;
     if (numSamples > targetWidth * 2) {
         step = numSamples / (targetWidth * 2);
+        // LOG_INFO("LIMITED SAMPLES");
     }
+
+
 
     // Punkte und Linien zeichnen
     std::vector<std::pair<int, int>> points;
@@ -181,6 +198,8 @@ inline Engine::Image debugWaveFormView(const AudioData& audio,
         }
     }
 
+    // LOG_INFO("POINTS CALCULATED");
+
     // Linien zwischen Punkten zeichnen (DDA Algorithmus)
     for (size_t i = 1; i < points.size(); i++) {
         int x0 = points[i-1].first;
@@ -206,6 +225,7 @@ inline Engine::Image debugWaveFormView(const AudioData& audio,
             if (e2 < dx) { err += dx; y += sy; }
         }
     }
+    // LOG_INFO("LINES DRAWN");
 
     // Zeitbeschriftungen (optional - sehr einfache Text-Darstellung)
     // Nur horizontale Linien mit Labels simulieren
@@ -223,6 +243,21 @@ inline Engine::Image debugWaveFormView(const AudioData& audio,
             }
         }
     }
+    // LOG_INFO("MARKINGS DRAWN");
+    //
+    // LOG_INFO("Creating Image: " + std::to_string(targetWidth) + "x" + std::to_string(targetHeight));
+    // LOG_INFO("Pixels size: " + std::to_string(pixels.size()));
+    // LOG_INFO("Expected size: " + std::to_string(targetWidth * targetHeight));
 
-    return {targetWidth, targetHeight, std::move(pixels)};
+    if (pixels.size() != static_cast<size_t>(targetWidth * targetHeight)) {
+        LOG_ERROR("SIZE MISMATCH! pixels=" + std::to_string(pixels.size()) +
+                  " expected=" + std::to_string(targetWidth * targetHeight));
+    }
+
+    // Teste OHNE std::move:
+    Engine::Image result(targetWidth, targetHeight, std::vector<uint32_t>( pixels));  // Kopie statt Move
+    // LOG_INFO("Image created successfully");
+    return result;
+
+    // return {targetWidth, targetHeight, std::move(pixels)};
 }

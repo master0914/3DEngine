@@ -35,6 +35,10 @@ namespace Engine {
         [[nodiscard]] ivec2 getPos() const {return m_pos;}
         [[nodiscard]] ivec2 getSize() const {return m_size;}
 
+        void setPosition(ivec2 pos) {
+            m_pos = pos;
+        }
+
     protected:
         EngineContext& m_context;
         GameContainer& m_container;

@@ -16,15 +16,23 @@
 #include "../engine/core/general/inputManager.h"
 #include "../engine/math/Vectors/vector.h"
 #include "Tester/AudioTest.h"
-#include "Tester/TestComponentsGame.h"
+// #include "Tester/TestComponentsGame.h"
+#include "../engine/core/Audio/fft.h"
+#include "Tester/MixingStation/MixingPlayer.h"
+#include "Tester/MixingStation/MixingStation.h"
 
-// 3D testing
 
 int main(){
-    Engine::GameContainer gc{800,1000,"hallo"};
+    Engine::GameContainer gc{1600,1000,"hallo"};
     gc.setShowFPS(false);
-    gc.createGame<TestAudioGame>();
+    gc.createGame<MixingPlayer>();
     gc.run();
+
+    // float freqE = getFrequency(Note::C,5);
+    // AudioFactory audioFactory;
+    // AudioData clip5 = audioFactory.generateSaw(freqE,3.0f);
+    //
+    // Engine::Image debug5 = debugWaveFormView(clip5,0,0.01f);
 
     return 0;
 }

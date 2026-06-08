@@ -55,12 +55,32 @@ namespace Engine {
         return static_cast<int>(m_LoadedImages.size()) - 1; // gibt imgID zurück
     }
 
+    void Renderer_2D::updateImage(int imgID, const Image &image) {
+        if (imgID >= 0 && imgID < m_LoadedImages.size()) {
+            m_LoadedImages[imgID] = image;
+        }
+    }
+
+    Image * Renderer_2D::getImage(int imgID) {
+        if (!(imgID >= 0 && imgID < m_LoadedImages.size())) {
+            LOG_WARN("Tried to get Image with ID: " + std::to_string(imgID) + ". Image with this ID does not exist. return nullptr");
+            return nullptr;
+        }
+        return &m_LoadedImages[imgID];
+    }
+
+    void Renderer_2D::removeImage(int imgID) {
+        LOG_INFO("the removeImage method leaves gaps in the vector of image. beware");
+        if (imgID >= 0 && imgID < m_LoadedImages.size()) {
+            m_LoadedImages.erase(m_LoadedImages.begin() + imgID);
+        }
+    }
 
 
-    void Renderer_2D::drawRectangle(ivec2& origin, int height, int width, uint32_t color) {
+    void Renderer_2D::drawRectangle(const ivec2& origin, int height, int width, uint32_t color) {
         drawRectangle(origin.getX(),origin.getY() , height, width, color);
     }
-    void Renderer_2D::fillRectangle(ivec2& origin, int height, int width, uint32_t color) {
+    void Renderer_2D::fillRectangle(const ivec2& origin, int height, int width, uint32_t color) {
         fillRectangle(origin.getX(),origin.getY() , height, width, color);
     }
 
@@ -91,7 +111,7 @@ namespace Engine {
         }
     }
 
-    void Renderer_2D::drawCircle(ivec2& middle, int radius, uint32_t color) {
+    void Renderer_2D::drawCircle(const ivec2& middle, int radius, uint32_t color) {
         int x0 = middle.getX();
         int y0 = middle.getY();
 
@@ -120,7 +140,7 @@ namespace Engine {
             }
         }
     }
-    void Renderer_2D::fillCircle(ivec2& middle, int radius, uint32_t color) {
+    void Renderer_2D::fillCircle(const ivec2& middle, int radius, uint32_t color) {
         int x0 = middle.getX();
         int y0 = middle.getY();
 
@@ -150,13 +170,13 @@ namespace Engine {
         }
     }
 
-    void Renderer_2D::drawTriangle(ivec2& p1, ivec2& p2, ivec2& p3, uint32_t color) {
+    void Renderer_2D::drawTriangle(ivec2 &p1, ivec2 &p2, ivec2 &p3, uint32_t color) {
         // std::cout << "drawing triangle: \n" << p1 << p2 << p3 << "\n";
         drawLine(p1,p2,color);
         drawLine(p2,p3,color);
         drawLine(p1,p3,color);
     }
-    void Renderer_2D::drawLine(ivec2& p1, ivec2& p2, uint32_t color) {
+    void Renderer_2D::drawLine(const ivec2& p1, const ivec2& p2, uint32_t color) {
         // danke an deepseek
         int x0 = p1.getX();
         int y0 = p1.getY();
@@ -277,8 +297,6 @@ namespace Engine {
     }
 
     void Renderer_2D::loadDefaultFont() {
-
-
         // Font initialisieren: 8x8 Pixel, 16 Zeichen pro Zeile, 128 Bytes breit (16*8)
         m_font = new BitmapFont(SIMPLE_FONT,7,8);
     }

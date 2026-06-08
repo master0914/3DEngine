@@ -16,10 +16,11 @@ set(CMAKE_CXX_STANDARD 20)
 
 include_directories(lib/stb)
 
+
 # SDL PATHS----------------------------------------------------------------------
 set(SDL2_DLL_PATH "${PROJECT_SOURCE_DIR}/engine/SDL2/SDL2.dll")
 set(SDL2_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/engine/SDL2/include")
-set(SDL2_LIB_DIR "${PROJECT_SOURCE_DIR}/engine/SDL2/lib/x64") # adjust if needed
+set(SDL2_LIB_DIR "${PROJECT_SOURCE_DIR}/engine/SDL2/lib/x64")
 
 # Engine Library----------------------------------------------------------------------
 add_library(3DEngineLib STATIC
@@ -52,6 +53,7 @@ add_library(3DEngineLib STATIC
         engine/core/Audio/waveformGenerator.h
         engine/core/Audio/notes.h
         engine/core/Audio/audioUtil.h
+        engine/core/Audio/fft.h
 )
 target_include_directories(3DEngineLib PUBLIC
         engine/core/header
@@ -61,9 +63,27 @@ target_include_directories(3DEngineLib PUBLIC
         ${SDL2_INCLUDE_DIR}
 )
 
-target_link_directories(3DEngineLib PUBLIC ${SDL2_LIB_DIR})
+
+# Fetch PFFFT--------------------------------------------------------------------
+# from README of PFFFT
+include(FetchContent)
+
+FetchContent_Declare(pffft
+        GIT_REPOSITORY https://github.com/marton78/pffft.git
+        GIT_TAG master
+)
+
+FetchContent_MakeAvailable(pffft)
+
+
+# PFFFT linking--------------------------------------------------------------------
+target_include_directories(3DEngineLib PUBLIC ${pffft_SOURCE_DIR})
+target_link_libraries(3DEngineLib PUBLIC PFFFT::PFFFT)
+
 
 # SDL-linking----------------------------------------------------------------------
+target_link_directories(3DEngineLib PUBLIC ${SDL2_LIB_DIR})
+
 if(WIN32)
     target_link_libraries(3DEngineLib PUBLIC
             SDL2.lib
@@ -94,6 +114,10 @@ elseif(UNIX)
 endif()
 
 
+# Heap corruption
+#target_compile_options(3DEngineLib PRIVATE -fsanitize=address -fno-omit-frame-pointer)
+#target_link_options(3DEngineLib PRIVATE -fsanitize=address)
+
 # Executable----------------------------------------------------------------------
 
 add_executable(3DEngine
@@ -102,8 +126,9 @@ add_executable(3DEngine
         src/Tester/Test3DGame.cpp
         src/Tester/TestComponentsGame.h
         src/Tester/AudioTest.h
-
-
+        src/Tester/MixingStation/MixingStation.h
+        src/Tester/MixingStation/MixingPlayer.h
+        src/Tester/MixingStation/OscillatorControl.h
 )
 target_link_libraries(3DEngine PRIVATE 3DEngineLib)
 

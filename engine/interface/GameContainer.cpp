@@ -4,6 +4,8 @@
 
 #include "GameContainer.h"
 
+#include "../core/util/Logger.h"
+
 namespace Engine{
 
 
@@ -62,6 +64,8 @@ namespace Engine{
 
         // Aufräumen
         m_game->onExit();
+
+        shutdown();
     }
 
     void GameContainer::limitFPS(std::chrono::high_resolution_clock::time_point frameStart) {
@@ -95,6 +99,39 @@ namespace Engine{
                           << " | Target: " << m_targetFPS
                           << " | Delta: " << (m_currentFPS - m_targetFPS) << std::endl;
             }
+        }
+    }
+
+    void GameContainer::shutdown() {
+        if (m_context) {
+            if (m_context->audio) {
+                m_context->audio->shutdown();
+                m_context->audio.reset();
+            }
+
+            if (m_context->renderer2D) {
+                m_context->renderer2D.reset();
+            }
+
+            if (m_context->renderer3D) {
+                m_context->renderer3D.reset();
+            }
+
+            if (m_context->input) {
+                m_context->input.reset();
+                // @TODO: hier crasht das programm beim click auf den Window Close button
+            }
+
+            if (m_context->camera) {
+                m_context->camera.reset();
+            }
+
+            if (m_context->window) {
+
+                m_context->window.reset();
+            }
+
+            m_context.reset();
         }
     }
 }

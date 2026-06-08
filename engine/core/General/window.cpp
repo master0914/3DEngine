@@ -66,7 +66,7 @@ namespace Engine {
             if (m_Data->texture) SDL_DestroyTexture(m_Data->texture);
             if (m_Data->renderer) SDL_DestroyRenderer(m_Data->renderer);
             if (m_Data->window) SDL_DestroyWindow(m_Data->window);
-            SDL_Quit();
+            // SDL_Quit();
             delete m_Data;
         }
         delete[] m_PixelBuffer;

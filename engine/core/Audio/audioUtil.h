@@ -8,7 +8,7 @@
 
 #endif //INC_3DENGINE_AUDIOUTIL_H
 
-inline AudioData mix(const std::vector<AudioData>& signals) {
+[[nodiscard]] inline AudioData mix(const std::vector<AudioData>& signals) {
     if (signals.empty()) return AudioData{};
 
     AudioData result = signals[0];

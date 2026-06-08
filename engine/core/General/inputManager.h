@@ -112,7 +112,16 @@ namespace Engine {
     public:
         InputManager();
 
-        ~InputManager() = default;
+        // ~InputManager() = default;
+        ~InputManager() {
+            m_keyListeners.clear();
+            m_mouseListeners.clear();
+            m_scrollListeners.clear();
+            m_textInputListeners.clear();
+            m_keyCallback = nullptr;
+            m_mouseCallback = nullptr;
+            m_scrollCallback = nullptr;
+        }
 
         // Initialisierung mit Window
         void initialize(Window *window);
@@ -194,7 +203,6 @@ namespace Engine {
     private:
         void updateKeyStates();
 
-    private:
         Window *m_window = nullptr;
 
         // Key states

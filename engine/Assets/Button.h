@@ -70,6 +70,37 @@ public:
         m_context.renderer2D->drawText(m_text,m_pos.x + m_padding.x + 1, m_pos.y + m_padding.y + 1, m_textColor);
     }
 
+    [[nodiscard]] uint32_t getButtonColor() const {
+        return m_buttonColor;
+    }
+
+    void setButtonColor(uint32_t button_color) {
+        m_buttonColor = button_color;
+    }
+
+    [[nodiscard]] uint32_t getTextColor() const {
+        return m_textColor;
+    }
+
+    void setTextColor(uint32_t text_color) {
+        m_textColor = text_color;
+    }
+
+    [[nodiscard]] bool getfilled() const {
+        return m_filled;
+    }
+
+    void setFilled(bool filled) {
+        this->m_filled = filled;
+    }
+
+    [[nodiscard]] std::string getText() const {
+        return m_text;
+    }
+
+    void setText(const std::string &text) {
+        this->m_text = text;
+    }
 
 private:
     Callback m_onClick;

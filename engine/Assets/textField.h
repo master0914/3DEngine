@@ -21,7 +21,7 @@ struct TextFieldConfig{
     std::string inputPrompt;
     int maxCharacters = 0;
 };
-class TextField: Engine::IComponent {
+class TextField: public Engine::IComponent {
 public:
     TextField(Engine::EngineContext &context, Engine::GameContainer &container, const TextFieldConfig& config = {}): IComponent(context,container, config.pos, config.size) {
 
@@ -69,6 +69,10 @@ public:
         else {m_context.renderer2D->drawRectangle(m_pos,m_size.y, m_size.x, m_backgroundColor);}
         m_context.renderer2D->drawText(m_inputPrompt + m_text, m_pos.x, m_pos.y + m_paddingY, m_textColor);
     }
+
+    [[nodiscard]] std::string getText() const {return m_text;}
+    void clearText() {m_text.clear();}
+
 private:
     // Parameters
     std::string m_text;

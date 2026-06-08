@@ -29,18 +29,21 @@ namespace Engine {
             if (!isValidCoord(x,y)) return;
             m_FrameBufferBack[y * m_Width + x] = color;
         }
-        void drawRectangle(ivec2& origin, int height, int width, uint32_t color);
-        void fillRectangle(ivec2& origin, int height, int width, uint32_t color);
+        void drawRectangle(const ivec2& origin, int height, int width, uint32_t color);
+        void fillRectangle(const ivec2& origin, int height, int width, uint32_t color);
         void drawRectangle(int x, int y, int height, int width, uint32_t color);
         void fillRectangle(int x, int y, int height, int width, uint32_t color);
-        void drawCircle(ivec2& middle, int radius, uint32_t color);
-        void fillCircle(ivec2& middle, int radius, uint32_t color);
+        void drawCircle(const ivec2& middle, int radius, uint32_t color);
+        void fillCircle(const ivec2& middle, int radius, uint32_t color);
         void drawTriangle(ivec2& p1, ivec2& p2, ivec2& p3, uint32_t color);
-        void drawLine(ivec2& p1, ivec2& p2, uint32_t color);
+        void drawLine(const ivec2& p1, const ivec2& p2, uint32_t color);
         void drawTileFromImage(int imgID, int x, int y, int tileX, int tileY, int tileSize);
 
-        int loadImage(const std::string& filepath);
-        int loadImage(const Image& image);
+        [[nodiscard]] int loadImage(const std::string& filepath);
+        [[nodiscard]] int loadImage(const Image& image);
+        void updateImage(int imgID, const Image& image);
+        Image* getImage(int imgID);
+        void removeImage(int imgID);
         void drawImage(int imgID, int x, int y);
 
         void loadDefaultFont();  // Lädt eingebetteten Standard-Font

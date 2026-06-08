@@ -37,8 +37,20 @@ namespace Engine{
 //        std::shared_ptr<ResourceManager> resources;
 //        std::shared_ptr<Scene> scene;
         std::shared_ptr<AudioSystem> audio;
+
+        // ~EngineContext() {
+        //     if (audio) {
+        //         audio->shutdown();
+        //     }
+        //
+        //     if (renderer2D){renderer2D.reset();}
+        //
+        //     if (renderer3D){renderer3D.reset();}
+        //     if (input){input.reset();}
+        //
+        //     window.reset();
+        //
+        //     SDL_Quit();
+        // }
     };
-
-
-
 }

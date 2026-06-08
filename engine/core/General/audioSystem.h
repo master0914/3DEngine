@@ -28,7 +28,7 @@ struct AudioClip {
 class AudioSystem {
 public:
     AudioSystem() = default;
-    ~AudioSystem() { shutdown(); }
+    ~AudioSystem() = default;
 
     bool init() {
         if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0) {
@@ -56,6 +56,7 @@ public:
 
     void shutdown() {
         if (m_deviceId != 0) {
+            SDL_LockAudioDevice(m_deviceId);
             SDL_CloseAudioDevice(m_deviceId);
             m_deviceId = 0;
         }

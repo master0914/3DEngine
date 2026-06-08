@@ -23,7 +23,7 @@ namespace Engine {
 
     Image::Image(const std::string& filepath) {
         std::string absolute_path;
-        if(filepath.find(":") == std::string::npos) {
+        if(filepath.find(':') == std::string::npos) {
             // Relativer Pfad - mache absolut
             absolute_path = "C:/Users/augus/CLionProjects/3DEngine/" + filepath;
         } else {

@@ -30,6 +30,10 @@ namespace Engine {
         bool isValidCoord(int x, int y) const;
         void clear(){fill(0x00000000);}
 
+        Image(const Image&) = default;
+        Image(Image&&) = default;
+        Image& operator=(const Image&) = default;
+        Image& operator=(Image&&) = default;
     private:
         bool loadPNG(const std::string& filepath);
 
