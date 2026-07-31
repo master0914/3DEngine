@@ -64,21 +64,21 @@ target_include_directories(3DEngineLib PUBLIC
 )
 
 
-# Fetch PFFFT--------------------------------------------------------------------
-# from README of PFFFT
-include(FetchContent)
-
-FetchContent_Declare(pffft
-        GIT_REPOSITORY https://github.com/marton78/pffft.git
-        GIT_TAG master
-)
-
-FetchContent_MakeAvailable(pffft)
-
-
-# PFFFT linking--------------------------------------------------------------------
-target_include_directories(3DEngineLib PUBLIC ${pffft_SOURCE_DIR})
-target_link_libraries(3DEngineLib PUBLIC PFFFT::PFFFT)
+## Fetch PFFFT--------------------------------------------------------------------
+## from README of PFFFT
+#include(FetchContent)
+#
+#FetchContent_Declare(pffft
+#        GIT_REPOSITORY https://github.com/marton78/pffft.git
+#        GIT_TAG master
+#)
+#
+#FetchContent_MakeAvailable(pffft)
+#
+#
+## PFFFT linking--------------------------------------------------------------------
+#target_include_directories(3DEngineLib PUBLIC ${pffft_SOURCE_DIR})
+#target_link_libraries(3DEngineLib PUBLIC PFFFT::PFFFT)
 
 
 # SDL-linking----------------------------------------------------------------------
