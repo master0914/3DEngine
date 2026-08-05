@@ -41,8 +41,8 @@ add_library(3DEngineLib STATIC
         engine/math/Vectors/vector.h
         engine/math/Vectors/mat4.h
         engine/Assets/IComponent.h
-        engine/Assets/button.h
-        engine/Assets/slider.h
+        engine/Assets/Button.h
+        engine/Assets/Slider.h
         engine/Assets/textField.h
         engine/Assets/DragField.h
         engine/core/Audio/audioData.h
@@ -56,6 +56,10 @@ add_library(3DEngineLib STATIC
         engine/core/Audio/fft.h
 )
 target_include_directories(3DEngineLib PUBLIC
+        engine/Assets
+        engine/core/3D
+        engine/core/Audio
+        engine/core/util
         engine/core/header
         engine/math/Vectors
         engine/interface

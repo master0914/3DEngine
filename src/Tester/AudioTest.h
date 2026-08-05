@@ -13,7 +13,6 @@
 #include "../../engine/core/Audio/audioFactory.h"
 #include "../../engine/core/Audio/audioUtil.h"
 #include "../../engine/core/Audio/notes.h"
-#include <windows.h>
 
 #endif //INC_3DENGINE_AUDIOTEST_H
 

@@ -48,6 +48,8 @@ public:
     }
 
     void update(float dt) override {
+        m_blinkingInputPromptTimer += dt;
+        if (m_blinkingInputPromptTimer >= m_blinkingInputPromptTimerThreshold + 0.2f) m_blinkingInputPromptTimer = 0;
         if (m_context.input->isKeyJustPressed(Engine::KeyCode::KEY_BACKSPACE)) {
             if (!m_text.empty()) {
                 m_text.pop_back();
@@ -67,7 +69,12 @@ public:
     void render() override {
         if (m_fillTextField) {m_context.renderer2D->fillRectangle(m_pos,m_size.y, m_size.x, m_backgroundColor);}
         else {m_context.renderer2D->drawRectangle(m_pos,m_size.y, m_size.x, m_backgroundColor);}
-        m_context.renderer2D->drawText(m_inputPrompt + m_text, m_pos.x, m_pos.y + m_paddingY, m_textColor);
+        std::string inputPromptToAppend;
+        if (m_blinkingInputPromptTimer <= m_blinkingInputPromptTimerThreshold && m_renderInputPrompt) {
+            inputPromptToAppend = "_";
+        }
+        std::string textToRender = m_inputPrompt + m_text + inputPromptToAppend;
+        m_context.renderer2D->drawText(textToRender, m_pos.x, m_pos.y + m_paddingY, m_textColor);
     }
 
     [[nodiscard]] std::string getText() const {return m_text;}
@@ -83,6 +90,8 @@ private:
     bool m_renderInputPrompt = false;   // the blinking bar that suggests input
     std::string m_inputPrompt;          // actual inputPrompt like:  "> "
     // runtime variables
+    float m_blinkingInputPromptTimer = 0.0f;
+    float m_blinkingInputPromptTimerThreshold = 1.0f;
     bool m_inFokus = false;
     int m_paddingY;
     std::function<void(const char*)> m_textInputListener;
