@@ -13,7 +13,7 @@
 #include "../engine/core/3D/mesh.h"
 #include "../engine/core/Audio/wavLoader.h"
 #include "Tester/Tester.h"
-#include "../engine/core/general/inputManager.h"
+#include "../engine/core/General/inputManager.h"
 #include "../engine/math/Vectors/vector.h"
 #include "Tester/AudioTest.h"
 // #include "Tester/TestComponentsGame.h"

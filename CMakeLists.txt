@@ -56,6 +56,7 @@ add_library(3DEngineLib STATIC
         engine/core/Audio/fft.h
 )
 target_include_directories(3DEngineLib PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
         engine/Assets
         engine/core/3D
         engine/core/Audio
